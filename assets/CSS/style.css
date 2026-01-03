@@ -1,0 +1,178 @@
+/*
+Esto va a ser una refactorización del proyecto  para  que no haya 
+tantos archivos en una sola carpeta y para qué ya no tenga que estar copiando 
+y pegando el código de los estilos de la página
+
+Variables de CSS que sirve para guardar valores 
+Se declaran dentro de :root 
+
+==== Me quedé en el minuto 6:35 ====
+*/
+:root{
+    --green_text : #2F6842;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+}
+html{
+    font-family: "Annapurna SIL", sans-serif;
+    user-select: none;
+    line-height: 1.5rem;
+}
+
+body{
+/*
+min-height es la altura mínima del cuerpo del texto que debe de tener el contenido
+en el viewport (pantalla visible).
+*/
+min-height: 100vh;
+color : var(--green_text);
+background-color: #EFEDE3;
+display: grid;
+grid-template-columns: auto 1fr;
+}
+
+nav ul li a {
+    font-family: "Annapurna SIL", sans-serif;
+    font-size: 22px;
+    color: var(--green_text);
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    border-bottom: solid var(--green_text) 1px;
+}
+
+h1 {
+    font-family: "Annapurna SIL", sans-serif;
+    font-size: 62px;
+    text-align: center;
+}
+
+
+label {
+    font-family: "Annapurna SIL", sans-serif;
+    font-size: 30px;
+}
+
+select {
+    font-family: "Annapurna SIL", sans-serif;
+    margin-left: 12%;
+    font-size: 20px;
+    padding: 5px;
+    width: 300px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+option {
+    font-family: "Annapurna SIL", sans-serif;
+    font-size: 20px;
+}
+
+input {
+    font-family: "Annapurna SIL", sans-serif;
+    font-size: 20px;
+    padding: 4px 0 4px 15px;
+    height: 29px;
+    max-width: 290px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+}
+
+p {
+    font-size: 18px;
+    color: #777575; 
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+table{
+    font-family: "Annapurna SIL", sans-serif;
+    color: rgb(255, 255, 255);
+    border: 1px solid #000;
+    border-collapse: collapse;
+    padding: 10px;
+    overflow: hidden;
+    border-radius: 15px;
+    margin: 20px auto;  
+    box-sizing: border-box;
+    align-items: center;
+    width: 100vh;
+    max-height: 4vh;
+}
+
+td, th {
+    font-family: "Annapurna SIL", sans-serif;
+    border: 1px solid #000;
+    padding: 8px;           
+    text-align: center;
+    background-color: white;
+    color: black;
+    font-optical-sizing: auto;
+}
+
+
+.columnas {
+    background-color: #2F6842;
+    color: #fff;
+    padding: 8px;
+    border: 1px solid #2F6842;
+}
+
+.button {
+    font-family: "Annapurna SIL", sans-serif;
+    width: 425px;
+    padding: 12px 20px;
+    background-color: #B0CE88;
+    border-radius: 100px;
+    text-align: center;
+    font-size: 22px;
+    box-shadow: 10px 10px 15px rgba(0.1,0.1,0.1,0.15);
+    border: none;
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+    display: block;         
+}
+
+.button_search{
+    background-color: #EFEDE3;
+    border-style: none;
+}
+
+.button_table{
+    width: 100px;
+    margin: 16px auto; 
+    padding: 12px 20px;
+    background-color: #B0CE88;
+    border-radius: 100px;
+    text-align: center;
+    font-size: 22px;
+    box-shadow: 10px 10px 15px rgba(0.1,0.1,0.1,0.15);
+    border: none;
+    cursor: pointer;
+    font-family: "Annapurna SIL", sans-serif;
+    color: black;
+    text-decoration: none;
+    display: block;         
+}
+
+.button:hover {
+    background-color: #a1bc7e;
+    transform: scale(1.10);
+}
+
+@media (max-width: 768px) {
+table{
+    max-width: 40vh;
+    max-height: 4vh;
+}
+}
