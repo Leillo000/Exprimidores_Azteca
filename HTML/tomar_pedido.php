@@ -3,7 +3,7 @@ include("../config/connection.php");
 
 $query_producto = $conexion->query("SELECT nombre_producto AS nombre, id_producto FROM productos");
 $query_cliente = $conexion->query("SELECT e.nombre AS nombre, c.id_cliente FROM clientes AS c
-JOIN empresas as e ON e.id_cliente=c.id_cliente");
+JOIN empresas as e ON e.id_cliente=c.id_cliente WHERE activo = 1");
 
 // Se obtiene la cantidad de aluminio para verificar si es que se puede completar el pedido
 $query_aluminio = $conexion->query("SELECT cantidad_kg FROM stock_aluminio ORDER BY fecha DESC LIMIT 1");

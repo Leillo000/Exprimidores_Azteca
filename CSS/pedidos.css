@@ -67,7 +67,7 @@ table{
     overflow: hidden;
     border-radius: 15px;
     margin: 20px auto;    
-    width: 760px;     
+    width: 150vh;     
     box-sizing: border-box;
     align-items: center;
 }

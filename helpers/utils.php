@@ -27,3 +27,4 @@ JOIN productos AS po ON po.id_producto = ps.id_producto
 WHERE po.nombre_producto REGEXP '". $nombre_pieza ."' ORDER BY po.nombre_producto";
     return $query;
 }
+?>
