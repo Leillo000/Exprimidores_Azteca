@@ -8,53 +8,258 @@ Se declaran dentro de :root
 
 ==== Me quedé en el minuto 6:35 ====
 */
-:root{
-    --green_text : #2F6842;
+
+@import url('https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@100..800&family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@100..800&family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
+
+:root {
+    --green_text: #2F6842;
+    --background_color: #FFFF;
+    --background_color_cream: #EFEDE3;
+    --line-color: #a1a09b;
+    --green_fill: #99b4a2;
+    --green_hover: #99b4a2;
 }
 
-*{
+
+/* Estilos del cuerpo en general */
+
+* {
     padding: 0;
     margin: 0;
 }
-html{
-    font-family: "Annapurna SIL", sans-serif;
+
+html {
+    font-family: "Schibsted Grotesk", sans-serif;
     user-select: none;
     line-height: 1.5rem;
 }
 
-body{
-/*
+body {
+    /*
 min-height es la altura mínima del cuerpo del texto que debe de tener el contenido
 en el viewport (pantalla visible).
 */
-min-height: 100vh;
-color : var(--green_text);
-background-color: #EFEDE3;
-display: grid;
-grid-template-columns: auto 1fr;
+    min-height: 100vh;
+    color: var(--green_text);
+    background-color: var(--background_color);
+    display: grid;
+    grid-template-columns: auto 1fr;
 }
 
+/* Estilos de la sidebar */
 nav ul li a {
-    font-family: "Annapurna SIL", sans-serif;
-    font-size: 22px;
+    font-family: "Schibsted Grotesk", sans-serif;
+    font-size: 16px;
     color: var(--green_text);
     text-decoration: none;
 }
 
-nav ul li a:hover {
-    border-bottom: solid var(--green_text) 1px;
+
+
+#sidebar {
+    box-sizing: border-box;
+    height: 100vh;
+    padding: 5px 1em;
+    /* Podemos personalizar a donde queremos que se ponga el borde */
+    border-right: 1px solid var(--line-color);
+    width: 250px;
+
+
+    /* Esto hace que nuestro sidebar se quede fijo */
+    position: sticky;
+    top: 0;
+    align-self: start;
 }
 
+#sidebar ul {
+    list-style: none;
+}
+
+
+/* 
+Combinadores de hijo directo
+
+Estos se llaman combinadores de hijo directo, 
+lo que hacen es seleccionar el primer/último/posición N hijo directo (está por defecto el primero)
+del elemento a la derecha.
+Por ejemplo, aquí el primer hijo directo ul li (elemento de una lista) es el logo.
+
+*/
+
+#sidebar>ul>li:first-child {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 16px;
+}
+
+
+    /* Estilos del logo */
+#sidebar>ul>li .logo:first-child {
+    font-weight: 700;
+}
+
+/* Esto servira en el futuro para colorear los links dependiendo en donde estemos*/
+
+#sidebar ul li.active a svg {
+    stroke: var(--green_text);
+}
+
+#sidebar svg{
+
+    /* 
+    Esto nos dice cuanto se ahica nuestro elemento entre menos espacio haya
+    como en este caso es 0, no se va achicar nunca.
+    */
+    flex-shrink: 0;
+    stroke: var(--green_text);
+}
+
+/*
+Esto nos permite separar la flechita del texto
+*/
+
+#sidebar a span,
+#sidebar .dropdown-btn span{
+flex-grow: 1;
+}
+
+
+/*
+ Esto hace que se acomoden de manera correcta los links de la sidebar
+*/
+
+#sidebar a,
+#sidebar .dropdown-btn,
+#sidebar .logo {
+    border-radius: .5em;
+    padding: .85em;
+    text-decoration: none;
+    color: var(--green_text);
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+#sidebar .dropdown-btn {
+    width: 100%;
+    text-align: left;
+    background-color: var(--background_color);
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    transition: 300ms ease-in-out;
+}
+
+/*
+
+======== ANIMACIONES SIDEBAR ========
+
+*/
+
+#sidebar .dropdown-btn:hover,
+#sidebar ul li a:hover{
+background-color: var(--green_hover);
+}
+
+/* Efecto para que se muestren y se oculten los submenus */
+
+#sidebar .sub-menu{
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: 300ms ease-in-out;
+}
+
+#sidebar .sub-menu > div{
+overflow: hidden;
+}
+
+#sidebar .sub-menu.show {
+    grid-template-rows: 1fr;
+}
+
+#sidebar .sub-menu a{
+    padding-left: 2em;
+}
+
+#sidebar.close{
+    
+}
+
+/*
+Estilo del boton que abre y cierra el submenu
+*/
+#toggle_btn{
+margin-left: auto;
+padding: 1em;
+border: none;
+border-radius: .5em;
+cursor: pointer;
+background-color: #ffff;
+}
+
+#toggle_btn svg{
+    transition: 150ms ease;
+}
+
+#toggle_btn:hover{
+    background-color: var(--green_hover);
+}
+
+
+/* Rotacion de los SVG para cuando le de click para abrir un submenu */
+/* Selecciona el ultimo hijo de la clase .rotate (Una clase que se le
+agrega al boton), unicamente afectando la ultima flechita. */
+.rotate svg:last-child{
+rotate: -180deg;
+}
+
+.dropdown-btn svg{
+    transition: 200ms ease-in-out;
+}
+
+/* Estilos de donde van a ir los elementos de formularios y eso */
+
+.container {
+
+    /* 
+    Funcion min()
+    Esto es para asegurar que sea responsivo,
+     asegura que se establezca
+    el minimo de estos 2 parametros.
+    3em = 48px
+    15% = tamaño del contenedor * 0.15 */
+
+    margin-top: min(4em, 5%);
+    margin-bottom: min(4em, 5%);
+    margin-left: min(4em, 10%);
+    margin-right: min(4em, 10%);
+    border-radius: 20px;
+    border: 1px solid var(--line-color);
+    background-color: white;
+    padding: min(3em, 15%);
+
+
+}
+
+/* Estilos de elementos adicionales */
+
+span{
+    font-family: "Schibsted Grotesk", sans-serif;
+    font-size: 16px;
+}
+
+
 h1 {
-    font-family: "Annapurna SIL", sans-serif;
+    font-family: "Schibsted Grotesk", sans-serif;
     font-size: 62px;
     text-align: center;
 }
 
 
 label {
-    font-family: "Annapurna SIL", sans-serif;
-    font-size: 30px;
+    font-family: "Schibsted Grotesk", sans-serif;
+    font-size: 16px;
 }
 
 select {
@@ -75,7 +280,7 @@ option {
 }
 
 input {
-    font-family: "Annapurna SIL", sans-serif;
+    font-family: "Schibsted Grotesk", sans-serif;
     font-size: 20px;
     padding: 4px 0 4px 15px;
     height: 29px;
@@ -86,7 +291,7 @@ input {
 
 p {
     font-size: 18px;
-    color: #777575; 
+    color: #777575;
 }
 
 a {
@@ -94,31 +299,31 @@ a {
     color: black;
 }
 
-table{
-    font-family: "Annapurna SIL", sans-serif;
+/* Estilos de la tabla */
+
+table {
     color: rgb(255, 255, 255);
     border: 1px solid #000;
     border-collapse: collapse;
     padding: 10px;
     overflow: hidden;
     border-radius: 15px;
-    margin: 20px auto;  
-    box-sizing: border-box;
+    margin: 20px auto;
     align-items: center;
-    width: 100vh;
     max-height: 4vh;
 }
 
-td, th {
-    font-family: "Annapurna SIL", sans-serif;
+td,
+th {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 200;
     border: 1px solid #000;
-    padding: 8px;           
+    padding: 8px;
     text-align: center;
-    background-color: white;
+    background-color: var(--background_color_cream);
     color: black;
     font-optical-sizing: auto;
 }
-
 
 .columnas {
     background-color: #2F6842;
@@ -127,42 +332,44 @@ td, th {
     border: 1px solid #2F6842;
 }
 
+/* Estilos de los botones */
+
 .button {
-    font-family: "Annapurna SIL", sans-serif;
-    width: 425px;
+    font-family: "Schibsted Grotesk", sans-serif;
+    width: min(200px, 30%);
     padding: 12px 20px;
     background-color: #B0CE88;
     border-radius: 100px;
     text-align: center;
-    font-size: 22px;
-    box-shadow: 10px 10px 15px rgba(0.1,0.1,0.1,0.15);
+    font-size: min(15px);
+    box-shadow: 10px 10px 15px rgba(0.1, 0.1, 0.1, 0.15);
     border: none;
     cursor: pointer;
     color: black;
     text-decoration: none;
-    display: block;         
+    display: block;
 }
 
-.button_search{
+.button_search {
     background-color: #EFEDE3;
     border-style: none;
 }
 
-.button_table{
+.button_table {
     width: 100px;
-    margin: 16px auto; 
+    margin: 16px auto;
     padding: 12px 20px;
     background-color: #B0CE88;
     border-radius: 100px;
     text-align: center;
     font-size: 22px;
-    box-shadow: 10px 10px 15px rgba(0.1,0.1,0.1,0.15);
+    box-shadow: 10px 10px 15px rgba(0.1, 0.1, 0.1, 0.15);
     border: none;
     cursor: pointer;
-    font-family: "Annapurna SIL", sans-serif;
+    font-family: "Schibsted Grotesk", sans-serif;
     color: black;
     text-decoration: none;
-    display: block;         
+    display: block;
 }
 
 .button:hover {
@@ -170,9 +377,33 @@ td, th {
     transform: scale(1.10);
 }
 
-@media (max-width: 768px) {
-table{
-    max-width: 40vh;
-    max-height: 4vh;
+/* Estilos del cuadro de dialogo */
+.dialog {
+    border: 0;
+    border-radius: 20px;
+    width: 525px;
 }
+
+.dialog_header {
+    display: flex;
+    justify-content: end;
+}
+
+.dialog_body {
+    padding: 30px;
+}
+
+.btnDialog {
+    border: 0;
+    background-color: #ffff;
+    font-size: 20px;
+}
+
+/* Estilos adicionales en telefono */
+
+@media (max-width: 768px) {
+    table {
+        max-width: 40vh;
+        max-height: 4vh;
+    }
 }

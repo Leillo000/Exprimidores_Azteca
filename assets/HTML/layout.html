@@ -11,14 +11,19 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Annapurna+SIL:wght@400;700&family=Arimo:ital,wght@0,400..700;1,400..700&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Epunda+Sans:ital,wght@0,300..900;1,300..900&family=Epunda+Slab:ital,wght@0,300..900;1,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+        <!-- Aquí se incrusta el archivo JavaScript a nuestra página, 
+         
+        "defer" se utiliza principalmente para que se incruste el archivo JavaScript
+         después de que el archivo HTML cargue. -->
+    <script type="text/javascript" src="../JS/sidebar.js" defer></script>
 </head>
 
 <body>
-    <nav>
+    <nav id="sidebar">
         <ul>
             <li>
                 <span class="logo">Exprimidores Azteca</span>
-                <button id="toggle_btn">
+                <button onclick=toggleSidebar() id="toggle_btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right">
@@ -29,8 +34,25 @@
                 </button>
             </li>
             <!-- El código de un submenú empieza aquí -->
+            <!-- Boton de Menu-->
+            <li class="active">
+                <a href="layout.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-home">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                        <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                    </svg>
+                    <span>Menú</span>
+                </a>
+
+            </li>
+
+            <!-- Submenú de piezas -->
             <li>
-                <button class="dropdown-btn">
+                <button onclick=toggleSubMenu(this) class="dropdown-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="icon icon-tabler icons-tabler-outline icon-tabler-device-watch">
@@ -48,13 +70,16 @@
                     </svg>
                 </button>
                 <ul class="sub-menu">
-                    <li><a href="#">Agregar pieza</a></li>
-                    <li><a href="#">Ver piezas</a></li>
+                    <div>
+                        <li><a href="#">Agregar pieza</a></li>
+                        <li><a href="#">Ver piezas</a></li>
+                    </div>
                 </ul>
             </li>
             <!-- Hasta aqui es el código de un submenú -->
+            <!-- Submenú de pedidos -->
             <li>
-                <button class="dropdown-btn">
+                <button onclick=toggleSubMenu(this) class="dropdown-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="icon icon-tabler icons-tabler-outline icon-tabler-device-watch">
@@ -72,11 +97,15 @@
                     </svg>
                 </button>
                 <ul class="sub-menu">
-                    <li><a href="#">Ver carrito</a></li>
-                    <li><a href="#">Agregar producto</a></li>
-                    <li><a href="#">Ver pedidos</a></li>
+                    <div>
+                        <li><a href="#">Ver carrito</a></li>
+                        <li><a href="#">Agregar producto</a></li>
+                        <li><a href="#">Ver pedidos</a></li>
+                    </div>
                 </ul>
             </li>
+
+            <!-- Botón de Productos -->
             <li>
                 <a href="productos.php">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -94,8 +123,9 @@
                     <span>Productos</span>
                 </a>
             </li>
+            <!-- Submenú de materiales -->
             <li>
-                <button class="dropdown-btn">
+                <button onclick=toggleSubMenu(this) class="dropdown-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="icon icon-tabler icons-tabler-outline icon-tabler-truck">
@@ -113,56 +143,103 @@
                     </svg>
                 </button>
                 <ul class="sub-menu">
-                    <li><a href="#"> Entradas y salidas</a></li>
-                    <li><a href="#"> Agregar entradas </a></li>
+                    <div>
+                        <li><a href="#"> Ver movimientos </a></li>
+                        <li><a href="#"> Agregar entradas </a></li>
+                    </div>
                 </ul>
             </li>
         </ul>
     </nav>
     <div>
-    <table>
-        <tr>
-            <th class="columnas">No. de Registro</th>
-            <th class="columnas">Cantidad total de aluminio en Kg</th>
-            <th class="columnas">Fecha y hora de registro</th>
-        </tr>
-        <tr>
-            <th>1</th>
-            <th>300</th>
-            <th>12:30:01</th>
-        </tr>
-        <tr>
-            <th>1</th>
-            <th>300</th>
-            <th>12:30:01</th>
-        </tr>
-        <tr>
-            <th>1</th>
-            <th>300</th>
-            <th>12:30:01</th>
-        </tr>
-    </table> 
-    <div>
-         <h1> Piezas </h1>
-<!-- Muestra el nombre del producto al que pertenece la pieza -->
-        <h2>Caca</h2>
+        <div class="container">
+            <table>
+                <tr>
+                    <th class="columnas">No. de Registro</th>
+                    <th class="columnas">Cantidad total de aluminio en Kg</th>
+                    <th class="columnas">Fecha y hora de registro</th>
+                </tr>
+                <tr>
+                    <th>1</th>
+                    <th>300</th>
+                    <th>12:30:01</th>
+                </tr>
+                <tr>
+                    <th>1</th>
+                    <th>300</th>
+                    <th>12:30:01</th>
+                </tr>
+                <tr>
+                    <th>1</th>
+                    <th>300</th>
+                    <th>12:30:01</th>
+                </tr>
+            </table>
+            <h1> Piezas </h1>
+            <!-- Muestra el nombre del producto al que pertenece la pieza -->
+            <h2>Caca</h2>
 
-<!-- Los datos se envían a procesar_piezas.php -->
-        <form method="post" action="../controllers/actualizar_piezas.php">
+            <!-- Los datos se envían a procesar_piezas.php -->
+            <form method="post" action="../controllers/actualizar_piezas.php">
 
-<!-- Editar nombre de la pieza -->
-        <label> Nombre de la pieza </label>
-        <input type="text" name="nombre_pieza" required value="asdfadsf">
+                <!-- Editar nombre de la pieza -->
+                <label> Nombre de la pieza </label>
+                <input type="text" name="nombre_pieza" required value="asdfadsf">
+                <input type="hidden" name="id_pieza" value="sdafdsa">
 
-        <input type="hidden" name="id_pieza" value="sdafdsa">
 
-<!-- Editar peso de la pieza -->
-        <label> Peso en gramos </label>
-        <input type="text" name="peso" required value="afsdfasdfasdf">
-        <button class="button" type="submit"> ACTUALIZAR </button>
-        </form>
+                <!-- Editar peso de la pieza -->
+                <label> Peso en gramos </label>
+                <input type="text" name="peso" required value="afsdfasdfasdf">
+                <button class="button" type="submit"> ACTUALIZAR </button>
+            </form>
+
+        </div>
+        <div class="container">
+            <table>
+                <tr>
+                    <th class="columnas">No. de Registro</th>
+                    <th class="columnas">Cantidad total de aluminio en Kg</th>
+                    <th class="columnas">Fecha y hora de registro</th>
+                </tr>
+                <tr>
+                    <th>1</th>
+                    <th>300</th>
+                    <th>12:30:01</th>
+                </tr>
+                <tr>
+                    <th>1</th>
+                    <th>300</th>
+                    <th>12:30:01</th>
+                </tr>
+                <tr>
+                    <th>1</th>
+                    <th>300</th>
+                    <th>12:30:01</th>
+                </tr>
+            </table>
+            <h1> Piezas </h1>
+            <!-- Muestra el nombre del producto al que pertenece la pieza -->
+            <h2>Caca</h2>
+
+            <!-- Los datos se envían a procesar_piezas.php -->
+            <form method="post" action="../controllers/actualizar_piezas.php">
+
+                <!-- Editar nombre de la pieza -->
+                <label> Nombre de la pieza </label>
+                <input type="text" name="nombre_pieza" required value="asdfadsf">
+                <input type="hidden" name="id_pieza" value="sdafdsa">
+
+
+                <!-- Editar peso de la pieza -->
+                <label> Peso en gramos </label>
+                <input type="text" name="peso" required value="afsdfasdfasdf">
+                <button class="button" type="submit"> ACTUALIZAR </button>
+            </form>
+
+        </div>
     </div>
-       
-    </div>
+
 </body>
+
 </html>
