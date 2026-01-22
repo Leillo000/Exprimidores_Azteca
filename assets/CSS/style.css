@@ -6,7 +6,7 @@ y pegando el código de los estilos de la página
 Variables de CSS que sirve para guardar valores 
 Se declaran dentro de :root 
 
-==== Me quedé en el minuto 6:35 ====
+==== Me quedé en el minuto 23:30 ====
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@100..800&family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
@@ -47,7 +47,7 @@ en el viewport (pantalla visible).
     grid-template-columns: auto 1fr;
 }
 
-/* Estilos de la sidebar */
+/* ======= ESTILOS DE LA SIDEBAR ======= */
 nav ul li a {
     font-family: "Schibsted Grotesk", sans-serif;
     font-size: 16px;
@@ -70,6 +70,9 @@ nav ul li a {
     position: sticky;
     top: 0;
     align-self: start;
+    overflow: hidden;
+    text-wrap: nowrap;
+    transition: 300ms ease-in-out;
 }
 
 #sidebar ul {
@@ -183,7 +186,8 @@ overflow: hidden;
 }
 
 #sidebar.close{
-    
+    padding: 5px;
+    width: 60px;
 }
 
 /*
