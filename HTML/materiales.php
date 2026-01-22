@@ -55,6 +55,9 @@ $res = $stmt->get_result();
                     <a href="productos.php"> Productos </a>
                 </li>
                 <li>
+                    <a href="clientes">Clientes</a>
+                </li>   
+                <li>
                     <a href="carrito.php">
                         <!-- Icono de carrito -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

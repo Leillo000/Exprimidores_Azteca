@@ -8,6 +8,8 @@ $query_carrito = $conexion->query('SELECT c.id_carrito, p.nombre_producto AS pro
 FROM carrito AS c JOIN productos AS p 
 ON p.id_producto = c.id_producto');
 
+$query_clientes = $conexion->query("SELECT id_cliente, nombre FROM empresas WHERE activo = 1");
+
 ?>
 
 <!DOCTYPE html>
@@ -74,13 +76,13 @@ ON p.id_producto = c.id_producto');
         </thead>
         <tbody>
             <?php while ($row = $query_carrito->fetch_assoc()):
-               // Se calcula el precio total del carrito junto con el peso total, es decir, cuánto aluminio deberá de requirir
-               $peso_subtotal = ($row['peso'] * $row['cantidad']) / 1000;
+                // Se calcula el precio total del carrito junto con el peso total, es decir, cuánto aluminio deberá de requirir
+                $peso_subtotal = ($row['peso'] * $row['cantidad']) / 1000;
                 $precio_subtotal = $row['precio'] * $row['cantidad'];
                 $peso_total += $peso_subtotal;
                 $precio_total += $precio_subtotal;
                 ?>
-            <!-- Se agregan las filas -->
+                <!-- Se agregan las filas -->
                 <tr>
                     <form method="post" action="../controllers/procesar_carrito.php">
                         <td> <?php echo htmlspecialchars($row['producto']); ?> </td>
@@ -99,13 +101,43 @@ ON p.id_producto = c.id_producto');
     <p><b>Precio total:</b> $ <?php echo htmlspecialchars($precio_total) ?></p>
     <p><b>Peso total:</b> <?php echo htmlspecialchars($peso_total + ($peso_total * 0.1)) ?> Kg</p>
     <!-- Finalizar pedido -->
-    <form method="post" action="../controllers/procesar_carrito.php">
-        <button class="button" type="submit" name="accion" value="finalizar"> Finalizar pedido </button>
-    </form>
+
+
+    <!-- Botón para abrir el cuadro de diálogo -->
+    <button class="button" id="btnOpenDialog">
+        Finalizar pedido
+        </svg>
+    </button>
+
+    <dialog id="Dialog" class="dialog" open="">
+        <div class="dialog_header">
+            <button class="btnDialog" id="btnCloseDialog"> X </button>
+        </div>
+        <div class="dialog_body">
+            <label> Selecciona el cliente </label>
+            <select>
+                <?php while ($row_empresas = $query_clientes->fetch_assoc()) { ?>
+                    <option value="id_cliente" name="id_cliente"> <?php echo $row_empresas['nombre']; ?> </option>
+                <?php } ?>
+            </select>
+            <form method="post" action="../controllers/procesar_carrito.php">
+                <button class="button" type="submit" name="accion" value="finalizar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-check">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M5 12l5 5l10 -10" />
+                    </svg> </button>
+            </form>
+        </div>
+    </dialog>
+
     <!-- Agregar más productos -->
     <button class="button" onclick="location.href='tomar_pedido.php'"> Agregar más productos </button>
     <!-- Redirigir al menú -->
     <button class="button" onclick="location.href='menu.php'"> MENÚ </button>
 </body>
+
+<script src="../assets/JS/carrito.js"></script>
 
 </html>

@@ -1,3 +1,9 @@
+/* Aqui estan los estilos del dialog */
+
+:root{
+    --standart_width_elements : 300px;
+}
+
 h1 {
     font-family: "Annapurna SIL", sans-serif;
     font-size: 62px;
@@ -7,16 +13,14 @@ h1 {
 
 label {
     font-family: "Annapurna SIL", sans-serif;
-    margin-left: 12%;
     font-size: 30px;
 }
 
 select {
     font-family: "Annapurna SIL", sans-serif;
-    margin-left: 12%;
     font-size: 20px;
-    padding: 8px;
-    width: 200px;
+    padding: 5px;
+    width: var(--standart_width_elements);
     height: 40px;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -88,6 +92,27 @@ td, th {
     font-optical-sizing: auto;
 }
 
+.dialog{
+    border : 0;
+    border-radius: 20px;
+    width: 525px;
+}
+
+.dialog_header{
+    display: flex;
+    justify-content: end;
+}
+
+.dialog_body{
+    padding: 30px;
+}
+
+.btnDialog{
+    border : 0;
+    background-color: #ffff;
+    font-size: 20px;
+}
+
 .columnas {
     background-color: #2F6842;
     color: #fff;
@@ -96,7 +121,7 @@ td, th {
 }
 
 .button {
-    width: 425px;
+    width: var(--standart_width_elements);
     margin: 16px auto; 
     padding: 12px 20px;
     background-color: #B0CE88;
