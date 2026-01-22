@@ -109,18 +109,23 @@ $query_clientes = $conexion->query("SELECT id_cliente, nombre FROM empresas WHER
         </svg>
     </button>
 
-    <dialog id="Dialog" class="dialog" open="">
+    <!-- Cuadro de Dialogo para seleccionar el cliente -->
+    <dialog id="Dialog" class="dialog">
         <div class="dialog_header">
             <button class="btnDialog" id="btnCloseDialog"> X </button>
         </div>
         <div class="dialog_body">
             <label> Selecciona el cliente </label>
-            <select>
-                <?php while ($row_empresas = $query_clientes->fetch_assoc()) { ?>
-                    <option value="id_cliente" name="id_cliente"> <?php echo $row_empresas['nombre']; ?> </option>
-                <?php } ?>
-            </select>
+
+            <!-- Formulario para enviar los datos al servidor para procesarlos -->
             <form method="post" action="../controllers/procesar_carrito.php">
+                <select name="id_cliente">
+                    <?php while ($row_empresas = $query_clientes->fetch_assoc()) { ?>
+                        <option value="<?php echo $row_empresas['id_cliente']; ?>">
+                            <?php echo $row_empresas['nombre']; ?>
+                        </option>
+                    <?php } ?>
+                </select>
                 <button class="button" type="submit" name="accion" value="finalizar">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

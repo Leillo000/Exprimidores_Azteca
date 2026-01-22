@@ -67,17 +67,7 @@ $query_aluminio = $conexion->query("SELECT cantidad_kg FROM stock_aluminio ORDER
         <h1> Nuevo pedido </h1>
         <br> <br>
         <form method="post" action="../controllers/procesar_carrito.php">
-            <label> Selecciona el cliente </label>
             <br>
-            <!-- Obtiene los nombres de los clientes existentes en la base de datos -->
-            <select name="id_cliente" required>
-                <?php while ($resultado_cliente = $query_cliente->fetch_assoc()) { ?>
-                    <option value="<?php echo $resultado_cliente["id_cliente"]; ?>">
-                        <?php echo $resultado_cliente['nombre']; ?>
-                    </option>
-                <?php } ?>
-            </select>
-            <br> <br>
             <label> Producto </label>
             <br>
             <!-- Obtiene los nombres de los productos de la base de datos -->
