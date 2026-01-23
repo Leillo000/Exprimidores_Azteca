@@ -11,11 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Annapurna+SIL:wght@400;700&family=Arimo:ital,wght@0,400..700;1,400..700&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Epunda+Sans:ital,wght@0,300..900;1,300..900&family=Epunda+Slab:ital,wght@0,300..900;1,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <!-- Aquí se incrusta el archivo JavaScript a nuestra página, 
-         
-        "defer" se utiliza principalmente para que se incruste el archivo JavaScript
-         después de que el archivo HTML cargue. -->
-    <script type="text/javascript" src="../JS/sidebar.js" defer></script>
+    <link href="../Images/logo_icon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
@@ -36,7 +32,7 @@
             <!-- El código de un submenú empieza aquí -->
             <!-- Boton de Menu-->
             <li class="active">
-                <a href="layout.html">
+                <a href="menu.php">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="icon icon-tabler icons-tabler-outline icon-tabler-home">
@@ -193,53 +189,6 @@
             </li>
         </ul>
     </nav>
-
-    <div>
-        <div class="container">
-            <table>
-                <tr>
-                    <th class="columnas">No. de Registro</th>
-                    <th class="columnas">Cantidad total de aluminio en Kg</th>
-                    <th class="columnas">Fecha y hora de registro</th>
-                </tr>
-                <tr>
-                    <th>1</th>
-                    <th>300</th>
-                    <th>12:30:01</th>
-                </tr>
-                <tr>
-                    <th>1</th>
-                    <th>300</th>
-                    <th>12:30:01</th>
-                </tr>
-                <tr>
-                    <th>1</th>
-                    <th>300</th>
-                    <th>12:30:01</th>
-                </tr>
-            </table>
-            <h1> Piezas </h1>
-            <!-- Muestra el nombre del producto al que pertenece la pieza -->
-            <h2>Caca</h2>
-
-            <!-- Los datos se envían a procesar_piezas.php -->
-            <form method="post" action="../controllers/actualizar_piezas.php">
-
-                <!-- Editar nombre de la pieza -->
-                <label> Nombre de la pieza </label>
-                <input type="text" name="nombre_pieza" required value="asdfadsf">
-                <input type="hidden" name="id_pieza" value="sdafdsa">
-
-
-                <!-- Editar peso de la pieza -->
-                <label> Peso en gramos </label>
-                <input type="text" name="peso" required value="afsdfasdfasdf">
-                <button class="button" type="submit"> ACTUALIZAR </button>
-            </form>
-
-        </div>
-    </div>
-
 </body>
 
 </html>
