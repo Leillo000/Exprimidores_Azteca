@@ -67,8 +67,8 @@
                 </button>
                 <ul class="sub-menu">
                     <div>
-                        <li><a href="#">Agregar pieza</a></li>
-                        <li><a href="#">Ver piezas</a></li>
+                        <li><a href="insertar_piezas.php">Agregar pieza</a></li>
+                        <li><a href="piezas.php">Ver piezas</a></li>
                     </div>
                 </ul>
             </li>
@@ -97,8 +97,7 @@
                 </button>
                 <ul class="sub-menu">
                     <div>
-                        <li><a href="#">Agregar producto</a></li>
-                        <li><a href="#">Ver pedidos</a></li>
+                        <li><a href="pedidos.php">Estado de pedidos</a></li>
                     </div>
                 </ul>
             </li>
@@ -142,8 +141,8 @@
                 </button>
                 <ul class="sub-menu">
                     <div>
-                        <li><a href="#"> Ver movimientos </a></li>
-                        <li><a href="#"> Agregar entradas </a></li>
+                        <li><a href="materiales.php"> Ver movimientos </a></li>
+                        <li><a href="agregar_aluminio.php"> Agregar entradas </a></li>
                     </div>
                 </ul>
             </li>
@@ -167,8 +166,8 @@
                 </button>
                 <ul class="sub-menu">
                     <div>
-                        <li><a href="#">Ver clientes</a></li>
-                        <li><a href="#">Agregar clientes</a></li>
+                        <li><a href="clientes.php">Ver clientes</a></li>
+                        <li><a href="agregar_clientes.php">Agregar clientes</a></li>
                     </div>
                 </ul>
             </li>

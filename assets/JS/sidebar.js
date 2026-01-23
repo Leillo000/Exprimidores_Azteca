@@ -1,7 +1,7 @@
 const toggleButton = document.getElementById('toggle_btn');
 const sidebar = document.getElementById('sidebar');
 
-function toggleSidebar(){
+function toggleSidebar() {
 
     // toggle "concatena" lo que se le pase de argumento si es que no lo tiene,
     //  y si lo tiene, lo elimina
@@ -24,17 +24,27 @@ function toggleSidebar(){
     })
 }
 
-function toggleSubMenu(button){
-// Accede a la lista de clases del siguiente hermano directo de 
-// button y cambia la clase a show
-// El toggle lo que hace es como un switch, cuando es presionado, se agrega la clase show
-// y cuando es presionado de nuevo, esta clase se cambia
-button.nextElementSibling.classList.toggle('show');
-button.classList.toggle('rotate');
+function toggleSubMenu(button) {
+    // Accede a la lista de clases del siguiente hermano directo de 
+    // button y cambia la clase a show
+    // El toggle lo que hace es como un switch, cuando es presionado, se agrega la clase show
+    // y cuando es presionado de nuevo, esta clase se cambia
 
-if(sidebar.classList.contains('close')){
-// Elimina estas clases cuando el sidebar está cerrado y damos click a un submenu
-sidebar.classList.toggle('close');
-toggleButton.classList.toggle('rotate');
-}
+    // Esta condicion es necesaria para que se puede volver a su estado original el boton al darle click de nuevo
+    // Ya que, si lo dejamos asi, va eliminar la clase show y en la siguiente linea lo va a volver a agregar
+    // haciendo un bucle en que no se pueda cerrar un submenu debido a que este se cierra y abre al mismo tiempo.
+    if (button.nextElementSibling.classList.contains('show') == false) {
+        Array.from(sidebar.getElementsByClassName('show')).forEach(ul => {
+            ul.classList.remove('show');
+            ul.previousElementSibling.classList.remove('rotate');
+        });
+    }
+    button.nextElementSibling.classList.toggle('show');
+    button.classList.toggle('rotate');
+
+    if (sidebar.classList.contains('close')) {
+        // Elimina estas clases cuando el sidebar está cerrado y damos click a un submenu
+        sidebar.classList.toggle('close');
+        toggleButton.classList.toggle('rotate');
+    }
 }
