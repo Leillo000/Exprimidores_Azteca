@@ -18,10 +18,7 @@ function toggleSidebar() {
     3.- Esto hace que la flechita se vuelva a su estado original, y la lista de elementos se deje de mostrar
     
     */
-    Array.from(sidebar.getElementsByClassName('show')).forEach(ul => {
-        ul.classList.remove('show');
-        ul.previousElementSibling.classList.remove('rotate');
-    })
+    CloseSubMenus();
 }
 
 function toggleSubMenu(button) {
@@ -34,10 +31,7 @@ function toggleSubMenu(button) {
     // Ya que, si lo dejamos asi, va eliminar la clase show y en la siguiente linea lo va a volver a agregar
     // haciendo un bucle en que no se pueda cerrar un submenu debido a que este se cierra y abre al mismo tiempo.
     if (button.nextElementSibling.classList.contains('show') == false) {
-        Array.from(sidebar.getElementsByClassName('show')).forEach(ul => {
-            ul.classList.remove('show');
-            ul.previousElementSibling.classList.remove('rotate');
-        });
+        CloseSubMenus();
     }
     button.nextElementSibling.classList.toggle('show');
     button.classList.toggle('rotate');
@@ -47,4 +41,11 @@ function toggleSubMenu(button) {
         sidebar.classList.toggle('close');
         toggleButton.classList.toggle('rotate');
     }
+}
+
+function CloseSubMenus() {
+    Array.from(sidebar.getElementsByClassName('show')).forEach(ul => {
+        ul.classList.remove('show');
+        ul.previousElementSibling.classList.remove('rotate');
+    });
 }
