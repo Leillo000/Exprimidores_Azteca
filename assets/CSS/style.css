@@ -383,12 +383,13 @@ th {
 
 .button {
     font-family: var(--font_text), sans-serif;
-    width: 60%;
+    width: 40%;
+    height: 2rem;
     padding: 4px 10px;
     margin-top: 10px;
     background-color: #B0CE88;
     border-radius: 100px;
-    font-size: min(15px);
+    font-size: 15px;
     box-shadow: 10px 10px 15px rgba(0.1, 0.1, 0.1, 0.15);
     border: none;
     cursor: pointer;
