@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 24-11-2025 a las 01:26:18
+-- Tiempo de generación: 08-02-2026 a las 02:54:53
 -- Versión del servidor: 9.1.0
 -- Versión de PHP: 8.3.14
 
@@ -34,14 +34,7 @@ CREATE TABLE IF NOT EXISTS `carrito` (
   `cantidad` int NOT NULL,
   PRIMARY KEY (`id_carrito`),
   KEY `id_producto` (`id_producto`)
-) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `carrito`
---
-
-INSERT INTO `carrito` (`id_carrito`, `id_producto`, `cantidad`) VALUES
-(54, 3, 1);
+) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -55,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `tipo_cliente` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
   `fecha_registro` datetime NOT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `clientes`
@@ -63,7 +56,10 @@ CREATE TABLE IF NOT EXISTS `clientes` (
 
 INSERT INTO `clientes` (`id_cliente`, `tipo_cliente`, `fecha_registro`) VALUES
 (1, 'empresa', '2025-11-19 00:00:00'),
-(2, 'empresa', '2025-11-22 01:44:31');
+(2, 'empresa', '2025-11-22 01:44:31'),
+(3, 'empresa', '2026-01-21 00:16:01'),
+(4, 'empresa', '2026-01-21 00:16:46'),
+(5, 'empresa', '2026-01-21 00:17:35');
 
 -- --------------------------------------------------------
 
@@ -82,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `detalles_observaciones` (
   KEY `id_pedido` (`id_pedido`),
   KEY `id_pieza` (`id_pieza`),
   KEY `fk_detalles_observaciones_producto` (`id_producto`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `detalles_observaciones`
@@ -92,10 +88,7 @@ INSERT INTO `detalles_observaciones` (`id_detalle_observacion`, `id_pedido`, `id
 (1, 15, 4, 3, 3),
 (2, 15, 4, 3, 3),
 (3, 12, 4, 3, 5),
-(4, 16, 9, 4, 5),
-(5, 18, 10, 4, 3),
-(6, 19, 6, 4, 100),
-(7, 19, 3, 3, 5);
+(17, 35, 4, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -113,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `detalles_pedidos` (
   PRIMARY KEY (`id_detalle_pedido`),
   KEY `id_pedido` (`id_pedido`),
   KEY `id_producto` (`id_producto`)
-) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `detalles_pedidos`
@@ -148,7 +141,13 @@ INSERT INTO `detalles_pedidos` (`id_detalle_pedido`, `id_pedido`, `id_producto`,
 (40, 27, 4, 50, 750.00),
 (41, 28, 4, 10, 150.00),
 (42, 29, 3, 1, 28.00),
-(43, 30, 4, 30, 450.00);
+(43, 30, 4, 30, 450.00),
+(44, 31, 3, 3, 84.00),
+(45, 32, 3, 3, 84.00),
+(46, 32, 4, 1, 15.00),
+(47, 33, 3, 3, 84.00),
+(48, 34, 3, 10, 280.00),
+(49, 35, 3, 100, 2800.00);
 
 -- --------------------------------------------------------
 
@@ -164,17 +163,20 @@ CREATE TABLE IF NOT EXISTS `empresas` (
   `rfc` varchar(13) COLLATE utf8mb4_general_ci NOT NULL,
   `correo` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `telefono` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `activo` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_empresa`),
   UNIQUE KEY `id_cliente` (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `empresas`
 --
 
-INSERT INTO `empresas` (`id_empresa`, `id_cliente`, `nombre`, `rfc`, `correo`, `telefono`) VALUES
-(1, 1, 'Canadian Food', 'BRL081208HARS', 'leo.o.bernal@gmail.com', ' +52 551 234 5678'),
-(2, 2, 'Greenlife - México', 'BERLHASRD0912', 'greenlife@gmail.com', '4491232496');
+INSERT INTO `empresas` (`id_empresa`, `id_cliente`, `nombre`, `rfc`, `correo`, `telefono`, `activo`) VALUES
+(1, 1, 'Canadian Food', 'BERL081208HAR', 'o.bernal@gmail.com', '+52 551 234 5678', 0),
+(2, 2, 'Greenlife - México', 'BERLHASRD0101', 'greenlife@gmail.com', '4491232495', 0),
+(3, 4, 'Leo y asociados', 'BERLHASRD0101', 'leonardoAsociados@gmail.com', '4492332493', 1),
+(4, 5, 'Alexa Nails', 'ALEQFASRD0201', 'ale.nails@gmail.com', '44521232592', 1);
 
 -- --------------------------------------------------------
 
@@ -225,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
   `tipo_observacion` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_pedido`),
   KEY `id_cliente` (`id_cliente`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `pedidos`
@@ -240,17 +242,22 @@ INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `fecha`, `etapa`, `tipo_observ
 (13, 1, '2025-11-20 08:21:18', 'Fundición', 'Ninguna'),
 (14, 1, '2025-11-20 08:30:30', 'Fundición', 'Ninguna'),
 (15, 1, '2025-11-20 08:33:04', 'Fundición', 'Faltan piezas'),
-(16, 1, '2025-11-21 18:55:17', 'Fundición', 'Faltan piezas'),
+(16, 1, '2025-11-21 18:55:17', 'Fundición', 'Ninguna'),
+(31, 0, '2026-01-22 01:30:00', 'Fundición', 'Ninguna'),
 (17, 1, '2025-11-21 21:30:11', 'Completado', 'Ninguna'),
-(18, 1, '2025-11-21 21:35:11', 'Fundición', 'Faltan piezas'),
-(19, 1, '2025-11-21 23:47:27', 'Fundición', 'Faltan piezas'),
+(18, 1, '2025-11-21 21:35:11', 'Fundición', 'Ninguna'),
+(19, 1, '2025-11-21 23:47:27', 'Fundición', 'Ninguna'),
 (20, 0, '2025-11-22 17:56:41', 'Fundición', 'Ninguna'),
+(33, 0, '2026-01-26 15:42:46', 'Fundición', 'Ninguna'),
 (22, 1, '2025-11-22 19:46:28', 'Completado', 'Ninguna'),
 (23, 2, '2025-11-22 19:55:02', 'Completado', 'Ninguna'),
 (25, 2, '2025-11-23 15:59:30', 'Fundición', 'Ninguna'),
 (26, 2, '2025-11-23 16:18:27', 'Completado', 'Ninguna'),
 (27, 2, '2025-11-23 16:19:26', 'Fundición', 'Ninguna'),
-(30, 2, '2025-11-23 16:32:18', 'Fundición', 'Ninguna');
+(30, 2, '2025-11-23 16:32:18', 'Fundición', 'Ninguna'),
+(32, 5, '2026-01-22 01:39:14', 'Fundición', 'Ninguna'),
+(34, 4, '2026-01-26 15:43:51', 'Fundición', 'Ninguna'),
+(35, 5, '2026-02-07 20:24:35', 'Fundición', 'Faltan piezas');
 
 -- --------------------------------------------------------
 
@@ -266,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `piezas` (
   `peso` int DEFAULT NULL,
   PRIMARY KEY (`id_pieza`),
   KEY `id_producto` (`id_producto`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `piezas`
@@ -280,7 +287,8 @@ INSERT INTO `piezas` (`id_pieza`, `id_producto`, `nombre_pieza`, `peso`) VALUES
 (7, 4, 'Cedazo', 280),
 (8, 4, 'Codo', 280),
 (9, 4, 'Base', 280),
-(10, 4, 'Cuerpo Campana', 280);
+(10, 4, 'Cuerpo Campana', 280),
+(11, NULL, '', 0);
 
 -- --------------------------------------------------------
 
@@ -333,7 +341,7 @@ CREATE TABLE IF NOT EXISTS `stock_aluminio` (
   `cantidad_kg` decimal(10,2) NOT NULL,
   `fecha` datetime NOT NULL,
   PRIMARY KEY (`id_stock`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `stock_aluminio`
@@ -344,7 +352,19 @@ INSERT INTO `stock_aluminio` (`id_stock`, `cantidad_kg`, `fecha`) VALUES
 (3, 832.00, '2025-11-23 16:18:27'),
 (5, 815.25, '2025-11-23 16:22:02'),
 (6, 815.05, '2025-11-23 16:22:38'),
-(7, 764.80, '2025-11-23 16:32:18');
+(7, 764.80, '2025-11-23 16:32:18'),
+(8, 964.80, '2025-11-23 22:42:58'),
+(9, 1064.80, '2025-11-23 22:44:32'),
+(10, 1164.80, '2025-11-23 22:48:10'),
+(11, 1264.80, '2025-11-23 22:51:19'),
+(12, 1364.80, '2025-12-16 19:23:26'),
+(13, 1364.14, '2026-01-22 01:30:00'),
+(14, 1361.64, '2026-01-22 01:39:14'),
+(15, 1461.64, '2026-01-23 00:11:35'),
+(16, 1460.98, '2026-01-26 15:42:46'),
+(17, 1458.78, '2026-01-26 15:43:51'),
+(18, 1436.78, '2026-02-07 20:24:35'),
+(19, 1536.78, '2026-02-07 20:25:57');
 
 --
 -- Restricciones para tablas volcadas
