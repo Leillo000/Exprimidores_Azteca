@@ -72,7 +72,8 @@ nav ul li a {
     position: sticky;
     top: 0;
     align-self: start;
-    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
     text-wrap: nowrap;
     transition: 300ms ease-in-out;
 }
@@ -135,10 +136,19 @@ flex-grow: 1;
 */
 
 #sidebar a,
-#sidebar .dropdown-btn,
-#sidebar .logo {
+#sidebar .dropdown-btn{
     border-radius: .5em;
     padding: .85em;
+    text-decoration: none;
+    color: var(--green_text);
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+#sidebar .logo{
+    border-radius: .5em;
+    padding: 0em;
     text-decoration: none;
     color: var(--green_text);
     display: flex;
@@ -189,7 +199,7 @@ overflow: hidden;
 
 #sidebar.close{
     padding: 5px;
-    width: 59px;
+    width: 65px;
 }
 
 /*
@@ -303,7 +313,7 @@ input {
 }
 
 p {
-    font-size: 18px;
+    font-size: 16px;
     color: #777575;
 }
 
@@ -448,7 +458,14 @@ margin: 0;
     font-size: 20px;
 }
 
+/*
+Estilos del Menú
+*/
 
+#image_orange{
+    height: max(1%, 200px);
+    flex-shrink: 0;
+}
 
 /* Estilos adicionales en telefono */
 
