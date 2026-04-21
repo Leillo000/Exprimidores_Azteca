@@ -372,6 +372,15 @@ th {
     text-decoration: none;
 }
 
+.TableButtonSvg{
+    background-color: var(--background_color_cream);
+    border: none;
+}
+
+.TableButtonSvg svg{
+    color: var(--green_text);
+}
+
 
 /* Esto es para que se pueda ver la tabla cuando ya no haya espacio */
 
@@ -446,7 +455,7 @@ margin: 0;
     z-index: 20;
     left: 35%;
     top:25%;
-    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .dialog_header {
@@ -478,6 +487,7 @@ margin: 0;
     flex-direction: column;
     padding-left: 10%;
     padding-right: 10%;
+    margin-bottom: 5%;
     height: 80%;
 }
 

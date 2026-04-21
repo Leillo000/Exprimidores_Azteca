@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
 
 <body>
     <div class="container">
+        <!-- Parte a convertir a modal--> 
         <h1> Clientes </h1>
         <br>
         <!-- Dirección para procesar datos-->

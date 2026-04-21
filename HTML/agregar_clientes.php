@@ -14,8 +14,6 @@ include("../assets/HTML/layout.php");
         <!-- ACUERDATE LEO INGAO, QUE ES ACTION NO LOCATION-->
         <form method="post" action="../controllers/PHP/procesar_cliente.php">
             <div class="center_items">
-                <!-- Producto correspondiente -->
-
                 <label> Nombre</label>
                 <input type="text" name="nombre" required>
                 <!-- Peso de la pieza -->

@@ -41,7 +41,6 @@ $res = $stmt->get_result();
 
 <body>
     <div class="container">
-
         <h1> Clientes </h1>
         <br>
         <div class="table_scroll">
@@ -49,10 +48,10 @@ $res = $stmt->get_result();
                 <thead>
                     <tr>
                         <th class="columnas"> Nombre </th>
+                        <th class="columnas"> RFC </th>
                         <th class="columnas"> Correo </th>
                         <th class="columnas"> Teléfono </th>
-                        <th class="columnas"> Fecha registro </th>
-                        <th class="columnas"> Fecha </th>
+                        <th class="columnas"> Fecha de registro </th>
                         <th class="columnas"> Acción </th>
                     </tr>
                 </thead>
@@ -75,13 +74,19 @@ $res = $stmt->get_result();
                                 <?php echo htmlspecialchars($row['fecha_registro']); ?>
                             </td>
                             <td>
-                                <!-- Después de cada onchange, se invoca la función de Javascript junto a lo que se quiera hacer -->
-                                <select class="button_table" onchange="redirigir(this.value, <?php echo $row["id_cliente"]; ?>)">
-                                    <option class="button_table" value="" disabled selected hidden> Seleccionar acción
-                                    </option>
-                                    <option class="button_table" value="eliminar"> Eliminar </option>
-                                    <option class="button_table" value="editar"> Editar </option>
-                                </select>
+
+                                <!-- Se envía una petición al servidor para poder mostrarlos en el Cuadro de Diálogo mediante JavaScript -->
+                                <button class="TableButtonSvg" id="OpenModal" onclick="OpenModalEdit(<?php echo $row['id_cliente'] ?>)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-edit">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M8 7a1 1 0 0 1 -1 1h-1a1 1 0 0 0 -1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1 -1v-1a1 1 0 0 1 2 0v1a3 3 0 0 1 -3 3h-9a3 3 0 0 1 -3 -3v-9a3 3 0 0 1 3 -3h1a1 1 0 0 1 1 1" />
+                                        <path
+                                            d="M14.596 5.011l4.392 4.392l-6.28 6.303a1 1 0 0 1 -.708 .294h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 .294 -.708zm6.496 -2.103a3.097 3.097 0 0 1 .165 4.203l-.164 .18l-.693 .694l-4.387 -4.387l.695 -.69a3.1 3.1 0 0 1 4.384 0" />
+                                    </svg>
+                                </button>
+
                             </td>
                         </tr>
                     <?php endwhile; ?>
@@ -117,4 +122,47 @@ $res = $stmt->get_result();
 
         </div>
     </div>
-    <script src="../assets/JS/clientes.js"></script>
+    <!-- Cuadro de Dialogo para seleccionar el cliente -->
+    <dialog id="Dialog" class="dialog">
+        <div class="dialog_header">
+            <button class="btnDialog" id="btnCloseDialog"> <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-x">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M18 6l-12 12" />
+                    <path d="M6 6l12 12" />
+                </svg> </button>
+        </div>
+        <div class="DialogCenterItems">
+            <div class="dialog_body">
+                <!-- Formulario para enviar los datos al servidor para procesarlos -->
+
+                <form method="post" action="" id="formEditar">
+                    <div class="center_items">
+                        <!-- Nombre del cliente -->
+                        <label> Nombre</label>
+                        <input type="text" name="nombre" id="ClienteNombre" required>
+                        <!-- Peso de la pieza -->
+                        <label> RFC </label>
+                        <input type="text" name="rfc" id='ClienteRFC' required>
+                        <!-- RFC del cliente -->
+                        <label> Correo </label>
+                        <input type="text" name="correo" id='ClienteCorreo' required>
+                        <label> Teléfono </label>
+                        <input type="text" name="telefono" id='ClienteNumero' required>
+                        <button class="button" type="submit" name="accion" value="finalizar">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-check">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M5 12l5 5l10 -10" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </dialog>
+</body>
+<script src="../assets/JS/clientes.js"></script>
