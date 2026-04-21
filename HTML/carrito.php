@@ -81,7 +81,7 @@ $query_clientes = $conexion->query("SELECT id_cliente, nombre FROM empresas WHER
         </div>
     </div>
     <!-- Cuadro de Dialogo para seleccionar el cliente -->
-    <dialog id="Dialog" class="dialog" close>
+    <dialog id="Dialog" class="dialog">
         <div class="dialog_header">
             <button class="btnDialog" id="btnCloseDialog"> <svg xmlns="http://www.w3.org/2000/svg" width="24"
                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -114,7 +114,6 @@ $query_clientes = $conexion->query("SELECT id_cliente, nombre FROM empresas WHER
                 </form>
             </div>
         </div>
-
     </dialog>
 </body>
 

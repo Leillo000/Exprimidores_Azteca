@@ -446,12 +446,10 @@ margin: 0;
     z-index: 20;
     left: 35%;
     top:25%;
-    display: grid;
-    grid-template-rows: 20% 80%;
+    overflow: hidden;
 }
 
 .dialog_header {
-    grid: 1;
     display: flex;
     justify-content: end;
     margin-right: 5%;
@@ -459,9 +457,8 @@ margin: 0;
 }
 
 .dialog_body {
-    grid: 2;
-    margin: 5%;
     height: 80%;
+    width: 100%;
 }
 
 .btnDialog {
@@ -478,7 +475,18 @@ margin: 0;
 .DialogCenterItems{
     display: flex;
     justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    padding-left: 10%;
+    padding-right: 10%;
+    height: 80%;
+}
+
+dialog select{
+    width: 100%;
+}
+
+dialog .dialog_body button{
+    width: 100%;
 }
 
 /*
