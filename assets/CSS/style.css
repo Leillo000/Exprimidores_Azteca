@@ -437,25 +437,36 @@ margin: 0;
 }
 
 /* Estilos del cuadro de dialogo */
+
 .dialog {
-    border: 0;
+    border: 1px solid gray;
     border-radius: 20px;
-    width: 525px;
+    width: 50%;
+    height: 50%;
+    z-index: 20;
+    left: 35%;
+    top:25%;
 }
 
 .dialog_header {
     display: flex;
     justify-content: end;
+    margin-right: 5%;
+    margin-top: 3%;
 }
 
 .dialog_body {
-    padding: 30px;
+    margin: 5%;
 }
 
 .btnDialog {
     border: 0;
-    background-color: #ffff;
+    background-color: #ffffff;
     font-size: 20px;
+}
+
+.btnDialog svg {
+    color: gray;
 }
 
 /*

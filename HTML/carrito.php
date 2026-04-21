@@ -74,40 +74,38 @@ $query_clientes = $conexion->query("SELECT id_cliente, nombre FROM empresas WHER
                 <?php echo htmlspecialchars($peso_total + ($peso_total * 0.1)) ?> Kg
             </p>
             <!-- Finalizar pedido -->
-
-
             <!-- Botón para abrir el cuadro de diálogo -->
             <button class="button" id="btnOpenDialog">
                 Finalizar
             </button>
         </div>
-
     </div>
     <!-- Cuadro de Dialogo para seleccionar el cliente -->
-    <dialog id="Dialog" class="dialog">
+    <dialog id="Dialog" class="dialog" open>
         <div class="dialog_header">
-            <button class="btnDialog" id="btnCloseDialog"> X </button>
+            <button class="btnDialog" id="btnCloseDialog"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> </button>
         </div>
-        <div class="dialog_body">
-            <label> Selecciona el cliente </label>
-
-            <!-- Formulario para enviar los datos al servidor para procesarlos -->
-            <form method="post" action="../controllers/procesar_carrito.php">
-                <select name="id_cliente">
-                    <?php while ($row_empresas = $query_clientes->fetch_assoc()) { ?>
-                        <option value="<?php echo $row_empresas['id_cliente']; ?>">
-                            <?php echo $row_empresas['nombre']; ?>
-                        </option>
-                    <?php } ?>
-                </select>
-                <button class="button" type="submit" name="accion" value="finalizar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="icon icon-tabler icons-tabler-outline icon-tabler-check">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l5 5l10 -10" />
-                    </svg> </button>
-            </form>
+        <div class="center_items">
+            <div class="dialog_body">
+                <label> Selecciona el cliente </label>
+                <!-- Formulario para enviar los datos al servidor para procesarlos -->
+                <form method="post" action="../controllers/procesar_carrito.php">
+                    <select name="id_cliente">
+                        <?php while ($row_empresas = $query_clientes->fetch_assoc()) { ?>
+                            <option value="<?php echo $row_empresas['id_cliente']; ?>">
+                                <?php echo $row_empresas['nombre']; ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                    <button class="button" type="submit" name="accion" value="finalizar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-check">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M5 12l5 5l10 -10" />
+                        </svg> </button>
+                </form>
+            </div>
         </div>
     </dialog>
 </body>

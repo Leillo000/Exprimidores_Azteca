@@ -29,8 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
     $stmt_empresa->bind_param("issss", $IdCliente['id_cliente'], $nombre, $rfc, $correo, $telefono);
     $stmt_empresa->execute();
 
-
-
     header("Location: ../../HTML/clientes.php");
 } else
     header("Location: ../../HTML/clientes.php");
