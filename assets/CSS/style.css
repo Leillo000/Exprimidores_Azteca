@@ -446,17 +446,22 @@ margin: 0;
     z-index: 20;
     left: 35%;
     top:25%;
+    display: grid;
+    grid-template-rows: 20% 80%;
 }
 
 .dialog_header {
+    grid: 1;
     display: flex;
     justify-content: end;
     margin-right: 5%;
-    margin-top: 3%;
+    margin-top: 5%;
 }
 
 .dialog_body {
+    grid: 2;
     margin: 5%;
+    height: 80%;
 }
 
 .btnDialog {
@@ -467,6 +472,13 @@ margin: 0;
 
 .btnDialog svg {
     color: gray;
+    flex-shrink: 1;
+}
+
+.DialogCenterItems{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /*
