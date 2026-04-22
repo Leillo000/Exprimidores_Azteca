@@ -10,10 +10,7 @@ function redirigir(accion, id_cliente ) {
     cliente = parseInt(id_cliente);
     if (accion === 'eliminar') {
         window.location.href = '../controllers/PHP/eliminar_cliente.php?id_cliente=' + encodeURIComponent(id_cliente);
-    } else if (accion === 'editar') {   
-        // Esta URL ya se protege mediante encodeURIComponent, ya que cuida que no se hagan consultas maliciosas.
-        window.location.href = '../HTML/editar_cliente.php?id_cliente=' + encodeURIComponent(id_cliente);
-    } 
+    }
 }
 
 // Mostrar datos en el modal
@@ -21,7 +18,7 @@ function redirigir(accion, id_cliente ) {
 // indicando que se pare la ejecución hasta que se obtenga la respuesta del servidor.
 async function OpenModalEdit(id){
     // Solicita petición al servidor según el id_cliente para obtener sus datos
-    const respuesta = await fetch ('../controllers/PHP/GetClientes?id_cliente=' + encodeURIComponent(id));
+    const respuesta = await fetch ('../controllers/PHP/clientes.php?id_cliente=' + encodeURIComponent(id));
     // Es para imprimir en consola, no es print, literalmente es imprimir bruh
     // console.log();
 
@@ -42,13 +39,12 @@ async function OpenModalEdit(id){
 document.getElementById('formEditar').addEventListener('submit', async (e) => {
 // Previene que no se recargue la página al enviar un formulario
 e.preventDefault();
-
 // Se crea un nuevo objeto según el evento e, que en este caso nuestro evento es submit y
 // "le pasa" los datos en forma de un formulario
 const formData = new FormData((e).target);
 
 // Se manda petición a servidor, se especifica la acción y qué es lo que se envía
-await fetch('../controllers/PHP/GetClientes', {
+await fetch('../controllers/PHP/clientes.php', {
     method: 'POST',
     body: formData
 });
@@ -59,3 +55,16 @@ Dialog.close();
 location.reaload();
 })
 
+async function EliminarCliente(){
+
+    const ClienteId = document.getElementById('ClienteId').value;
+    console.log(ClienteId);
+    if(!confirm("¿Estás seguro de eliminar a este cliente?")) return
+    // Siempre especificar lo que vas a mandar
+    const respuesta = await fetch('../controllers/PHP/clientes.php?id_cliente='+ encodeURIComponent(ClienteId),{
+        method: 'DELETE'
+    });
+    // Depuración con logs
+    const resultadoOperacion = await respuesta.json()
+    console.log(resultadoOperacion);
+}

@@ -81,7 +81,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
         http_response_code(500);
         echo json_encode(['status' => 'error', 'message' => 'Falló al actualizar.']);
     }
-} else {
+    // Si es que decidimos borrar datos
+} else if ($_SERVER ['REQUEST_METHOD'] === 'DELETE') {
+    
+// Se verifica primer que el String sea válido para poder continuar en la petición de DELETE
+    $id_cliente = isset($_GET['id_cliente']) ? intval($_GET['id_cliente']) : 0;
+
+    $stmt = $conexion->prepare( "
+    UPDATE empresas SET activo = 0 WHERE id_cliente = ?"
+    );
+
+    $stmt->bind_param('i', $id_cliente);
+    
+    if($stmt->execute()){
+        echo json_encode(['Status' => 'success', 'Message' => 'La operación se realizó con éxito' ]);
+    } else { 
+        http_response_code(500);
+        echo json_encode(['Status' => 'error', 'Message' => 'Hubo problemas durante la ejecución, no se eliminó apropiadamente.' ]);
+    }
+} 
+else {
     // Método incorrecto
     http_response_code(405);
     echo json_encode([
