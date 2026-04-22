@@ -151,6 +151,7 @@ $res = $stmt->get_result();
                         <input type="text" name="correo" id='ClienteCorreo' required>
                         <label> Teléfono </label>
                         <input type="text" name="telefono" id='ClienteNumero' required>
+                        <input type="hidden" name='id_cliente' id="ClienteId">
                         <button class="button" type="submit" name="accion" value="finalizar">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

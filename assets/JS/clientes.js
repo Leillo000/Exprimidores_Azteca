@@ -31,9 +31,31 @@ async function OpenModalEdit(id){
         document.getElementById('ClienteRFC').value = data.rfc;
         document.getElementById('ClienteCorreo').value = data.correo;
         document.getElementById('ClienteNumero').value = data.telefono;
+        document.getElementById('ClienteId').value = data.id_cliente;
         Dialog.showModal();   
     } else {
         alert('¡Algo salió mal!, revisa si el servidor está activo');
     }
 }
+
+// Enviar formulario sin recargar
+document.getElementById('formEditar').addEventListener('submit', async (e) => {
+// Previene que no se recargue la página al enviar un formulario
+e.preventDefault();
+
+// Se crea un nuevo objeto según el evento e, que en este caso nuestro evento es submit y
+// "le pasa" los datos en forma de un formulario
+const formData = new FormData((e).target);
+
+// Se manda petición a servidor, se especifica la acción y qué es lo que se envía
+await fetch('../controllers/PHP/GetClientes', {
+    method: 'POST',
+    body: formData
+});
+
+console.log(formData);
+alert('¡Actualizado con éxito!');
+Dialog.close();
+location.reaload();
+})
 
