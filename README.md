@@ -22,11 +22,15 @@ You can add data from forms using prepared statements in PHP in the next fields:
 - Add orders
 - Add pieces
 
+---
+
 ## Manage information in tables: Edit and delete information
 
 ![Image](Images/example_2.png)
 
 You can edit information from a dialog. After doing this simple dialog ive learnt a lot. Like manage petitions from JavaScript to PHP (making a kind of restAPI, i don`t even know what does that mean, gemini said me that).
+
+---
 
 ## Visualize dynamic tables
 
@@ -35,6 +39,8 @@ You can edit information from a dialog. After doing this simple dialog ive learn
 The main purpose for this website-application from the start has been having a managment for entrances and outputs of aluminium. Well, this is the "main" table of all my mini-website. 
 You can skip or go back in steps depending on what stage of work are you doing. 
 You can`t skip a step until you dont have any observation in your order.
+
+---
 
 ## Plus 
 
