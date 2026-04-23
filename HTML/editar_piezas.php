@@ -53,36 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
 </html>
 
 <body>
-    <nav>
-        <img src="../Images/logo_menu.jpg" alt="logo_exprimidores_azteca">
-        <ul>
-            <div id="separate_link">
-                <li>
-                    <a href="productos.php"> Productos </a>
-                </li>
-                <li>
-                    <a href="pedidos.php"> Pedidos </a>
-                </li>
-                <li>
-                    <a href="materiales.php"> Materiales </a>
-                </li>
-                <li>
-                    <a href="carrito.php">
-                        <!-- Icono de carrito -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="#2F6842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                            <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                            <path d="M17 17h-11v-14h-2" />
-                            <path d="M6 5l14 1l-1 7h-13" />
-                    </a>
-                </li>
-            </div>
-        </ul>
-    </nav>
-    <br>
     <div>   
         <h1> Piezas </h1>
         <br>
@@ -90,22 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
         <h2> <?php echo htmlspecialchars($pieza['nombre_producto']); ?> </h2>
 
 <!-- Los datos se envían a procesar_piezas.php -->
-        <form method="post" action="../controllers/actualizar_piezas.php">
-
-<!-- Editar nombre de la pieza -->
-        <label> Nombre de la pieza </label>
-        <br>
-        <input type="text" name="nombre_pieza" required value="<?php echo $pieza['nombre_pieza']; ?>">
-        <br>
-        <input type="hidden" name="id_pieza" value="<?php echo $pieza['id_pieza']; ?>">
-
-<!-- Editar peso de la pieza -->
-        <label> Peso en gramos </label>
-        <br>
-        <input type="text" name="peso" required value="<?php echo $pieza['peso']; ?> gr">
-        <button class="button" type="submit"> ACTUALIZAR </button>
-        </form>
-        <button class="button" onclick="location.href='menu.php'"> MENÚ </button>
+        
     </div>
 </body>
 
