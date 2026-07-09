@@ -19,9 +19,13 @@ function toggleSidebar() {
     
     */
     CloseSubMenus();
+    CloseAllSubMenus();
 }
 
 function toggleSubMenu(button) {
+    if(!button.nextElementSibling.classList.contains("show")){
+        CloseAllSubMenus();
+    }
     // Accede a la lista de clases del siguiente hermano directo de 
     // button y cambia la clase a show
     // El toggle lo que hace es como un switch, cuando es presionado, se agrega la clase show
@@ -45,6 +49,13 @@ function toggleSubMenu(button) {
 
 function CloseSubMenus() {
     Array.from(sidebar.getElementsByClassName('show')).forEach(ul => {
+        ul.classList.remove('show');
+        ul.previousElementSibling.classList.remove('rotate');
+    });
+}
+
+function CloseAllSubMenus(){
+     Array.from(sidebar.getElementsByClassName('show')).forEach(ul => {
         ul.classList.remove('show');
         ul.previousElementSibling.classList.remove('rotate');
     });

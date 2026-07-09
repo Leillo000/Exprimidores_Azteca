@@ -199,7 +199,7 @@ overflow: hidden;
 
 #sidebar.close{
     padding: 5px;
-    width: 65px;
+    width: 57px;
 }
 
 /*
@@ -577,8 +577,8 @@ Estilos del Menú
         justify-content: center;
     }
 
-    #sidebar ul li{
-        display: inline-flex !important;
+    #sidebar ul li .sub-menu.show li{
+        display: inline-flex;
         padding: auto;
     }
 
