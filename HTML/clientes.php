@@ -2,16 +2,8 @@
 include("../config/connection.php");
 include("../assets/HTML/layout.php");
 include("../controllers/PHP/control_paginas.php");
-// Refactorizar esta parte en el futuro, mediante un array clave-valor
-/*
- return [ "datos" => $res->fetch_all(MYSQLI_ASSOC), "total" => $total, "totalPaginas" => $totalPaginas, "paginaActual" => $pagina ];
- 
- $resultado = paginacion(datos, "datos", datos.1)
 
- echo $resultado["totalPaginas"];
- 
- output = 23 resultados.
- */
+$pagina = isset($_GET['paginaActual']) ? intval($_GET['paginaActual']) : 1;
 $controlPaginas = controlPaginas(
     $conexion, 
     "SELECT 
@@ -20,7 +12,8 @@ $controlPaginas = controlPaginas(
     JOIN empresas AS e ON e.id_cliente = c.id_cliente
     WHERE activo = 1
     ORDER BY nombre DESC LIMIT ? OFFSET ?",
-    "ii"
+    "ii",
+    $pagina
 );
 
 ?>
@@ -46,7 +39,7 @@ $controlPaginas = controlPaginas(
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = $res->fetch_assoc()): ?>
+                    <?php foreach ($controlPaginas["datos"] as $row){ ?>
                         <tr>
                             <td>
                                 <?php echo htmlspecialchars($row['nombre']); ?>
@@ -80,35 +73,35 @@ $controlPaginas = controlPaginas(
 
                             </td>
                         </tr>
-                    <?php endwhile; ?>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
 
         <div class="center_items">
-            <?php if ($Pagina > 1) { ?>
+            <?php if ($controlPaginas["paginaActual"] > 1) { ?>
                 <a href="?page=1">
                     <b>
                         << Primero</b></a>
-                <a href="?page=<?php echo $Pagina - 1 ?>"><b>
+                <a href="?page=<?php echo $controlPagina - 1 ?>"><b>
                         < Anterior</b></a>
-            <?php } else if ($Pagina = 1) { ?>
+            <?php } else if ($controlPaginas["paginaActual"] = 1) { ?>
                     <!-- En caso de estar en la primera página se "desactivan" los links para ir a la siguiente pagina -->
                     <p>
                         << Primero</p>
                             <p>
                                 < Anterior</p>
                             <?php } ?>
-                            <p> Página <?php echo $Pagina; ?> de <?php echo $totalPaginas; ?></p>
+                            <p> Página <?php echo $controlPaginas["paginaActual"]; ?> de <?php echo $controlPaginas["totalPaginas"]; ?></p>
                             <?php
                             // En caso de que la pagina actual sea la ultima, los links se "desactivan", pero solo se pone un parrafo a su vez
-                            if ($Pagina == $totalPaginas) { ?>
+                            if ($controlPaginas["paginaActual"] == $controlPaginas["totalPaginas"]) { ?>
                                 <p>Siguiente</p>
                                 <p>Última página >></p>
-                            <?php } else if ($Pagina < $totalPaginas) {
+                            <?php } else if ($controlPaginas["paginaActual"] < $totalPaginas) {
                                 ?>
-                                    <a href="?page=<?php echo $Pagina + 1; ?>"><b> Siguiente</b></a>
-                                    <a href="?page=<?php echo $totalPaginas; ?>"><b>Última página >></b> </a>
+                                    <a href="?page=<?php echo $controlPaginas["paginaActual"] + 1; ?>"><b> Siguiente</b></a>
+                                    <a href="?page=<?php echo $controlPaginas["totalPaginas"]; ?>"><b>Última página >></b> </a>
                             <?php } ?>
 
         </div>

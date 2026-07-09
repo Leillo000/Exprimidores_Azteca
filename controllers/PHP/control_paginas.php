@@ -1,5 +1,4 @@
 <?php
-include("../../config/connection.php");
 
 function controlPaginas($conexion, $query, $types,$pagina=1){
     $porPagina = 10;
@@ -16,7 +15,8 @@ function controlPaginas($conexion, $query, $types,$pagina=1){
 
     return [
              "datos" => $res->fetch_all(MYSQLI_ASSOC),
-             "total" => $total, "totalPaginas" => $totalPaginas, 
+             "total" => $total, 
+             "totalPaginas" => $totalPaginas, 
              "paginaActual" => $pagina
               ];
 }
