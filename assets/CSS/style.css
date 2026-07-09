@@ -264,6 +264,23 @@ rotate: -180deg;
     flex-direction: column;
 }
 
+/* Estilos de la barra para la navegacion entre paginas */
+.control_pages_bar{
+    display: flex;
+    justify-content: space-between;
+}
+
+#left_row{
+    rotate: -180deg;
+}
+
+.center_text_pagesbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 /* Estilos por defecto de los elementos */
 
 span{
