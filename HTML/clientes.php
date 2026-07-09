@@ -1,6 +1,7 @@
 <?php
 include("../config/connection.php");
 include("../assets/HTML/layout.php");
+include("../controllers/PHP/control_paginas.php");
 // Refactorizar esta parte en el futuro, mediante un array clave-valor
 /*
  return [ "datos" => $res->fetch_all(MYSQLI_ASSOC), "total" => $total, "totalPaginas" => $totalPaginas, "paginaActual" => $pagina ];
@@ -11,27 +12,16 @@ include("../assets/HTML/layout.php");
  
  output = 23 resultados.
  */
-
-$PorPagina = 10;
-$Pagina = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
-$offset = ($Pagina - 1) * $PorPagina; // Verifica numero de página para mostrar los registros, página 1 del 1 al 25, página 2 del 26 al 50 y así sucesivamente
-$resultado = $conexion->query("SELECT COUNT(*) as total FROM clientes");
-$resultado_query = $resultado->fetch_assoc();
-$total = intval($resultado_query["total"]);
-
-$totalPaginas = max(1, ceil($total / $PorPagina)); // calcula en cuántas páginas mostrar los registros
-
-$stmt = $conexion->prepare(
+$controlPaginas = controlPaginas(
+    $conexion, 
     "SELECT 
-e.nombre, e.rfc, e.correo, e.telefono, c.fecha_registro, c.id_cliente
-FROM clientes AS c
-JOIN empresas AS e ON e.id_cliente = c.id_cliente
-WHERE activo = 1
-ORDER BY nombre DESC LIMIT ? OFFSET ?"
+    e.nombre, e.rfc, e.correo, e.telefono, c.fecha_registro, c.id_cliente
+    FROM clientes AS c
+    JOIN empresas AS e ON e.id_cliente = c.id_cliente
+    WHERE activo = 1
+    ORDER BY nombre DESC LIMIT ? OFFSET ?",
+    "ii"
 );
-$stmt->bind_param("ii", $PorPagina, $offset);
-$stmt->execute();
-$res = $stmt->get_result();
 
 ?>
 
@@ -138,7 +128,7 @@ $res = $stmt->get_result();
         <div class="DialogCenterItems">
             <div class="dialog_body">
                 <!-- Formulario para enviar los datos al servidor para procesarlos -->
-                    <!-- SIEMPRE CERRAR CONTENEDORES APROPIADAMENTE COMO DIVS -->
+                <!-- SIEMPRE CERRAR CONTENEDORES APROPIADAMENTE COMO DIVS -->
                 <form method="post" action="" id="formEditar">
                     <div class="center_items">
                         <!-- Nombre del cliente -->

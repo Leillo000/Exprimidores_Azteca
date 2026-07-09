@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost/Codigo_Exprimidores_Azteca/assets/CSS/style.css">
+    <link rel="stylesheet" href="http://192.168.1.128/Codigo_Exprimidores_Azteca/assets/CSS/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
