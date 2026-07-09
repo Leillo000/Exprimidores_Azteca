@@ -1,23 +1,21 @@
 <?php
 include("../config/connection.php");
 include("../assets/HTML/layout.php");
-$PorPagina = 10;
-$Pagina = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
-$offset = ($Pagina - 1) * $PorPagina; // Verifica numero de página para mostrar los registros, página 1 del 1 al 25, página 2 del 26 al 50 y así sucesivamente
+include("../controllers/PHP/control_paginas.php");
 
-$resultado = $conexion->query("SELECT COUNT(*) as total FROM pedidos");
-$resultado_query = $resultado->fetch_assoc();
-$total = intval($resultado_query["total"]);
+$pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$controlPaginas = controlPaginas(
+    $conexion, 
+    "SELECT pd.id_pedido AS no_pedido, e.nombre AS nombre_cliente, 
+    pd.etapa AS tipo_etapa, pd.tipo_observacion AS tipo_observ, pd.fecha AS fecha
+    FROM pedidos pd 
+    JOIN empresas e ON e.id_cliente = pd.id_cliente
+    ORDER BY pd.fecha DESC LIMIT ? OFFSET ?",
+    "SELECT COUNT(*) as total FROM pedidos",
+    "ii",
+    $pagina
+);
 
-$totalPaginas = max(1, ceil($total / $PorPagina)); // calcula en cuántas páginas mostrar los registros
-
-$stmt = $conexion->prepare("SELECT pd.id_pedido AS no_pedido, e.nombre AS nombre_cliente, pd.etapa AS tipo_etapa, pd.tipo_observacion AS tipo_observ, pd.fecha AS fecha
-FROM pedidos pd 
-JOIN empresas e ON e.id_cliente = pd.id_cliente
-ORDER BY pd.fecha DESC LIMIT ? OFFSET ?");
-$stmt->bind_param("ii", $PorPagina, $offset);
-$stmt->execute();
-$res = $stmt->get_result();
 ?>
 <head>
     <title> Pedidos </title>
@@ -40,7 +38,7 @@ $res = $stmt->get_result();
                 </tr>
             </thead>
             <tbody>
-                <?php while ($row = $res->fetch_assoc()): ?>
+                <?php foreach ($controlPaginas["datos"] as $row){ ?>
                     <tr>
                         <td> <?php echo htmlspecialchars($row['no_pedido']); ?> </td>
                         <td> <?php echo htmlspecialchars($row['nombre_cliente']); ?> </td>
@@ -58,32 +56,32 @@ $res = $stmt->get_result();
                             </select>
                         </td>
                     </tr>
-                <?php endwhile; ?>
+                <?php } ?>
             </tbody>
         </table>
     </div>
     <div class="center_items">
-        <?php if ($Pagina > 1) { ?>
+        <?php if ($controlPaginas["paginaActual"] > 1) { ?>
             <a href="?page=1">
                 <b><< Primero</b></a>
-                    <a href="?page=<?php echo $Pagina - 1 ?>"><b>< Anterior</b></a>
+                    <a href="?page=<?php echo $controlPaginas["paginaActual"] - 1 ?>"><b>< Anterior</b></a>
                 <?php } 
-                else if ($Pagina = 1){?>
+                else if ($controlPaginas["paginaActual"] = 1){?>
                 <!-- En caso de estar en la primera página se "desactivan" los links para ir a la siguiente pagina -->
                 <p><< Primero</p>
                 <p>< Anterior</p>
                 <?php } ?>
-                <p> Página <?php echo $Pagina; ?> de <?php echo $totalPaginas; ?></p>
+                <p> Página <?php echo $controlPaginas["paginaActual"]; ?> de <?php echo $controlPaginas["totalPaginas"]; ?></p>
                 <?php
                 // En caso de que la pagina actual sea la ultima, los links se "desactivan", pero solo se pone un parrafo a su vez
-                if($Pagina == $totalPaginas){?>
+                if($controlPaginas["paginaActual"] == $controlPaginas["totalPaginas"]){?>
                     <p>Siguiente</p>
                     <p>Última página >></p>
                <?php }
-                 else if ($Pagina < $totalPaginas) {
+                 else if ($controlPaginas["paginaActual"] < $controlPaginas["totalPaginas"]) {
                     ?>
-                    <a href="?page=<?php echo $Pagina + 1; ?>"><b> Siguiente</b></a>
-                    <a href="?page=<?php echo $totalPaginas; ?>"><b>Última página >></b> </a>
+                    <a href="?page=<?php echo $controlPaginas["paginaActual"] + 1; ?>"><b> Siguiente página</b></a>
+                    <a href="?page=<?php echo $controlPaginas["totalPaginas"]; ?>"><b>Última página >></b> </a>
                 <?php } ?>
 
     </div>

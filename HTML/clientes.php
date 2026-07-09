@@ -12,6 +12,7 @@ $controlPaginas = controlPaginas(
     JOIN empresas AS e ON e.id_cliente = c.id_cliente
     WHERE activo = 1
     ORDER BY nombre DESC LIMIT ? OFFSET ?",
+    "SELECT COUNT(*) as total FROM clientes",
     "ii",
     $pagina
 );
@@ -85,7 +86,7 @@ $controlPaginas = controlPaginas(
                         << Primero</b></a>
                 <a href="?page=<?php echo $controlPagina - 1 ?>"><b>
                         < Anterior</b></a>
-            <?php } else if ($controlPaginas["paginaActual"] = 1) { ?>
+            <?php } else if ($controlPaginas["paginaActual"] == 1) { ?>
                     <!-- En caso de estar en la primera página se "desactivan" los links para ir a la siguiente pagina -->
                     <p>
                         << Primero</p>
@@ -104,6 +105,14 @@ $controlPaginas = controlPaginas(
                                     <a href="?page=<?php echo $controlPaginas["totalPaginas"]; ?>"><b>Última página >></b> </a>
                             <?php } ?>
 
+<!--
+                            
+Crear una función en JavaScript que sea para refactorizar este codigo restante, y cambiar el diseño por uno más moderno:
+ - Será una función onClick()
+ - Deberá recibir 1 parámetro para la página Actual y el total de Páginas
+ - Cada elemento tendrá este evento
+ 
+ -->
         </div>
     </div>
     <!-- Cuadro de Dialogo para seleccionar el cliente -->
