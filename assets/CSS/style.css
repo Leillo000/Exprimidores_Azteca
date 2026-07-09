@@ -511,8 +511,84 @@ Estilos del Menú
 /* Estilos adicionales en telefono */
 
 @media (max-width: 768px) {
-    table {
-        max-width: 40vh;
-        max-height: 4vh;
+    body{
+        grid-template-columns: 1fr;
+    }
+    main{
+        padding: 2em 1em 60px 1em;
+    }
+    .container{
+        border: none;
+        padding: 0;
+    }
+    #sidebar{
+        height: 60px;
+        width: 100%;
+        border-right: none;
+        border-top: 1px solid var(--line-color);
+        padding: 0;
+        position: fixed;
+        top: unset;
+        bottom: 0;
+        background-color: var(--background_color);
+    }
+
+    #sidebar ul li span, #sidebar ul li:first-child button svg, #sidebar ul li:first-child button, .dropdown-btn svg:last-child{
+        display: none !important;
+    }
+
+    
+    #sidebar ul li:first-child{
+        grid-column: 0fr !important;
+    }
+    
+    #sidebar ul{
+        padding : 0;
+        display: grid;
+        grid-auto-columns: 60px;
+        grid-auto-flow: column;
+        align-items: center;
+        overflow-x: scroll;
+    }
+
+
+    #sidebar ul li{
+        height: 100%;
+    }
+
+    #sidebar ul a, ul .dropdown-btn{
+        width: 60px;
+        height: 60px;
+        padding: 0;
+        border-radius: 0;
+        justify-content: center;
+    }
+
+    #sidebar ul li .sub-menu.show {
+        position: fixed;
+        bottom: 60px;
+        left: 0;
+        box-sizing: border-box;
+        height: 60px;
+        width: 100%;
+        background-color: var(--background_color);
+        border-top: 1px solid var(--line-color);
+        display: flex;
+        justify-content: center;
+    }
+
+    #sidebar ul li{
+        display: inline-flex !important;
+        padding: auto;
+    }
+
+    #sidebar ul li ul div{
+        overflow-x: auto;
+    }
+    #sidebar ul li ul div a{
+        box-sizing: border-box;
+        padding: 1em;
+        width: auto;
+        justify-content: center;
     }
 }
