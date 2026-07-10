@@ -183,15 +183,4 @@ $controlPaginas = controlPaginas(
 <script src="../assets/JS/control_paginas.js"></script>
 <script>
     pintarNegritas(<?php echo $controlPaginas["totalPaginas"]; ?>, <?php echo $controlPaginas["paginaActual"]; ?>);
-
-    function pintarNegritas(totalPaginas, paginaActual) {
-        const span_anterior = document.getElementById("control_anterior");
-        const span_siguiente = document.getElementById("control_siguiente");
-        if (paginaActual > 1) {
-            span_anterior.style.fontWeight = "bold"
-        }
-        if (paginaActual < totalPaginas) {
-            span_siguiente.style.fontWeight = "bold"
-        }
-    }
 </script>
