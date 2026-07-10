@@ -1,11 +1,11 @@
 const CloseDialog = document.getElementById('btnCloseDialog');
 const Dialog = document.querySelector('Dialog');
 
-btnCloseDialog.addEventListener('click', ()=>{
+btnCloseDialog.addEventListener('click', () => {
     Dialog.close();
 })
 
-function redirigir(accion, id_cliente ) {
+function redirigir(accion, id_cliente) {
     // Se obtiene el no_pedido como valor númerico.
     cliente = parseInt(id_cliente);
     if (accion === 'eliminar') {
@@ -16,20 +16,20 @@ function redirigir(accion, id_cliente ) {
 // Mostrar datos en el modal
 // Async es un tipo de función. Nos indica cómo se va a comportar la función. Con await estamos
 // indicando que se pare la ejecución hasta que se obtenga la respuesta del servidor.
-async function OpenModalEdit(id){
+async function OpenModalEdit(id) {
     // Solicita petición al servidor según el id_cliente para obtener sus datos
-    const respuesta = await fetch ('../controllers/PHP/clientes.php?id_cliente=' + encodeURIComponent(id));
+    const respuesta = await fetch('../controllers/PHP/clientes.php?id_cliente=' + encodeURIComponent(id));
     // Es para imprimir en consola, no es print, literalmente es imprimir bruh
     // console.log();
 
-    if (respuesta.ok){
+    if (respuesta.ok) {
         const data = await respuesta.json();
         document.getElementById('ClienteNombre').value = data.nombre;
         document.getElementById('ClienteRFC').value = data.rfc;
         document.getElementById('ClienteCorreo').value = data.correo;
         document.getElementById('ClienteNumero').value = data.telefono;
         document.getElementById('ClienteId').value = data.id_cliente;
-        Dialog.showModal();   
+        Dialog.showModal();
     } else {
         alert('¡Algo salió mal!, revisa si el servidor está activo');
     }
@@ -37,34 +37,30 @@ async function OpenModalEdit(id){
 
 // Enviar formulario sin recargar
 document.getElementById('formEditar').addEventListener('submit', async (e) => {
-// Previene que no se recargue la página al enviar un formulario
-e.preventDefault();
-// Se crea un nuevo objeto según el evento e, que en este caso nuestro evento es submit y
-// "le pasa" los datos en forma de un formulario
-const formData = new FormData((e).target);
+    // Previene que no se recargue la página al enviar un formulario
+    e.preventDefault();
+    // Se crea un nuevo objeto según el evento e, que en este caso nuestro evento es submit y
+    // "le pasa" los datos en forma de un formulario
+    const formData = new FormData((e).target);
 
-// Se manda petición a servidor, se especifica la acción y qué es lo que se envía
-await fetch('../controllers/PHP/clientes.php', {
-    method: 'POST',
-    body: formData
-});
+    // Se manda petición a servidor, se especifica la acción y qué es lo que se envía
+    await fetch('../controllers/PHP/clientes.php', {
+        method: 'POST',
+        body: formData
+    });
 
-console.log(formData);
-alert('¡Actualizado con éxito!');
-Dialog.close();
-location.reaload();
+    alert('¡Actualizado con éxito!');
+    Dialog.close();
+    location.reaload();
 })
 
-async function EliminarCliente(){
+async function EliminarCliente() {
 
     const ClienteId = document.getElementById('ClienteId').value;
-    console.log(ClienteId);
-    if(!confirm("¿Estás seguro de eliminar a este cliente?")) return
+    if (!confirm("¿Estás seguro de eliminar a este cliente?")) return
     // Siempre especificar lo que vas a mandar
-    const respuesta = await fetch('../controllers/PHP/clientes.php?id_cliente='+ encodeURIComponent(ClienteId),{
+    const respuesta = await fetch('../controllers/PHP/clientes.php?id_cliente=' + encodeURIComponent(ClienteId), {
         method: 'DELETE'
     });
-    // Depuración con logs
     const resultadoOperacion = await respuesta.json()
-    console.log(resultadoOperacion);
 }
