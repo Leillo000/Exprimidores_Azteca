@@ -1,28 +1,19 @@
 <?php
 include("../config/connection.php");
 include("../assets/HTML/layout.php");
+include("../controllers/PHP/control_paginas.php");
 
-$PorPagina = 25;
-$Pagina = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
-$offset = ($Pagina - 1) * $PorPagina; // Verifica numero de página para mostrar los registros, página 1 del 1 al 25, página 2 del 26 al 50 y así sucesivamente
-
-$resultado = $conexion->query("SELECT COUNT(*) as total FROM stock_aluminio");
-$resultado_query = $resultado->fetch_assoc();
-$total = intval($resultado_query["total"]);
-
-$totalPaginas = max(1, ceil($total / $PorPagina)); // calcula en cuántas páginas mostrar los registros
-
-// obtener 25 registros ordenados alfabéticamente
-$stmt = $conexion->prepare("SELECT id_stock AS no_registro,
- cantidad_kg AS cantidad, 
- fecha FROM stock_aluminio 
- ORDER BY id_stock DESC LIMIT ? OFFSET ?");
-// En SQL, OFFSET se utiliza para saltar un número específico de filas en una consulta, 
-// generalmente en combinación con LIMIT o FETCH, cuando estás paginando resultados.
-$stmt->bind_param("ii", $PorPagina, $offset);
-$stmt->execute();
-$res = $stmt->get_result();
-
+$pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$controlPaginas = controlPaginas(
+    $conexion,
+    "SELECT id_stock AS no_registro,
+    cantidad_kg AS cantidad, 
+    fecha, tipo, descripcion FROM stock_aluminio 
+    ORDER BY id_stock DESC LIMIT ? OFFSET ?",
+    "SELECT COUNT(*) as total FROM stock_aluminio",
+    "ii",
+    $pagina
+);
 ?>
 
 <head>
@@ -38,43 +29,69 @@ $res = $stmt->get_result();
             <table>
                 <tr>
                     <th class="columnas">No. de Registro</th>
-                    <th class="columnas">Cantidad total de aluminio en Kg</th>
+                    <th class="columnas">Total de aluminio en Kg. </th>
                     <th class="columnas">Fecha y hora de registro</th>
+                    <th class="columnas">Tipo</th>
+                    <th class="columnas">Descripción</th>
                 </tr>
 
-                <?php while ($row = $res->fetch_assoc()) { ?>
+                <?php foreach ($controlPaginas["datos"] as $row) { ?>
                     <tr>
                         <td> <?php echo $row["no_registro"]; ?></td>
                         <td><?php echo $row["cantidad"]; ?></td>
                         <td><?php echo $row["fecha"]; ?></td>
+                        <td><?php echo $row["tipo"]; ?></td>
+                        <td><?php echo $row["descripcion"]; ?></td>
                     </tr>
                 <?php } ?>
             </table>
-            <?php if ($Pagina > 1) { ?>
-                <a href="?page=1">
-                    <b>
-                        << Primero</b></a>
-                <a href="?page=<?php echo $Pagina - 1 ?>"><b>
-                        < Anterior</b></a>
-            <?php } else if ($Pagina = 1) { ?>
-                    <!-- En caso de estar en la primera página se "desactivan" los links para ir a la siguiente pagina -->
-                    <p>
-                        << Primero</p>
-                            <p>
-                                < Anterior</p>
-                            <?php } ?>
-                            <p> Página <?php echo $Pagina; ?> de <?php echo $totalPaginas; ?></p>
-                            <?php
-                            // En caso de que la pagina actual sea la ultima, los links se "desactivan", pero solo se pone un parrafo a su vez
-                            if ($Pagina == $totalPaginas) { ?>
-                                <p>Siguiente</p>
-                                <p>Última página >></p>
-                            <?php } else if ($Pagina < $totalPaginas) {
-                                ?>
-                                    <a href="?page=<?php echo $Pagina + 1; ?>"><b> Siguiente</b></a>
-                                    <a href="?page=<?php echo $totalPaginas; ?>"><b>Última página >></b> </a>
-                            <?php } ?>
+        </div>
 
+        <!-- Barra para control de paginas -->
+        <div class="control_pages_bar">
+            <div class="center_text_pagesbar"
+                onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'anterior', 'materiales')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#2F6842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right" id="left_row">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M7 7l5 5l-5 5" />
+                    <path d="M13 7l5 5l-5 5" />
+                </svg>
+                <span id="control_anterior">
+                    Anterior
+                </span>
+            </div>
+
+            <div class="center_text_pagesbar">
+                <span>
+                    Página <?php echo $controlPaginas["paginaActual"]; ?> de
+                    <?php echo $controlPaginas["totalPaginas"]; ?>
+                </span>
+            </div>
+
+            <div class="center_text_pagesbar">
+                <span id="control_siguiente">
+                    Siguiente
+                </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#2F6842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right" id="right_row"
+                    onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'siguiente', 'materiales')">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M7 7l5 5l-5 5" />
+                    <path d="M13 7l5 5l-5 5" />
+            </div>
+        </div>
+        <br>
+        <div class="center_items">
+            <p>Las cantidades de aluminio se ordenan de la más reciente a la más antigua, <b>en orden descendiente</b>.
+            </p>
         </div>
     </div>
 </body>
+
+<script src="../assets/JS/control_paginas.js"> </script>
+<script>
+    pintarNegritas(<?php echo $controlPaginas["totalPaginas"]; ?>, <?php echo $controlPaginas["paginaActual"]; ?>);
+</script>

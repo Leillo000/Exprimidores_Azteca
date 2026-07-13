@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 08-02-2026 a las 02:54:53
+-- Tiempo de generación: 13-07-2026 a las 06:19:37
 -- Versión del servidor: 9.1.0
 -- Versión de PHP: 8.3.14
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `carrito` (
   `cantidad` int NOT NULL,
   PRIMARY KEY (`id_carrito`),
   KEY `id_producto` (`id_producto`)
-) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `tipo_cliente` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
   `fecha_registro` datetime NOT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `clientes`
@@ -59,7 +59,13 @@ INSERT INTO `clientes` (`id_cliente`, `tipo_cliente`, `fecha_registro`) VALUES
 (2, 'empresa', '2025-11-22 01:44:31'),
 (3, 'empresa', '2026-01-21 00:16:01'),
 (4, 'empresa', '2026-01-21 00:16:46'),
-(5, 'empresa', '2026-01-21 00:17:35');
+(5, 'empresa', '2026-01-21 00:17:35'),
+(6, 'empresa', '2026-07-09 13:42:18'),
+(7, 'empresa', '2026-07-09 13:42:39'),
+(8, 'empresa', '2026-07-09 13:42:51'),
+(9, 'empresa', '2026-07-09 13:43:03'),
+(10, 'empresa', '2026-07-09 13:43:08'),
+(11, 'empresa', '2026-07-09 13:43:15');
 
 -- --------------------------------------------------------
 
@@ -106,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `detalles_pedidos` (
   PRIMARY KEY (`id_detalle_pedido`),
   KEY `id_pedido` (`id_pedido`),
   KEY `id_producto` (`id_producto`)
-) ENGINE=MyISAM AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `detalles_pedidos`
@@ -147,7 +153,11 @@ INSERT INTO `detalles_pedidos` (`id_detalle_pedido`, `id_pedido`, `id_producto`,
 (46, 32, 4, 1, 15.00),
 (47, 33, 3, 3, 84.00),
 (48, 34, 3, 10, 280.00),
-(49, 35, 3, 100, 2800.00);
+(49, 35, 3, 100, 2800.00),
+(50, 36, 3, 3, 84.00),
+(51, 37, 3, 3, 84.00),
+(52, 38, 3, 3, 84.00),
+(53, 39, 3, 3, 84.00);
 
 -- --------------------------------------------------------
 
@@ -166,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `empresas` (
   `activo` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_empresa`),
   UNIQUE KEY `id_cliente` (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `empresas`
@@ -174,43 +184,15 @@ CREATE TABLE IF NOT EXISTS `empresas` (
 
 INSERT INTO `empresas` (`id_empresa`, `id_cliente`, `nombre`, `rfc`, `correo`, `telefono`, `activo`) VALUES
 (1, 1, 'Canadian Food', 'BERL081208HAR', 'o.bernal@gmail.com', '+52 551 234 5678', 0),
-(2, 2, 'Greenlife - México', 'BERLHASRD0101', 'greenlife@gmail.com', '4491232495', 0),
-(3, 4, 'Leo y asociados', 'BERLHASRD0101', 'leonardoAsociados@gmail.com', '4492332493', 1),
-(4, 5, 'Alexa Nails', 'ALEQFASRD0201', 'ale.nails@gmail.com', '44521232592', 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `movimientos_entrada`
---
-
-DROP TABLE IF EXISTS `movimientos_entrada`;
-CREATE TABLE IF NOT EXISTS `movimientos_entrada` (
-  `id_movimiento` int NOT NULL AUTO_INCREMENT,
-  `id_proveedor` int NOT NULL,
-  `id_stock` int NOT NULL,
-  `cantidad` decimal(10,2) NOT NULL,
-  `fecha` datetime NOT NULL,
-  PRIMARY KEY (`id_movimiento`),
-  UNIQUE KEY `id_proveedor` (`id_proveedor`,`id_stock`),
-  KEY `id_stock` (`id_stock`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `movimientos_salida`
---
-
-DROP TABLE IF EXISTS `movimientos_salida`;
-CREATE TABLE IF NOT EXISTS `movimientos_salida` (
-  `id_movimiento` int NOT NULL AUTO_INCREMENT,
-  `id_stock` int NOT NULL,
-  `cantidad` decimal(10,2) NOT NULL,
-  `fecha` date NOT NULL,
-  PRIMARY KEY (`id_movimiento`),
-  UNIQUE KEY `id_stock` (`id_stock`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(2, 2, 'Greenlife - México', 'BERLHASRD0101', 'greenlife@gmail.com', '4491232495', 1),
+(3, 4, 'Leillo01', 'BERJLF', 'leo@gmail.com', '4491192495', 1),
+(4, 5, 'Alexa Nails', 'ALEQFASRD0201', 'ale.nails@gmail.com', '44521232592', 1),
+(5, 6, 'Alekita', 'JJFKSKJFJSKFJ', 'aleka@gmail.com', '4429293929291', 1),
+(6, 7, 'Alekita', 'WIFDJFOIEJFJE', 'LEO@gmail.com', '442929392332', 1),
+(7, 8, 'Leo y Lekita', 'BERLHASRD0101', 'maria@example.com', '555-3030', 1),
+(8, 9, 'Leo y Lekita', 'BERLHASRD0101', 'maria@example.com', '555-3030', 1),
+(9, 10, 'Leo y Lekita', 'BERLHASRD0101', 'maria@example.com', '555-3030', 1),
+(10, 11, 'Leo y Lekita', 'BERLHASRD0101', 'maria@example.com', '555-3030', 1);
 
 -- --------------------------------------------------------
 
@@ -227,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
   `tipo_observacion` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_pedido`),
   KEY `id_cliente` (`id_cliente`)
-) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `pedidos`
@@ -251,13 +233,17 @@ INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `fecha`, `etapa`, `tipo_observ
 (33, 0, '2026-01-26 15:42:46', 'Fundición', 'Ninguna'),
 (22, 1, '2025-11-22 19:46:28', 'Completado', 'Ninguna'),
 (23, 2, '2025-11-22 19:55:02', 'Completado', 'Ninguna'),
-(25, 2, '2025-11-23 15:59:30', 'Fundición', 'Ninguna'),
+(25, 2, '2025-11-23 15:59:30', 'Lijado', 'Ninguna'),
 (26, 2, '2025-11-23 16:18:27', 'Completado', 'Ninguna'),
 (27, 2, '2025-11-23 16:19:26', 'Fundición', 'Ninguna'),
 (30, 2, '2025-11-23 16:32:18', 'Fundición', 'Ninguna'),
 (32, 5, '2026-01-22 01:39:14', 'Fundición', 'Ninguna'),
 (34, 4, '2026-01-26 15:43:51', 'Fundición', 'Ninguna'),
-(35, 5, '2026-02-07 20:24:35', 'Fundición', 'Faltan piezas');
+(35, 5, '2026-02-07 20:24:35', 'Fundición', 'Faltan piezas'),
+(36, 5, '2026-04-21 12:32:15', 'Fundición', 'Ninguna'),
+(37, 2, '2026-07-13 00:07:34', 'Fundición', 'Ninguna'),
+(38, 2, '2026-07-13 00:07:48', 'Fundición', 'Ninguna'),
+(39, 2, '2026-07-13 00:09:59', 'Fundición', 'Ninguna');
 
 -- --------------------------------------------------------
 
@@ -280,15 +266,14 @@ CREATE TABLE IF NOT EXISTS `piezas` (
 --
 
 INSERT INTO `piezas` (`id_pieza`, `id_producto`, `nombre_pieza`, `peso`) VALUES
-(4, 3, 'Macho', 100),
+(4, 4, 'Macho', 100),
 (3, 3, 'Hembra', 100),
-(5, 4, 'Palanca', 285),
-(6, 4, 'Cono', 270),
-(7, 4, 'Cedazo', 280),
+(5, 3, 'Palanca', 285),
+(6, 3, 'Cono', 270),
+(7, 3, 'Cedazo', 280),
 (8, 4, 'Codo', 280),
 (9, 4, 'Base', 280),
-(10, 4, 'Cuerpo Campana', 280),
-(11, NULL, '', 0);
+(10, 4, 'Cuerpo Campana', 280);
 
 -- --------------------------------------------------------
 
@@ -303,7 +288,7 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `precio_unitario` decimal(10,2) NOT NULL,
   `peso` int NOT NULL,
   PRIMARY KEY (`id_producto`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `productos`
@@ -311,7 +296,8 @@ CREATE TABLE IF NOT EXISTS `productos` (
 
 INSERT INTO `productos` (`id_producto`, `nombre_producto`, `precio_unitario`, `peso`) VALUES
 (3, 'Exprimidor Mod. Limon Económico Azteca', 28.00, 200),
-(4, 'Exprimidor Mod. Naranja Chico', 15.00, 1675);
+(4, 'Exprimidor Mod. Naranja Chico', 15.00, 1675),
+(5, 'Gorra', 12.00, 30);
 
 -- --------------------------------------------------------
 
@@ -340,31 +326,18 @@ CREATE TABLE IF NOT EXISTS `stock_aluminio` (
   `id_stock` int NOT NULL AUTO_INCREMENT,
   `cantidad_kg` decimal(10,2) NOT NULL,
   `fecha` datetime NOT NULL,
+  `tipo` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_stock`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `stock_aluminio`
 --
 
-INSERT INTO `stock_aluminio` (`id_stock`, `cantidad_kg`, `fecha`) VALUES
-(2, 1000.00, '2025-11-15 20:41:53'),
-(3, 832.00, '2025-11-23 16:18:27'),
-(5, 815.25, '2025-11-23 16:22:02'),
-(6, 815.05, '2025-11-23 16:22:38'),
-(7, 764.80, '2025-11-23 16:32:18'),
-(8, 964.80, '2025-11-23 22:42:58'),
-(9, 1064.80, '2025-11-23 22:44:32'),
-(10, 1164.80, '2025-11-23 22:48:10'),
-(11, 1264.80, '2025-11-23 22:51:19'),
-(12, 1364.80, '2025-12-16 19:23:26'),
-(13, 1364.14, '2026-01-22 01:30:00'),
-(14, 1361.64, '2026-01-22 01:39:14'),
-(15, 1461.64, '2026-01-23 00:11:35'),
-(16, 1460.98, '2026-01-26 15:42:46'),
-(17, 1458.78, '2026-01-26 15:43:51'),
-(18, 1436.78, '2026-02-07 20:24:35'),
-(19, 1536.78, '2026-02-07 20:25:57');
+INSERT INTO `stock_aluminio` (`id_stock`, `cantidad_kg`, `fecha`, `tipo`, `descripcion`) VALUES
+(24, 2344.00, '2026-07-13 00:09:47', 'Entrada', 'Entrada de 2344kg de aluminio'),
+(25, 2343.34, '2026-07-13 00:09:59', 'Salida', 'Salida de 0.66kg de aluminio en el pedido No. 39');
 
 --
 -- Restricciones para tablas volcadas
@@ -375,19 +348,6 @@ INSERT INTO `stock_aluminio` (`id_stock`, `cantidad_kg`, `fecha`) VALUES
 --
 ALTER TABLE `empresas`
   ADD CONSTRAINT `empresas_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `movimientos_entrada`
---
-ALTER TABLE `movimientos_entrada`
-  ADD CONSTRAINT `movimientos_entrada_ibfk_1` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id_proveedor`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `movimientos_entrada_ibfk_2` FOREIGN KEY (`id_stock`) REFERENCES `stock_aluminio` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `movimientos_salida`
---
-ALTER TABLE `movimientos_salida`
-  ADD CONSTRAINT `movimientos_salida_ibfk_1` FOREIGN KEY (`id_stock`) REFERENCES `stock_aluminio` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

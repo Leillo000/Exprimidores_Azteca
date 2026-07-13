@@ -212,15 +212,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
             $stmt_4->reset();
         }
 
+        $tipo = "Salida";
+        $descripcion = "Salida de ". (string) $total_aluminio_pedido_kg . "kg de aluminio en el pedido No. ". (string) $pedido_data['id_pedido'] ;
         // ===== RESTAR EL STOCK DE ALUMINIO =====
-        $stmt_actualizar_aluminio = $conexion->prepare('INSERT INTO stock_aluminio(cantidad_kg, fecha) VALUES(?, ?)');
-            $stmt_actualizar_aluminio->bind_param('ds', $resultado_aluminio, $fecha );
+        $stmt_actualizar_aluminio = $conexion->prepare('INSERT INTO stock_aluminio(cantidad_kg, fecha, tipo, descripcion) VALUES(?, ?, ?, ?)');
+            $stmt_actualizar_aluminio->bind_param('dsss', $resultado_aluminio, $fecha, $tipo, $descripcion);
             $stmt_actualizar_aluminio->execute();
         // Se vacia la tabla de carrito
         $borrar_carrito = $conexion->query('DELETE FROM carrito');
         echo "<script>
     alert('Pedido realizado exitosamente.');
-            window.location.href = '../HTML/menu.php';
+            window.location.href = '../HTML/index.php';
             </script>";
         // Agregar un mensaje de finalizado que lo mande de nuevo a tomar_pedido.php que confirme este
         exit();

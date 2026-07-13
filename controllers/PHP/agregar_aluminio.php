@@ -27,9 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
         $nueva_cantidad += $stock_aluminio_actual['cantidad'];
     }
 
+    $tipo = "Entrada";
+    $descripcion = "Entrada de " . (string) $cantidad . "kg de aluminio";
     // Insertar la nueva cantidad
-    $stmt_actualizar_stock = $conexion->prepare("INSERT INTO stock_aluminio(cantidad_kg, fecha) VALUES (?, ?)");
-    $stmt_actualizar_stock->bind_param('ds', $nueva_cantidad, $fecha);
+    $stmt_actualizar_stock = $conexion->prepare("INSERT INTO stock_aluminio(cantidad_kg, fecha, tipo, descripcion) VALUES (?, ?, ?, ?)");
+    $stmt_actualizar_stock->bind_param('dsss', $nueva_cantidad, $fecha, $tipo, $descripcion);
     $stmt_actualizar_stock->execute();
     header("Location: ../../HTML/materiales.php");
     exit();

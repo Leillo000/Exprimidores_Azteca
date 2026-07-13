@@ -4,6 +4,7 @@ include("../assets/HTML/layout.php");
 include("../controllers/PHP/control_paginas.php");
 
 $pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
+
 $controlPaginas = controlPaginas(
     $conexion,
     "SELECT pd.id_pedido AS no_pedido, e.nombre AS nombre_cliente, 
