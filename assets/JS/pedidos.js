@@ -28,10 +28,16 @@ function marcarFaltantes() {
                 celda.style.color = "white";
             }
             if (celda.textContent.trim() === "Completado") {
-                // Pintar SOLO la celda en rojo
                 celda.style.backgroundColor = "#96cf4bff";
-                celda.style.color = "white";
-            }
+            } else if (celda.textContent.trim() === "Pintado"){
+                celda.style.backgroundColor = "rgb(178, 207, 75)";
+            } else if (celda.textContent.trim() === "Ensamblaje"){
+                celda.style.backgroundColor = "rgb(207, 187, 75)";
+            } else if (celda.textContent.trim() === "Lijado"){
+                celda.style.backgroundColor = "rgb(207, 123, 75)";
+            } else if (celda.textContent.trim() === "Fundición"){
+                celda.style.backgroundColor = "rgb(207, 75, 75)";
+            } 
         });
     });
 }

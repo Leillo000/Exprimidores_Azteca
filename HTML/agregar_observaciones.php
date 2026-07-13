@@ -1,5 +1,7 @@
 <?php
 include("../config/connection.php");
+include("../assets/HTML/layout.php");
+include("../controllers/PHP/control_paginas.php");
 
 // Se obtiene el ID de la URL
 // Condicion ternaria (condicion) ? Valor en el que sea true : Valor en el que sea false.
@@ -66,80 +68,58 @@ if ($resultadoProducto->num_rows === 0) {
 </head>
 
 <body>
-    <nav>
-        <img src="../Images/logo_menu.jpg" alt="logo_exprimidores_azteca">
-        <ul>
-            <div id="separate_link">
-                <li>
-                    <a href="piezas.php"> Piezas </a>
-                </li>
-                <li>
-                    <a href="materiales.php"> Materiales </a>
-                </li>
-                <li>
-                    <a href="productos.php"> Productos </a>
-                </li>
-            </div>
-        </ul>
-    </nav>
-    <br>
-    <div class="center">
+    <div class="container">
         <h1> Agregar observaciones </h1>
-        <label> Producto </label>
-        <br>
         <!-- Este es el form que manda los datos para poder agregar observaciones -->
         <form method="post" action="../controllers/procesar_observaciones.php">
+            <div class="center_items">
+                <label> Producto </label>
+                <!-- Si se selecciona un producto, se muestran las piezas correspondientes a ese producto -->
+                <select name="id_producto" onchange="ElegirPieza(this.value, <?php echo intval($id_pedido); ?>)">
 
-            <!-- Si se selecciona un producto, se muestran las piezas correspondientes a ese producto -->
-            <select name="id_producto" onchange="ElegirPieza(this.value, <?php echo intval($id_pedido); ?>)">
+                    <option value="<?php echo $id_producto; ?>">
+                        <?php echo $nombre_producto; ?>
+                    </option>
 
-<!-- Seleccionar el producto -->
-                <option value="<?php echo $id_producto; ?>">
-                    <?php echo $nombre_producto; ?> </option>
+                    <?php while ($row = $resultadoProducto->fetch_assoc()): ?>
+                        <option value="<?php echo $row['id_producto']; ?>">
+                            <?php echo $row['nombre_producto']; ?>
+                        </option>
+                        <?php $productos[] = $row['nombre_producto']; ?>
+                    <?php endwhile; ?>
 
-                <?php while ($row = $resultadoProducto->fetch_assoc()): ?>
-                    <option value="<?php echo $row['id_producto']; ?>"><?php echo $row['nombre_producto']; ?></option>
-                    <?php $productos[] = $row['nombre_producto']; ?>
-                <?php endwhile; ?>
+                </select>
+                <label> Pieza </label>
 
-            </select>
-            <br>
-            <label> Pieza </label>
-            <br>
+                <select name="id_pieza">
+                    <option value="" disabled selected hidden> Seleccionar pieza del producto</option>
+                    <?php
+                    // Se ejecuta solo si el id_producto es mayor a 0 o no es null
+                    if ($id_producto > 0) {
+                        while ($row = $resultadoPiezas->fetch_assoc()) { ?>
+                            <option value="<?php echo $row['id_pieza']; ?>">
+                                <?php echo $row["nombre_pieza"]; ?>
+                            </option>
+                        <?php }
+                    } ?>
+                </select>
 
-                <!-- Seleccionar la pieza del producto -->
-            <select name="id_pieza">
-                <option value="" disabled selected hidden> Seleccionar pieza del producto</option>
-                <?php
-                // Se ejecuta solo si el id_producto es mayor a 0 o no es null
-                if ($id_producto > 0) {
-                    while ($row = $resultadoPiezas->fetch_assoc()) { ?>
-                        <option value="<?php echo $row['id_pieza']; ?>"> <?php echo $row["nombre_pieza"]; ?> </option>
-                    <?php }
-                } ?>
-            </select>
-            <br>
-            <!-- Seleccionar la cantidad de piezas faltantes de ese pedido -->
-            <label> Cantidad </label>
-            <br>
-            <input type="number" name="cantidad" min="1" max="1000" required>
-            <input type="hidden" name="id_pedido" value="<?php echo intval($id_pedido); ?>">
-            <input type="hidden" name="accion" value="agregar">
-        </div>
-    <button type="submit" class="button" name="accion" value="agregar"> Agregar </button>
-    </form>
-
-    <button class="button" onclick="location.href='menu.php'"> MENÚ </button>
-    <script>
-        // Se seleccionan las piezas relacionadas con ese producto, para que haya más coherencia con lo que selecciona
-        function ElegirPieza(id_producto, id_pedido) {
-            producto = parseInt(id_producto);
-            pedido = parseInt(id_pedido);
-            window.location.href = 'agregar_observaciones.php?id_pedido=' + encodeURIComponent(pedido)
-                + '&id_producto=' + encodeURIComponent(producto);
-        }
-    </script>
-
+                <label> Cantidad </label>
+                <input type="number" name="cantidad" min="1" max="1000" required>
+                <input type="hidden" name="id_pedido" value="<?php echo intval($id_pedido); ?>">
+                <input type="hidden" name="accion" value="agregar">
+                <button type="submit" class="button" name="accion" value="agregar"> Agregar </button>
+            </div>
+        </form>
+    </div>
 </body>
+<script>
+    function ElegirPieza(id_producto, id_pedido) {
+        producto = parseInt(id_producto);
+        pedido = parseInt(id_pedido);
+        window.location.href = 'agregar_observaciones.php?id_pedido=' + encodeURIComponent(pedido)
+            + '&id_producto=' + encodeURIComponent(producto);
+    }
+</script>
 
 </html>

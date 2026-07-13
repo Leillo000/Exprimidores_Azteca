@@ -73,10 +73,7 @@ if (empty($total_aluminio)) {
 
 <body>
     <div class="container">
-        <div class="center">
             <h1> Pedido No. <?php echo $id_pedido; ?> </h1>
-        </div>
-
         <!-- Si existen observaciones del producto, mostrar las páginas. -->
         <!-- Considerando la merma pone el total de aluminio que se debe volver a fundir -->
         <?php if ($observaciones == true) { ?>
@@ -166,7 +163,9 @@ if (empty($total_aluminio)) {
                 </p>
             </div>
         <?php } else { ?>
-            <p><b>No hay nada que mandar a fundición.</b></p>
+        <br>
+        <div class="center_items">
+            <p><b>No hay nada que mandar a fundición.</b></p></div>
         <?php } ?>
     </div>
 </body>

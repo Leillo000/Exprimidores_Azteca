@@ -75,8 +75,9 @@
             </li>
             <!-- Hasta aqui es el código de un submenú -->
             <!-- Submenú de pedidos -->
-            <li>
-                <button onclick=toggleSubMenu(this) class="dropdown-btn">
+
+            <li class="active">
+                <a href="pedidos.php">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="icon icon-tabler icons-tabler-outline icon-tabler-clipboard-list">
@@ -88,19 +89,9 @@
                         <path d="M9 16l.01 0" />
                         <path d="M13 16l2 0" />
                     </svg>
-                    <span> Pedidos </span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M6 9l6 6l6 -6" />
-                    </svg>
-                </button>
-                <ul class="sub-menu">
-                    <div>
-                        <li><a href="pedidos.php">Estado de pedidos</a></li>
-                    </div>
-                </ul>
+                    <span>Estado de pedidos</span>
+                </a>
+
             </li>
 
             <!-- Botón de Productos -->
