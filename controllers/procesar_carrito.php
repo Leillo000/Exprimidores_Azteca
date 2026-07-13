@@ -2,6 +2,7 @@
 // Se inicia una sesion con la URL del usuario
 include("../config/connection.php");
 include("../helpers/utils.php");
+include("../controllers/PHP/control_paginas.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
 

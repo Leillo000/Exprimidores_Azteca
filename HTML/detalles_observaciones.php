@@ -1,5 +1,7 @@
 <?php
 include("../config/connection.php");
+include("../assets/HTML/layout.php");
+include("../controllers/PHP/control_paginas.php");
 
 // Verificar si el campo está vacío o no es un número, en caso de que esté vació su valor será 0
 $id_pedido = isset($_GET['id_pedido']) ? intval($_GET['id_pedido']) : 0;
@@ -11,18 +13,26 @@ window.location.href = 'pedidos.php';</script>");
     exit();
 }
 
-// Aluminio que debe volver a fundir
-$cantidad_total_observaciones = 0;
-
-$PorPagina = 10;
-$Pagina = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
-$offset = ($Pagina - 1) * $PorPagina; // Verifica numero de página para mostrar los registros, página 1 del 1 a 25, página 2 del 26 al 50 y así sucesivamente
-
-$resultado = $conexion->query("SELECT COUNT(*) as total FROM detalles_observaciones");
-$resultado_query = $resultado->fetch_assoc();
-$total = intval($resultado_query["total"]);
-
-$totalPaginas = max(1, ceil($total / $PorPagina)); // calcula en cuántas páginas mostrar los registros
+$pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$controlPaginas = controlPaginas(
+    $conexion,
+    "SELECT  pd.id_pedido, 
+    po.nombre_producto, 
+    pz.nombre_pieza AS nombre_pieza, 
+    pz.peso AS peso_unitario, 
+    dto.cantidad AS cantidad,
+    dto.id_detalle_observacion
+    FROM pedidos pd
+    JOIN detalles_observaciones dto ON pd.id_pedido = dto.id_pedido
+    JOIN piezas pz ON pz.id_pieza = dto.id_pieza
+    JOIN productos AS po ON po.id_producto = pz.id_producto
+    WHERE pd.id_pedido = " . (string) $id_pedido . "
+    ORDER BY dto.id_pieza DESC
+    LIMIT ? OFFSET ?",
+    "SELECT COUNT(*) as total FROM detalles_observaciones",
+    "ii",
+    $pagina
+);
 
 $stmt_total = $conexion->prepare("SELECT pd.id_pedido,
 pz.peso AS peso_unitario, 
@@ -43,27 +53,6 @@ $total_aluminio = $total->fetch_assoc();
 if (empty($total_aluminio)) {
     $observaciones = false;
 }
-
-// obtener 10 registros con paginación (añadimos placeholders para LIMIT y OFFSET)
-$stmt = $conexion->prepare("SELECT  pd.id_pedido, 
-po.nombre_producto, 
-pz.nombre_pieza AS nombre_pieza, 
-pz.peso AS peso_unitario, 
-dto.cantidad AS cantidad,
-dto.id_detalle_observacion
-FROM pedidos pd
-JOIN detalles_observaciones dto ON pd.id_pedido = dto.id_pedido
-JOIN piezas pz ON pz.id_pieza = dto.id_pieza
-JOIN productos AS po ON po.id_producto = pz.id_producto
-WHERE pd.id_pedido = ? 
-ORDER BY dto.id_pieza DESC
-LIMIT ? OFFSET ?
-");
-
-$stmt->bind_param("iii", $id_pedido, $PorPagina, $offset);
-$stmt->execute();
-$res = $stmt->get_result();
-
 ?>
 
 <!DOCTYPE html>
@@ -83,102 +72,109 @@ $res = $stmt->get_result();
     <title> Detalles observaciones </title>
 
 <body>
-    <nav>
-        <img src="../Images/logo_menu.jpg" alt="logo_exprimidores_azteca">
-        <ul>
-            <div id="separate_link">
-                <li>
-                    <a href="piezas.php"> Piezas </a>
-                </li>
-                <li>
-                    <a href="materiales.php"> Materiales </a>
-                </li>
-                <li>
-                    <a href="productos.php"> Productos </a>
-                </li>
-                 <li>
-                    <a href="pedidos.php"> Pedidos </a>
-                </li>
-                <li>
-                    <a href="carrito.php">
-                        <!-- Icono de carrito -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="#2F6842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                            <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                            <path d="M17 17h-11v-14h-2" />
-                            <path d="M6 5l14 1l-1 7h-13" />
-                    </a>
-                </li>
-            </div>
-        </ul>
-    </nav>
-    <br>
-    <div class="center">
-        <h1> Pedido No. <?php echo $id_pedido; ?> </h1>
-    </div>
-    <table>
-        <tr>
-            <th class="columnas"> Nombre del producto al que pertenece </th>
-            <th class="columnas"> Nombre pieza </th>
-            <th class="columnas"> Cantidad </th>
-            <th class="columnas"> Peso unitario en gramos </th>
-            <th class="columnas"> Subtotal en Kg </th>
-            <th class="columnas"> Acción </th>
-        </tr>
+    <div class="container">
+        <div class="center">
+            <h1> Pedido No. <?php echo $id_pedido; ?> </h1>
+        </div>
 
-        <?php while ($row = $res->fetch_assoc()) {
-            // Calcula el subtotal de aluminio a fundir considerando la merma 
-            $subtotal = $row["cantidad"] * $row["peso_unitario"] / 1000;
-            $subtotal += $subtotal * 0.1;
-             ?>
-            <tr>
-                <td> <?php echo htmlspecialchars($row["nombre_producto"]); ?></td>
-                <td> <?php echo htmlspecialchars($row["nombre_pieza"]); ?></td>
-                <td> <?php echo htmlspecialchars($row["cantidad"]); ?></td>
-                <td> <?php echo htmlspecialchars($row["peso_unitario"]) . ' gr'; ?></td>
-                <td> <?php echo htmlspecialchars($subtotal . " Kg"); ?></td>
-                <td>
-                    <select class="button_table" onchange="redirigir(this.value, <?php echo $row['id_detalle_observacion']; ?>, <?php echo $row['id_pedido']; ?>)">
-                        <option class="button_table" value="" disabled selected hidden> Seleccionar acción </option>
-                     <!--  <option class="button_table" value="editar"> Editar </option> --> 
-                        <option class="button_table" value="completar"> Completar </option>
-                    </select>
-                </td>
-            </tr>
-        <?php } ?>
-    </table>
         <!-- Si existen observaciones del producto, mostrar las páginas. -->
         <!-- Considerando la merma pone el total de aluminio que se debe volver a fundir -->
-    <?php if ($observaciones == true) { ?>
-        <p>Mandar a fundición: <?php echo htmlspecialchars(($total_aluminio['total'] + ($total_aluminio['total'] * 0.1)) / 1000); ?> Kg de
-                aluminio</p>
-        <div>
-            <?php if ($Pagina > 1) { ?>
-                <a href="?page=1">
-                    << Primero</a>
-                        <a href="?page=<?php echo $Pagina - 1 ?>"> Anterior</a>
-                    <?php } ?>
-                    <div class="center">
-                        <p> Página <?php echo $Pagina; ?> de <?php echo $totalPaginas; ?></p>
-                    </div>
-                    <?php if ($Pagina < $totalPaginas) {
-                        ?>
-                        <a href="?page=<?php echo $Pagina + 1; ?>"> Siguiente</a>
-                        <a href="?page=<?php echo $totalPaginas; ?>">Última página >> </a>
-                    <?php } ?>
-            </a>
-        </div>
-                    <!-- Si no existen observaciones de ese pedido, nada se tendrá que mandar a fundición -->
-    <?php } else { ?>
-        <p><b>No hay nada que mandar a fundición.</b></p>
-    <?php } ?>
+        <?php if ($observaciones == true) { ?>
+            <table>
+                <tr>
+                    <th class="columnas"> Nombre del producto al que pertenece </th>
+                    <th class="columnas"> Nombre pieza </th>
+                    <th class="columnas"> Cantidad </th>
+                    <th class="columnas"> Peso unitario en gramos </th>
+                    <th class="columnas"> Subtotal en Kg </th>
+                    <th class="columnas"> Acción </th>
+                </tr>
 
-    <button class="button" onclick="location.href='menu.php'"> MENÚ </button>
+                <?php foreach ($controlPaginas["datos"] as $row) {
+                    // Calcula el subtotal de aluminio a fundir considerando la merma 
+                    $subtotal = $row["cantidad"] * $row["peso_unitario"] / 1000;
+                    $subtotal += $subtotal * 0.1;
+                    ?>
+                    <tr>
+                        <td>
+                            <?php echo htmlspecialchars($row["nombre_producto"]); ?>
+                        </td>
+                        <td>
+                            <?php echo htmlspecialchars($row["nombre_pieza"]); ?>
+                        </td>
+                        <td>
+                            <?php echo htmlspecialchars($row["cantidad"]); ?>
+                        </td>
+                        <td>
+                            <?php echo htmlspecialchars($row["peso_unitario"]) . ' gr'; ?>
+                        </td>
+                        <td>
+                            <?php echo htmlspecialchars($subtotal . " Kg"); ?>
+                        </td>
+                        <td>
+                            <select class="button_table"
+                                onchange="redirigir(this.value, <?php echo $row['id_detalle_observacion']; ?>, <?php echo $row['id_pedido']; ?>)">
+                                <option class="button_table" value="" disabled selected hidden> Seleccionar acción </option>
+                                <!--  <option class="button_table" value="editar"> Editar </option> -->
+                                <option class="button_table" value="completar"> Completar </option>
+                            </select>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </table>
+            <!-- Barra para control de paginas -->
+            <div class="control_pages_bar">
+                <div class="center_text_pagesbar"
+                    onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'anterior', 'clientes')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="#2F6842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right" id="left_row">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M7 7l5 5l-5 5" />
+                        <path d="M13 7l5 5l-5 5" />
+                    </svg>
+                    <span id="control_anterior">
+                        Anterior
+                    </span>
+                </div>
 
-    <script src="../controllers/JS/detalles_observaciones.js"> </script>
+                <div class="center_text_pagesbar">
+                    <span>
+                        Página <?php echo $controlPaginas["paginaActual"]; ?> de
+                        <?php echo $controlPaginas["totalPaginas"]; ?>
+                    </span>
+                </div>
+
+                <div class="center_text_pagesbar">
+                    <span id="control_siguiente">
+                        Siguiente
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="#2F6842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right" id="right_row"
+                        onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'siguiente', 'clientes')">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M7 7l5 5l-5 5" />
+                        <path d="M13 7l5 5l-5 5" />
+                    </svg>
+                </div>
+            </div>
+            <br>
+            <div class="center_items">
+                <p>Mandar a fundición:
+                    <b><?php echo htmlspecialchars(($total_aluminio['total'] + ($total_aluminio['total'] * 0.1)) / 1000); ?> Kg de aluminio </b>
+                </p>
+            </div>
+        <?php } else { ?>
+            <p><b>No hay nada que mandar a fundición.</b></p>
+        <?php } ?>
+    </div>
 </body>
+
+<script src="../controllers/JS/detalles_observaciones.js"> </script>
+<script src="../assets/JS/control_paginas.js"></script>
+<script>
+    pintarNegritas(<?php echo $controlPaginas["totalPaginas"]; ?>, <?php echo $controlPaginas["paginaActual"]; ?>);
+</script>
 
 </html>
