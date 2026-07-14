@@ -12,8 +12,6 @@ JOIN empresas as e ON e.id_cliente=c.id_cliente WHERE activo = 1");
 $query_aluminio = $conexion->query("SELECT cantidad_kg FROM stock_aluminio ORDER BY fecha DESC LIMIT 1");
 
 ?>
-
-
 <head>
     <title> Nuevo pedido </title>
 </head>

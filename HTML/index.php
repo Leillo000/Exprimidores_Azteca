@@ -18,7 +18,7 @@
 </head>
 
 <body>
-        <form action="submit">
+        <form method="get" action="../controllers/PHP/sesiones.php">
             <h1>¡Bienvenido/a a </h1>
             <h1>
                 Exprimidores Azteca!
@@ -29,7 +29,7 @@
                     <label for="email">Correo electrónico</label>
                     <input type="text" name="email" id="email" autocomplete="on">
                     <label for="password">Contraseña</label>
-                    <input type="text" name="password" id="password" autocomplete="on">
+                    <input type="text" name="_password" id="password" autocomplete="on">
                     <button class="button" type="submit"> <span>Iniciar sesión </span></button>
                     <br>
                     <a href="registrarse.php">¿Aún no te has registrado? Regístrate ahora</a>

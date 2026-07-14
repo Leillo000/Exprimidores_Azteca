@@ -59,26 +59,8 @@ $countStmt->close();
     <title> Editar detalles de observaciones </title>
 </head>
 <body>
-    <nav>
-        <img src="../Images/logo_menu.jpg" alt="logo_exprimidores_azteca">
-        <ul>
-            <div id="separate_link">
-                <li>
-                    <a href="productos.php">Productos</a>
-                </li>
-                <li>
-                    <a href="pedidos.php">Pedidos</a>
-                </li>
-                <li>
-                    <a href="materiales.php">Materiales</a>
-                </li>
-            </div>
-        </ul>
-    </nav>
-    <br>
 
     <h1>Editar Detalles del Pedido #<?php echo htmlspecialchars($id_pedido, ENT_QUOTES, 'UTF-8'); ?></h1>
-    <br><br>
 
     <!-- Tabla con detalles y edición -->
     <table>
@@ -151,55 +133,5 @@ $countStmt->close();
             <a href="?id=<?php echo $id_pedido; ?>&page=<?php echo $totalPaginas; ?>">Última página &raquo;</a>
         <?php endif; ?>
     </div>
-
-    <button class="button" onclick="location.href='detalles_observaciones.php'"> VOLVER </button>
-    <button class="button" onclick="location.href='menu.php'">MENÚ</button>
-
-    <!-- JavaScript para modal y cálculo 
-    <script>
-document.addEventListener('DOMContentLoaded', function () {
-    var pesoActual = 0;
-
-    window.abrirEdicion = function (id_detalle, cantidad) {
-        pesoActual = parseFloat(peso) || 0;
-        var idInp = document.getElementById('id_detalle_input');
-        var cantInp = document.getElementById('cantidad_input');
-        var pesoDisp = document.getElementById('peso_display');
-        var subInp = document.getElementById('subtotal_input');
-        if (!idInp || !cantInp || !pesoDisp || !subInp) {
-            console.error('Elementos del modal no encontrados');
-            return;
-        }
-        idInp.value = id_detalle;
-        cantInp.value = cantidad;
-        pesoDisp.value = pesoActual.toFixed(2);
-        actualizarSubtotal();
-        document.getElementById('modal-edicion').style.display = 'block';
-        document.getElementById('modal-overlay').style.display = 'block';
-    };
-
-    window.cerrarEdicion = function () {
-        var modal = document.getElementById('modal-edicion');
-        var overlay = document.getElementById('modal-overlay');
-        if (modal) modal.style.display = 'none';
-        if (overlay) overlay.style.display = 'none';
-    };
-
-    function actualizarSubtotal() {
-        var cantInp = document.getElementById('cantidad_input');
-        var subInp = document.getElementById('subtotal_input');
-        if (!cantInp || !subInp) return;
-        var cantidad = parseFloat(cantInp.value) || 0;
-        var subtotal = cantidad * (pesoActual || 0);
-        subInp.value = subtotal.toFixed(2);
-    }
-
-    var cantidadInput = document.getElementById('cantidad_input');
-    if (cantidadInput) {
-        cantidadInput.addEventListener('input', actualizarSubtotal);
-    }
-});
-    </script>
-        -->
 </body>
 </html>
