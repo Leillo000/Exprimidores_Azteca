@@ -1,5 +1,9 @@
 <?php
-
+include("../controllers/PHP/log_in.php");
+$isLogged = logIn::getInstance();
+if ($isLogged->getUser() != null){
+    header("Location: menu.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">

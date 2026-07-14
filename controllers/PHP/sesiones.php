@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
     if ($usuario_data != null) {
         if ($email == $usuario_data['email'] && password_verify($contrasena, $usuario_data["_password"])) {
             $session->setUser(["email" => $email]);
-            // Codigo al iniciar sesion
+            header("Location:../../HTML/menu.php");
         } else {
             // Codigo que muestra cuando la contraseña es incorrecta
         }
@@ -32,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
     $stmt->bind_param("ss", $email, $contrasena);
     if ($stmt->execute()) {
         // Codigo si se ejecuta correctamente
+    } else {
+        echo http_response_code(405);
     }
 }
 ?>

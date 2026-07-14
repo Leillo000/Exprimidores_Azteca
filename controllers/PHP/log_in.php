@@ -42,7 +42,7 @@ class logIn{
 function verificarLogIn(){
     $session = logIn::getInstance();
     if ($session->getUser() == null){
-        header("Location:index.php?message=Necesitas_Iniciar_Sesion");
+        header("Location:index.php?message=necesitas_iniciar_sesion");
         exit();
     }
 }
