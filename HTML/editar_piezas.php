@@ -1,4 +1,6 @@
 <?php
+include("../controllers/PHP/log_in.php");
+verificarLogIn();
 include("../config/connection.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {

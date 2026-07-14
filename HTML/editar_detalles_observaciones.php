@@ -1,4 +1,6 @@
 <?php
+include("../controllers/PHP/log_in.php");
+verificarLogIn();
 include("../config/connection.php");
 
 // Obtener id_pedido desde GET
