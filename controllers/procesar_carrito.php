@@ -154,10 +154,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
 
 
         // Se crea un nuevo pedido en la base de datos
-        $stmt_2 = $conexion->prepare('INSERT INTO pedidos(id_cliente, fecha, etapa, tipo_observacion)
-    VALUES (?, ?, ?, ?)');
+        $stmt_2 = $conexion->prepare('INSERT INTO pedidos(id_cliente, fecha, etapa, tipo_observacion, pesaje_total)
+    VALUES (?, ?, ?, ?, ?)');
 
-        $stmt_2->bind_param('isss', $cliente, $fecha, $etapa, $tipo_observacion);
+        $stmt_2->bind_param('isssd', $cliente, $fecha, $etapa, $tipo_observacion, $total_aluminio_pedido_kg);
         $stmt_2->execute();
 
         // Se obtiene el ID del pedido para introducirlo en detalles_pedido

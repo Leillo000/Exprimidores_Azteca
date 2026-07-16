@@ -10,7 +10,8 @@ $pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $controlPaginas = controlPaginas(
     $conexion,
     "SELECT pd.id_pedido AS no_pedido, e.nombre AS nombre_cliente, 
-    pd.etapa AS tipo_etapa, pd.tipo_observacion AS tipo_observ, pd.fecha AS fecha
+    pd.etapa AS tipo_etapa, pd.tipo_observacion AS tipo_observ, pd.fecha AS fecha,
+    pd.pesaje_total AS pesaje
     FROM pedidos pd 
     JOIN empresas e ON e.id_cliente = pd.id_cliente
     ORDER BY pd.fecha DESC LIMIT ? OFFSET ?",
@@ -38,6 +39,7 @@ $controlPaginas = controlPaginas(
                         <th class="columnas"> Etapa </th>
                         <th class="columnas" id="observaciones"> Observación </th>
                         <th class="columnas"> Fecha </th>
+                        <th class="columnas"> Pesaje total en Kg.</th>
                         <th class="columnas"> Acción </th>
                     </tr>
                 </thead>
@@ -49,13 +51,15 @@ $controlPaginas = controlPaginas(
                             <td> <?php echo htmlspecialchars($row['tipo_etapa']); ?> </td>
                             <td> <?php echo htmlspecialchars($row['tipo_observ']); ?> </td>
                             <td> <?php echo htmlspecialchars($row['fecha']); ?> </td>
+                            <td> <?php echo htmlspecialchars($row['pesaje']); ?> </td>
                             <td>
                                 <!-- Después de cada onchange, se invoca la función de Javascript junto a lo que se quiera hacer -->
                                 <select class="button_table"
                                     onchange="redirigir(this.value, <?php echo $row['no_pedido']; ?>)">
                                     <option class="button_table" value="" disabled selected hidden> Seleccionar acción
                                     </option>
-                                    <option class="button_table" value="detalles"> Ver detalles </option>
+                                    <option class="button_table" value="detalles_observaciones"> Ver observaciones </option>
+                                    <option class="button_table" value="detalles_pedido"> Ver detalles del pedido</option>
                                     <option class="button_table" value="agregar_observaciones"> Agregar observaciones
                                     </option>
                                     <option class="button_table" value="siguiente_etapa"> Pasar a la siguiente etapa

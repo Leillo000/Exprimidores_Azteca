@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", marcarFaltantes);
 function redirigir(accion, no_pedido) {
     // Se obtiene el no_pedido como valor númerico.
     pedido = parseInt(no_pedido);
-    if (accion === 'detalles') {
+    if (accion === 'detalles_observaciones') {
         window.location.href = 'detalles_observaciones.php?id_pedido=' + encodeURIComponent(pedido);
     } else if (accion === 'agregar_observaciones') {
         // Esta URL ya se protege mediante encodeURIComponent, ya que cuida que no se hagan consultas maliciosas.
@@ -58,5 +58,8 @@ function redirigir(accion, no_pedido) {
         const etapa = accion === 'siguiente_etapa' ? 1 : 2;
         // ...existing code...
         window.location.href = '../controllers/PHP/control_etapas.php?id_pedido=' + pedido + '&etapa=' + etapa;
+    } else if (accion === 'detalles_pedido') {
+        // Esta URL ya se protege mediante encodeURIComponent, ya que cuida que no se hagan consultas maliciosas.
+        window.location.href = 'detalles_pedido.php?id_pedido=' + encodeURIComponent(pedido);
     }
 }

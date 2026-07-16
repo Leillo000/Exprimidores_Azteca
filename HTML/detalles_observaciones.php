@@ -5,10 +5,9 @@ include("../config/connection.php");
 include("../assets/HTML/layout.php");
 include("../controllers/PHP/control_paginas.php");
 
-// Verificar si el campo está vacío o no es un número, en caso de que esté vació su valor será 0
 $id_pedido = isset($_GET['id_pedido']) ? intval($_GET['id_pedido']) : 0;
 $observaciones = true;
-// Verificación para que no existan numeros negativos ni que el ID del pedido sea 0
+
 if ($id_pedido <= 0) {
     echo ("<script>alert('Datos inválidos.');
 window.location.href = 'pedidos.php';</script>");
