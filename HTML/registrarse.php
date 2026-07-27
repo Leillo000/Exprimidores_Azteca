@@ -17,7 +17,7 @@
 </head>
 
 <body>
-        <form method="post" action="../controllers/PHP/sesiones.php">
+        <form method="post" action="../controllers/PHP/sign_in.php">
             <h1>Empieza fácil con</h1>
             <h1>
                 Exprimidores Azteca

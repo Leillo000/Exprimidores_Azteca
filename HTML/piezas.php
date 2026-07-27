@@ -19,11 +19,6 @@ $controlPaginas = controlPaginas(
     $pagina
 );
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST) && !empty($_POST['nombre_pieza'])) {
-    $nombre_pieza = $_POST['nombre_pieza'];
-    $query = BuscarPieza($nombre_pieza);
-}
-
 ?>
 
 <head>
@@ -47,6 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST) && !empty($_POST['no
                         <path d="M21 21l-6 -6" />
                     </svg>
                 </button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-filter-2">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 6h16" />
+                    <path d="M6 12h12" />
+                    <path d="M9 18h6" />
+                </svg>
             </div>
         </form>
         <br>
@@ -130,7 +133,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST) && !empty($_POST['no
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M18 6l-12 12" />
                             <path d="M6 6l12 12" />
-                        </svg> </button>
+                        </svg> 
+                    </button>
                 </div>
 
                 <!-- Cuadro de diálogo para poder editar las piezas-->

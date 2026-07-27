@@ -1,7 +1,7 @@
 <?php
 include("../controllers/PHP/log_in.php");
 $isLogged = logIn::getInstance();
-if ($isLogged->getUser() != null){
+if ($isLogged->getUser() != null) {
     header("Location: menu.php");
 }
 ?>
@@ -22,24 +22,55 @@ if ($isLogged->getUser() != null){
 </head>
 
 <body>
-        <form method="get" action="../controllers/PHP/sesiones.php">
-            <h1>¡Bienvenido/a a </h1>
-            <h1>
-                Exprimidores Azteca!
-            </h1>
-            <div class="container_session">
-                <div class="center_items_session">
-                    <h2>Iniciar sesión</h2>
-                    <label for="email">Correo electrónico</label>
-                    <input type="text" name="email" id="email" autocomplete="on">
-                    <label for="password">Contraseña</label>
-                    <input type="text" name="_password" id="password" autocomplete="on">
-                    <button class="button" type="submit"> <span>Iniciar sesión </span></button>
-                    <br>
-                    <a href="registrarse.php">¿Aún no te has registrado? Regístrate ahora</a>
-                </div>
+    <form method="get" action="../controllers/PHP/sesiones.php" id="FormLogin">
+        <h1>¡Bienvenido/a a </h1>
+        <h1>
+            Exprimidores Azteca!
+        </h1>
+        <div class="container_session">
+            <div class="center_items_session">
+                <h2>Iniciar sesión</h2>
+                <label for="email">Correo electrónico</label>
+                <input type="text" name="email" id="email" autocomplete="on">
+                <label class="wrong_login" id="wrong_email" hidden>Correo no encontrado</label>  
+                <label for="password">Contraseña</label>
+                <input type="text" name="_password" id="password" autocomplete="on">
+                <label class="wrong_login" id="wrong_password" hidden>Contraseña incorrecta</label>  
+                <button class="button" type="submit"> <span>Iniciar sesión </span></button>
+                <br>
+                <a href="registrarse.php">¿Aún no te has registrado? Regístrate ahora</a>
             </div>
-        </form>
+        </div>
+    </form>
 </body>
+<script>
+        const wrongPassword = document.getElementById('wrong_password')
+        const wrongEmail = document.getElementById('wrong_email')
+        document.getElementById('FormLogin').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData((e).target);
+            const response = await fetch('../controllers/PHP/log_in_verify.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const serverResponse = await response.json()
+
+            switch (serverResponse.RESULT){
+                case "success_login":
+                    window.location.href ="../HTML/index.php"
+                break;
+                 case "invalid_password":
+                    wrongPassword.textContent = "Contraseña incorrecta";
+                    wrongPassword.hidden = false
+                break;
+                 case "user_not_found":
+                    wrongEmail.textContent = "Correo no encontrado";
+                    wrongEmail.hidden = false
+                break;
+            }
+        }
+)
+</script>
 
 </html>

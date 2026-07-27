@@ -89,6 +89,11 @@ body {
     color: var(--green_text);
 }
 
+.wrong_login{
+    color: rgb(238, 37, 37);
+    font-size: 12px;
+}
+
 /* Estilos por defecto de los elementos */
 
 span {
