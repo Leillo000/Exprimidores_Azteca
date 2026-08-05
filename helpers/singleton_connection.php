@@ -14,6 +14,10 @@ class Database {
         }
         return self::$instance;
     }
+    
+    public function doSearch($palabraABuscar, $columnas, $fechaDesde, $fechaHasta){
+        
+    }
 
     public function doQuery($sql, $params = []) {
         $stmt = $this->pdo->prepare($sql);
@@ -21,6 +25,5 @@ class Database {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-
 
 ?>

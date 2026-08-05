@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
         if ($stock_aluminio_actual) {
             //Verifica que haya aluminio suficiente y que si el pedido supera el mínimo de stock. 
             // Se considera la merma
-            $resultado_aluminio = $stock_aluminio_actual['cantidad_kg'] - $total_aluminio_pedido_kg ;
+            $resultado_aluminio = $stock_aluminio_actual['cantidad_kg'] - $total_aluminio_pedido_kg;
 
             if (
                 $stock_aluminio_actual['cantidad_kg'] < $total_aluminio_pedido_kg
@@ -213,12 +213,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
             $stmt_4->reset();
         }
 
+        $stmt_5 = $conexion->prepare('SELECT nombre FROM empresas WHERE id_cliente = ? ' );
+        $stmt_5->bind_param('i', $cliente);
+        $stmt_5->execute();
+        $obtenerResultados = $stmt_5->get_result();
+        $obtenerCliente = $obtenerResultados->fetch_assoc();
+
         $tipo = "Salida";
-        $descripcion = "Salida de ". (string) $total_aluminio_pedido_kg . "kg de aluminio en el pedido No. ". (string) $pedido_data['id_pedido'] ;
+        $descripcion = "Salida de " . (string) $total_aluminio_pedido_kg . "kg de aluminio en el pedido No. " . (string) $pedido_data['id_pedido']. " del cliente " . $obtenerCliente['nombre'];
         // ===== RESTAR EL STOCK DE ALUMINIO =====
         $stmt_actualizar_aluminio = $conexion->prepare('INSERT INTO stock_aluminio(cantidad_kg, fecha, tipo, descripcion) VALUES(?, ?, ?, ?)');
-            $stmt_actualizar_aluminio->bind_param('dsss', $resultado_aluminio, $fecha, $tipo, $descripcion);
-            $stmt_actualizar_aluminio->execute();
+        $stmt_actualizar_aluminio->bind_param('dsss', $resultado_aluminio, $fecha, $tipo, $descripcion);
+        $stmt_actualizar_aluminio->execute();
         // Se vacia la tabla de carrito
         $borrar_carrito = $conexion->query('DELETE FROM carrito');
         echo "<script>

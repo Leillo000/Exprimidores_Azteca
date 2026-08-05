@@ -526,6 +526,11 @@ dialog .dialog_body button {
     width: 100%;
 }
 
+dialog h2{
+    color: var(--green_text);
+    margin-bottom: 10px;
+}
+
 /*
 Estilos del Menú
 */
