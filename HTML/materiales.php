@@ -10,6 +10,7 @@ $fechaActual = substr(ObtenerFecha(), 0, 10);
 
 $pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $palabraABuscar = isset($_GET['filtro']) ? $_GET['filtro'] : "";
+
 $fechaDesde = isset($_GET['desde']) ? $_GET['desde'] : "";
 if (!empty($_GET['hasta']) && $_GET['hasta']  != ""){
     $fechaHasta = $_GET['hasta'];
@@ -25,6 +26,8 @@ if (empty($palabraABuscar) && empty($fechaDesde) && empty($fechaHasta)) {
     $query = $query_dct['query'];
     $query_count = $query_dct['query_count'];
 }
+
+echo $query;
 
 $controlPaginas = controlPaginas(
     $conexion,
@@ -140,14 +143,11 @@ $controlPaginas = controlPaginas(
         </div>
     </div>
 
-    <!-- Cuadro de Dialogo para seleccionar el cliente -->
     <dialog id="dialogFilters" class="dialog">
         <div class="dialog_header">
         </div>
-        <!-- Cuadro de diálogo para poder editar las piezas-->
         <div class="DialogCenterItems">
             <div class="dialog_body">
-                <!-- Formulario para enviar los datos al servidor para procesarlos -->
                 <div class="center_items">
                     <h2>Fecha desde: </h2>
                     <input type="date" id="desde">
