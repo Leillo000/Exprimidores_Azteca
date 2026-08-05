@@ -11,13 +11,18 @@ $db = Database::getDatabase();
 // por el string, agregar condicionales de si es que existen filtros o fechas
 // sino, el string del query sera diferente
 
+$fechaActual = substr(ObtenerFecha(), 0, 10);
 
 $pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $palabraABuscar = isset($_GET['filtro']) ? $_GET['filtro'] : "";
 $fechaDesde = isset($_GET['desde']) ? $_GET['desde'] : "";
-$fechaHasta = isset($_GET['hasta']) ? $_GET['hasta'] : ObtenerFecha();
+if (!empty($_GET['hasta']) && $_GET['hasta']  != ""){
+    $fechaHasta = $_GET['hasta'];
+} else {
+    $fechaHasta = $fechaActual;
+}
 
-if (empty($palabraABuscar)) {
+if (empty($palabraABuscar) && empty($fechaDesde) && empty($fechaHasta)) {
     $query = "SELECT * FROM stock_aluminio ";
     $query_count = "SELECT COUNT(*) as total FROM stock_aluminio";
 } else {
@@ -60,8 +65,8 @@ $controlPaginas = controlPaginas(
                 </button>
 
                 <!-- Cambiar el value de estos inputs desde JavaScript-->
-                <input type="hidden" value="" id="fechaDesde">
-                <input type="hidden" value="" id="fechaHasta">
+                <input type="hidden" value="" name="desde" id="fechaDesde">
+                <input type="hidden" value="" name="hasta" id="fechaHasta">
                 <button class="button_search" type="button" id="abrirFiltros">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -100,7 +105,7 @@ $controlPaginas = controlPaginas(
         <!-- Barra para control de paginas -->
         <div class="control_pages_bar">
             <div class="center_text_pagesbar"
-                onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'anterior', 'materiales', <?php echo $palabraABuscar; ?>, <?php echo $fechaDesde ?>, <?php echo $fechaHasta ?>)">
+                onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'anterior', 'materiales', '<?php echo $palabraABuscar; ?>', '<?php echo $fechaDesde ?>', '<?php echo $fechaHasta ?>')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="#2F6842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right" id="left_row">
@@ -127,7 +132,7 @@ $controlPaginas = controlPaginas(
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="#2F6842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right" id="right_row"
-                    onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'siguiente', 'materiales', <?php echo $palabraABuscar; ?>, <?php echo $fechaDesde ?>, <?php echo $fechaHasta ?>)">
+                    onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'siguiente', 'materiales', '<?php echo $palabraABuscar; ?>', '<?php echo $fechaDesde ?>', '<?php echo $fechaHasta ?>')">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M7 7l5 5l-5 5" />
                     <path d="M13 7l5 5l-5 5" />

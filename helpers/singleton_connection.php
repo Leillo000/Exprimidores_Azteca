@@ -26,17 +26,17 @@ class Database
         }
         $query = substr_replace($query, "", -4);
         $query .= ")";
-
+    
         if (!empty($fechaDesde)) {
             $query .= " AND (fecha BETWEEN '{$fechaDesde}' AND '{$fechaHasta}')";
         }
 
         $queryCount = str_replace("*", "COUNT(*) as total", $query);
-
         return [
             "query" => $query,
             "query_count" => $queryCount
         ];
+        
     }
 
     public function doQuery($sql, $params = [])
