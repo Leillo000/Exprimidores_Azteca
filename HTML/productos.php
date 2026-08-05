@@ -1,31 +1,30 @@
 <?php
 include("../config/connection.php");
+include("../helpers/singleton_connection.php");
 include("../helpers/utils.php");
 include("../assets/HTML/layout.php");
-// ===== SE ASIGNA AUTOMÁTICAMENTE ESTE VALOR A QUERY POR DEFECTO SI ES QUE EL IF DE REQUEST_METHOD NO SE CUMPLE =====
+include("../controllers/PHP/control_paginas.php");
 
-$query = "SELECT id_producto, nombre_producto, precio_unitario, peso FROM productos ORDER BY nombre_producto";
+$db = Database::getDatabase();
 
-// Son los registros por página que se van a mostrar y determina el número de página.
-
-$perPage = 25;
-$page = isset($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] > 0 ? intval($_GET['page']) : 1; // Página actual, por defecto 1
-
-// Verifica No. de la página para mostrar los registros, página 1 del 1 al 25, página 2 del 26 al 50, y asi sucesivamente
-$offset = ($page - 1) * $perPage;
-
-// Si se cumple esta condición, va a llamar la función.
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST) && !empty($_POST['nombre_producto'])) {
-
-    $nombre_producto = $_POST['nombre_producto'];
-    $query = BuscarProducto(nombre_producto: $nombre_producto);
+$pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$palabraABuscar = isset($_GET['filtro']) ? $_GET['filtro'] : "";
+if (empty($palabraABuscar) && empty($fechaDesde) && empty($fechaHasta)) {
+    $query = "SELECT * FROM productos ";
+    $query_count = "SELECT COUNT(*) as total FROM productos";
+} else {
+    $query_dct = $db->doSearch("SELECT * FROM productos", "SELECT COUNT(*) AS total FROM productos", $palabraABuscar, "", "", ["nombre_producto", "precio_unitario", "peso"]);
+    $query = $query_dct['query'];
+    $query_count = $query_dct['query_count'];
 }
+$controlPaginas = controlPaginas(
+    $conexion,
+    $query . " ORDER BY nombre_producto DESC LIMIT ? OFFSET ?",
+    $query_count,
+    "ii",
+    $pagina
+);
 
-$stmt = $conexion->prepare($query . " ASC LIMIT ? OFFSET ?");
-$stmt->bind_param("ii", $perPage, $offset);
-$stmt->execute();
-$res = $stmt->get_result();
 ?>
 
 <head>
@@ -37,10 +36,10 @@ $res = $stmt->get_result();
         <h1> Productos </h1>
         <br>
         <!-- Buscar producto -->
-        <form method="post" action="productos.php">
+        <form method="get" action="productos.php">
             <!-- Se pone el nombre del producto dentro del input -->
             <div class="search_container">
-                <input name="nombre_producto" type="text" placeholder=" Buscar producto por nombre ... ">
+                <input name="filtro" id="campoBusqueda" type="text" placeholder="Buscar producto... ">
                 <!-- Boton de buscar responsivo-->
                 <button class="button_search" type="submit" name="buscar">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -65,16 +64,56 @@ $res = $stmt->get_result();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = $res->fetch_assoc()): ?>
+                    <?php foreach ($controlPaginas['datos'] as $row) { ?>
                         <tr>
                             <td> <?php echo htmlspecialchars($row['id_producto']); ?> </td>
                             <td> <?php echo htmlspecialchars($row['nombre_producto']); ?> </td>
                             <td> $<?php echo htmlspecialchars(number_format($row['precio_unitario'], 2)); ?> </td>
                             <td> <?php echo htmlspecialchars(number_format($row['peso'], 2)); ?> gr</td>
                         </tr>
-                    <?php endwhile; ?>
+                    <?php } ?>
 
                 </tbody>
             </table>
+        </div>
+        <br>
+        <!-- Barra para control de paginas -->
+        <div class="control_pages_bar">
+            <div class="center_text_pagesbar"
+                onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'anterior', 'productos', '<?php echo $palabraABuscar; ?>', '', '')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#2F6842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right" id="left_row">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M7 7l5 5l-5 5" />
+                    <path d="M13 7l5 5l-5 5" />
+                </svg>
+                <span id="control_anterior">
+                    Anterior
+                </span>
+            </div>
+
+            <div class="center_text_pagesbar">
+                <span>
+                    Página
+                    <?php echo $controlPaginas["paginaActual"]; ?> de
+                    <?php echo $controlPaginas["totalPaginas"]; ?>
+                </span>
+            </div>
+
+            <div class="center_text_pagesbar">
+                <span id="control_siguiente">
+                    Siguiente
+                </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#2F6842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right" id="right_row"
+                    onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'siguiente', 'productos', '<?php echo $palabraABuscar; ?>', '', '')">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M7 7l5 5l-5 5" />
+                    <path d="M13 7l5 5l-5 5" />
+            </div>
+        </div>
+
     </div>
 </body>

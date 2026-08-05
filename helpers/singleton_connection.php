@@ -20,9 +20,6 @@ class Database
 
     public function doSearch($select, $select_count, $palabraABuscar, $fechaDesde, $fechaHasta,  $columnas = [])
     {
-        if(empty($select_count)){
-            $select_count = "SELECT COUNT(*) AS total";
-        }
         $query = $select ." WHERE ( ";
         for ($i = 0; $i <= (count($columnas) - 1); $i++) {
             $query .= "{$columnas[$i]} LIKE '%{$palabraABuscar}%' OR ";

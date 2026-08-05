@@ -21,7 +21,7 @@ if (empty($palabraABuscar) && empty($fechaDesde) && empty($fechaHasta)) {
     $query = "SELECT * FROM stock_aluminio ";
     $query_count = "SELECT COUNT(*) as total FROM stock_aluminio";
 } else {
-    $query_dct = $db->doSearch("SELECT * FROM stock_aluminio","", $palabraABuscar, $fechaDesde, $fechaHasta, ["id_stock", "cantidad_kg", "tipo", "descripcion"]);
+    $query_dct = $db->doSearch("SELECT * FROM stock_aluminio","SELECT COUNT(*) AS total FROM stock_aluminio", $palabraABuscar, $fechaDesde, $fechaHasta, ["id_stock", "cantidad_kg", "tipo", "descripcion"]);
     $query = $query_dct['query'];
     $query_count = $query_dct['query_count'];
 }
@@ -167,7 +167,6 @@ $controlPaginas = controlPaginas(
         </div>
     </dialog>
 </body>
-
 <script src="../assets/JS/control_paginas.js"> </script>
 <script src="../assets/JS/control_dialogos.js"> </script>
 <script>
