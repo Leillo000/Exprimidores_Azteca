@@ -6,12 +6,16 @@ const hasta = document.getElementById('hasta')
 const fechaDesde = document.getElementById('fechaDesde')
 const fechaHasta = document.getElementById('fechaHasta')
 
-closeFilters.addEventListener('click', () => {
-    dialogFilters.close()
-    fechaDesde.value = desde.value
-    fechaHasta.value = hasta.value
-})
+if (closeFilters != null) {
+    closeFilters.addEventListener('click', () => {
+        dialogFilters.close()
+        fechaDesde.value = desde.value
+        fechaHasta.value = hasta.value
+    })
+}
 
-abrirFiltros.addEventListener('click', () => {
-    dialogFilters.showModal()
-})
+if (abrirFiltros != null) {
+    abrirFiltros.addEventListener('click', () => {
+        dialogFilters.showModal()
+    })
+}

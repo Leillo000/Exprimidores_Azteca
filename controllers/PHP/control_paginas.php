@@ -1,7 +1,7 @@
 <?php
 
 function controlPaginas($conexion, $query, $queryCount, $types,$pagina){
-    $porPagina = 10;
+    $porPagina = 5;
     $offset = ($pagina - 1) * $porPagina; // Verifica numero de página para mostrar los registros, página 1 del 1 al 25, página 2 del 26 al 50 y así sucesivamente
     $resultado = $conexion->query($queryCount);
     $resultadoQuery = $resultado->fetch_assoc();

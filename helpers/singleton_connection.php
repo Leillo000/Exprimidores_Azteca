@@ -18,9 +18,12 @@ class Database
         return self::$instance;
     }
 
-    public function doSearch($tabla, $palabraABuscar, $fechaDesde, $fechaHasta,  $columnas = [])
+    public function doSearch($select, $select_count, $palabraABuscar, $fechaDesde, $fechaHasta,  $columnas = [])
     {
-        $query = "SELECT * FROM {$tabla} WHERE ( ";
+        if(empty($select_count)){
+            $select_count = "SELECT COUNT(*) AS total";
+        }
+        $query = $select ." WHERE ( ";
         for ($i = 0; $i <= (count($columnas) - 1); $i++) {
             $query .= "{$columnas[$i]} LIKE '%{$palabraABuscar}%' OR ";
         }
@@ -31,7 +34,7 @@ class Database
             $query .= " AND (fecha BETWEEN '{$fechaDesde}' AND '{$fechaHasta}')";
         }
 
-        $queryCount = str_replace("*", "COUNT(*) as total", $query);
+        $queryCount = str_replace($select, $select_count, $query);
         return [
             "query" => $query,
             "query_count" => $queryCount

@@ -6,11 +6,6 @@ include("../assets/HTML/layout.php");
 include("../controllers/PHP/control_paginas.php");
 
 $db = Database::getDatabase();
-
-// Agregar el singleton de la base de datos y reemplezar los strings del control de paginas
-// por el string, agregar condicionales de si es que existen filtros o fechas
-// sino, el string del query sera diferente
-
 $fechaActual = substr(ObtenerFecha(), 0, 10);
 
 $pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
@@ -26,7 +21,7 @@ if (empty($palabraABuscar) && empty($fechaDesde) && empty($fechaHasta)) {
     $query = "SELECT * FROM stock_aluminio ";
     $query_count = "SELECT COUNT(*) as total FROM stock_aluminio";
 } else {
-    $query_dct = $db->doSearch("stock_aluminio", $palabraABuscar, $fechaDesde, $fechaHasta, ["id_stock", "cantidad_kg", "tipo", "descripcion"]);
+    $query_dct = $db->doSearch("SELECT * FROM stock_aluminio","", $palabraABuscar, $fechaDesde, $fechaHasta, ["id_stock", "cantidad_kg", "tipo", "descripcion"]);
     $query = $query_dct['query'];
     $query_count = $query_dct['query_count'];
 }
