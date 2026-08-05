@@ -1,6 +1,4 @@
 <?php
-include("../controllers/PHP/log_in.php");
-verificarLogIn();
 include("../assets/HTML/layout.php");
 ?>
 <head>

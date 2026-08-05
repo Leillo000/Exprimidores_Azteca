@@ -1,3 +1,7 @@
+<?php 
+include("../controllers/PHP/log_in.php");
+verificarLogIn();
+?>
 <!-- Diseño por defecto que habrá en todas las páginas -->
 <!DOCTYPE html>
 <html lang="es">

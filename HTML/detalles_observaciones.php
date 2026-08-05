@@ -1,6 +1,4 @@
 <?php
-include("../controllers/PHP/log_in.php");
-verificarLogIn();
 include("../config/connection.php");
 include("../assets/HTML/layout.php");
 include("../controllers/PHP/control_paginas.php");

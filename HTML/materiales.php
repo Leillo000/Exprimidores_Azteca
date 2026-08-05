@@ -1,9 +1,12 @@
 <?php
-include("../controllers/PHP/log_in.php");
-verificarLogIn();
+include("../config/connection.php");
 include("../config/connection.php");
 include("../assets/HTML/layout.php");
 include("../controllers/PHP/control_paginas.php");
+
+// Agregar el singleton de la base de datos y reemplezar los strings del control de paginas
+// por el string, agregar condicionales de si es que existen filtros o fechas
+// sino, el string del query sera diferente
 
 $pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $controlPaginas = controlPaginas(
@@ -27,8 +30,7 @@ $controlPaginas = controlPaginas(
     <div class="container">
         <h1> Materiales </h1>
         <br>
-
-        <form method="post" action="piezas.php">
+        <form method="get" action="materiales.php">
             <!-- Este div lo que hace es poner en una sola línea (y centrados) el boton para buscar y el input que es la barra de busqueda -->
             <div class="search_container">
                 <input id="campoBusqueda" name="nombre_pieza" type="text" placeholder="Buscar movimientos o clientes... ">
@@ -150,7 +152,6 @@ $controlPaginas = controlPaginas(
                 </div>
             </div>
         </dialog>
-
 </body>
 
 <script src="../assets/JS/control_paginas.js"> </script>

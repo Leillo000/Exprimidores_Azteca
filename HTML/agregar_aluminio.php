@@ -1,6 +1,4 @@
 <?php
-include("../controllers/PHP/log_in.php");
-verificarLogIn();
 include("../config/connection.php");
 include('../assets/HTML/layout.php');
 $query_producto = $conexion->query('SELECT nombre_producto, id_producto FROM productos');
