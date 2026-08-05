@@ -1,13 +1,19 @@
-function controlDePaginas(paginaActual, totalPaginas, accion, categoria) {
+function controlDePaginas(paginaActual, totalPaginas, accion, categoria, filtro, desde, hasta) {
+    if (busqueda != "" && busqueda != null) {
+        busqueda = "&filtro=" + filtro
+    }
+    if ((desde != "") && (desde != null)) {
+        busqueda += "&desde=" + encodeURIComponent(desde) + "&hasta=" + encodeURIComponent(hasta)
+    }
     switch (accion) {
         case "anterior":
             if (paginaActual > 1) {
-                window.location.href = categoria + ".php?page=" + encodeURIComponent(paginaActual - 1)
+                window.location.href = categoria + ".php?page=" + paginaActual - 1 + busqueda
             }
             break
         case "siguiente":
             if (paginaActual < totalPaginas) {
-                window.location.href = categoria + ".php?page=" + encodeURIComponent(paginaActual + 1)
+                window.location.href = categoria + ".php?page=" + paginaActual + 1 + busqueda
             }
             break
     }

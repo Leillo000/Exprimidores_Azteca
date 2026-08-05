@@ -1,21 +1,35 @@
 <?php
 include("../config/connection.php");
-include("../config/connection.php");
+include("../helpers/singleton_connection.php");
+include("../helpers/utils.php");
 include("../assets/HTML/layout.php");
 include("../controllers/PHP/control_paginas.php");
+
+$db = Database::getDatabase();
 
 // Agregar el singleton de la base de datos y reemplezar los strings del control de paginas
 // por el string, agregar condicionales de si es que existen filtros o fechas
 // sino, el string del query sera diferente
 
+
 $pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$palabraABuscar = isset($_GET['filtro']) ? $_GET['filtro'] : "";
+$fechaDesde = isset($_GET['desde']) ? $_GET['desde'] : "";
+$fechaHasta = isset($_GET['hasta']) ? $_GET['hasta'] : ObtenerFecha();
+
+if (empty($palabraABuscar)) {
+    $query = "SELECT * FROM stock_aluminio ";
+    $query_count = "SELECT COUNT(*) as total FROM stock_aluminio";
+} else {
+    $query_dct = $db->doSearch("stock_aluminio", $palabraABuscar, $fechaDesde, $fechaHasta, ["id_stock", "cantidad_kg", "tipo", "descripcion"]);
+    $query = $query_dct['query'];
+    $query_count = $query_dct['query_count'];
+}
+
 $controlPaginas = controlPaginas(
     $conexion,
-    "SELECT id_stock AS no_registro,
-    cantidad_kg AS cantidad, 
-    fecha, tipo, descripcion FROM stock_aluminio 
-    ORDER BY id_stock DESC LIMIT ? OFFSET ?",
-    "SELECT COUNT(*) as total FROM stock_aluminio",
+    $query . " ORDER BY id_stock DESC LIMIT ? OFFSET ?",
+    $query_count,
     "ii",
     $pagina
 );
@@ -33,7 +47,8 @@ $controlPaginas = controlPaginas(
         <form method="get" action="materiales.php">
             <!-- Este div lo que hace es poner en una sola línea (y centrados) el boton para buscar y el input que es la barra de busqueda -->
             <div class="search_container">
-                <input id="campoBusqueda" name="nombre_pieza" type="text" placeholder="Buscar movimientos o clientes... ">
+                <input id="campoBusqueda" name="filtro" type="text"
+                    placeholder="Buscar movimientos o clientes... ">
                 <button class="button_search" type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="30" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -72,8 +87,8 @@ $controlPaginas = controlPaginas(
 
                 <?php foreach ($controlPaginas["datos"] as $row) { ?>
                     <tr>
-                        <td> <?php echo $row["no_registro"]; ?></td>
-                        <td><?php echo $row["cantidad"]; ?></td>
+                        <td> <?php echo $row["id_stock"]; ?></td>
+                        <td><?php echo $row["cantidad_kg"]; ?></td>
                         <td><?php echo $row["fecha"]; ?></td>
                         <td><?php echo $row["tipo"]; ?></td>
                         <td><?php echo $row["descripcion"]; ?></td>
@@ -85,7 +100,7 @@ $controlPaginas = controlPaginas(
         <!-- Barra para control de paginas -->
         <div class="control_pages_bar">
             <div class="center_text_pagesbar"
-                onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'anterior', 'materiales')">
+                onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'anterior', 'materiales', <?php echo $palabraABuscar; ?>, <?php echo $fechaDesde ?>, <?php echo $fechaHasta ?>)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="#2F6842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right" id="left_row">
@@ -112,7 +127,7 @@ $controlPaginas = controlPaginas(
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="#2F6842" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right" id="right_row"
-                    onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'siguiente', 'materiales')">
+                    onclick="controlDePaginas(<?php echo $controlPaginas['paginaActual']; ?>, <?php echo $controlPaginas['totalPaginas']; ?>, 'siguiente', 'materiales', <?php echo $palabraABuscar; ?>, <?php echo $fechaDesde ?>, <?php echo $fechaHasta ?>)">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M7 7l5 5l-5 5" />
                     <path d="M13 7l5 5l-5 5" />
@@ -128,7 +143,7 @@ $controlPaginas = controlPaginas(
     <!-- Cuadro de Dialogo para seleccionar el cliente -->
     <dialog id="dialogFilters" class="dialog">
         <div class="dialog_header">
-            </div>
+        </div>
         <!-- Cuadro de diálogo para poder editar las piezas-->
         <div class="DialogCenterItems">
             <div class="dialog_body">
@@ -139,19 +154,18 @@ $controlPaginas = controlPaginas(
                     <h2>Fecha hasta: </h2>
                     <input type="date" id="hasta">
                     <button class="button" onclick="" id="closeFilters">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        class="icon icon-tabler icons-tabler-outline icon-tabler-check">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M5 12l5 5l10 -10" />
-                                    </svg>
-                        </button>
-                    </div>
-                <br>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-check">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                    </button>
                 </div>
+                <br>
             </div>
-        </dialog>
+        </div>
+    </dialog>
 </body>
 
 <script src="../assets/JS/control_paginas.js"> </script>
