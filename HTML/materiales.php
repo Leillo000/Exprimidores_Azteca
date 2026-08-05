@@ -26,9 +26,6 @@ if (empty($palabraABuscar) && empty($fechaDesde) && empty($fechaHasta)) {
     $query = $query_dct['query'];
     $query_count = $query_dct['query_count'];
 }
-
-echo $query;
-
 $controlPaginas = controlPaginas(
     $conexion,
     $query . " ORDER BY id_stock DESC LIMIT ? OFFSET ?",
