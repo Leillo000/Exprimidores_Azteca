@@ -36,7 +36,7 @@ if (empty($palabraABuscar) && empty($fechaDesde) && empty($fechaHasta)) {
         $palabraABuscar,
         $fechaDesde,
         $fechaHasta,
-        ["pd.etapa", "pd.tipo_observacion", "pd.pesaje_total"]
+        ["e.nombre","pd.etapa", "pd.tipo_observacion", "pd.pesaje_total"]
     );
 
     $query = $query_dct['query'];
@@ -52,11 +52,9 @@ $controlPaginas = controlPaginas(
 );
 
 ?>
-
 <head>
     <title> Pedidos </title>
 </head>
-
 <body>
     <div class="container">
         <h1> Pedidos </h1>
