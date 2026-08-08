@@ -65,7 +65,7 @@ try {
 
     $conexion->commit();
     $eliminada = true;
-
+    echo "<script>alert('Pieza eliminada correctamente')</script>";
 } catch (Exception $e) {
     $conexion->rollback();
     echo "Error al eliminar la pieza: " . $e->getMessage();
@@ -73,34 +73,3 @@ try {
     exit();
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost/Codigo_Exprimidores_Azteca/CSS/tabla_accion.css">
-    <link rel="stylesheet" href="http://localhost/Codigo_Exprimidores_Azteca/assets/CSS/nav.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Annapurna+SIL:wght@400;700&family=Arimo:ital,wght@0,400..700;1,400..700&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Epunda+Sans:ital,wght@0,300..900;1,300..900&family=Epunda+Slab:ital,wght@0,300..900;1,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <link href="../Images/logo_icon.ico" rel="icon" type="image/x-icon">
-    <title>Resultado de la baja</title>
-</head>
-<body>
-    <div>
-        <h1>Operación completada</h1>
-        <ul>
-            <li><strong>Pieza:</strong> <?php echo htmlspecialchars($nombre_pieza, ENT_QUOTES, 'UTF-8'); ?></li>
-            <li><strong>Peso:</strong> <?php echo htmlspecialchars($peso, ENT_QUOTES, 'UTF-8'); ?> gr</li>
-            <li><strong>Producto:</strong> <?php echo htmlspecialchars($nombre_producto, ENT_QUOTES, 'UTF-8'); ?></li>
-        </ul>
-        <br>
-        <button class="button" onclick="location.href='../HTML/piezas.php'"> VOLVER A LA LISTA </button>
-        <br>
-        <button class="button" onclick="location.href='../HTML/menu.php'"> MENÚ </button>
-    </div>
-</body>
-</html>

@@ -14,8 +14,8 @@ if (empty($palabraABuscar) && empty($fechaDesde) && empty($fechaHasta)) {
     $query_count = "SELECT COUNT(*) as total FROM productos";
 } else {
     $query_dct = $db->doSearch("SELECT * FROM productos", "SELECT COUNT(*) AS total FROM productos", $palabraABuscar, "", "", ["nombre_producto", "precio_unitario", "peso"]);
-    $query = $query_dct['query']. " AND activo = 1";
-    $query_count = $query_dct['query_count']. " AND activo = 1";
+    $query = $query_dct['query'] . " AND activo = 1";
+    $query_count = $query_dct['query_count'] . " AND activo = 1";
 }
 $controlPaginas = controlPaginas(
     $conexion,
@@ -130,6 +130,8 @@ $controlPaginas = controlPaginas(
                     <path d="M13 7l5 5l-5 5" />
             </div>
         </div>
+        <br>
+        <p>El peso de los productos es la <b>suma total en gramos del peso de las piezas</b>.</p>
     </div>
 
     <!-- Cuadro de Dialogo para seleccionar el producto -->
@@ -154,7 +156,7 @@ $controlPaginas = controlPaginas(
                         <label> Precio unitario </label>
                         <input type="text" name="precio" id='precioUnitario' required>
                         <label> Peso en gramos </label>
-                        <input type="text" name="peso" id='pesoProducto' required>
+                        <input type="text" name="peso" id='pesoProducto' readonly>
                         <input type="hidden" name='id_producto' id="productoId">
 
                         <button class="button" type="submit" name="accion" value="finalizar">
