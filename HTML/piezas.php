@@ -12,7 +12,7 @@ $db = Database::getDatabase();
 $pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $palabraABuscar = isset($_GET['filtro']) ? $_GET['filtro'] : "";
 
-$select = "SELECT ps.id_pieza, po.nombre_producto, ps.nombre_pieza, ps.peso, po.id_producto, po.activo FROM piezas AS ps 
+$select = "SELECT ps.id_pieza, ps.activo, po.nombre_producto, ps.nombre_pieza, ps.peso, po.id_producto, po.activo FROM piezas AS ps 
     JOIN productos AS po ON po.id_producto = ps.id_producto ";
 $select_count = "SELECT COUNT(*) AS total
 FROM piezas AS ps
@@ -20,12 +20,12 @@ JOIN productos AS po
     ON po.id_producto = ps.id_producto";
 
 if (empty($palabraABuscar)) {
-    $query = $select. " WHERE po.activo = 1";
+    $query = $select. " WHERE po.activo = 1 AND ps.activo = 1";
     $query_count = "SELECT COUNT(*) as total FROM piezas";
 } else {
     $query_dct = $db->doSearch($select, $select_count, $palabraABuscar, "", "", ["po.nombre_producto", "ps.nombre_pieza", "ps.peso"]);
-    $query = $query_dct['query']. " AND po.activo = 1";
-    $query_count = $query_dct['query_count']. " AND po.activo = 1";
+    $query = $query_dct['query']. " AND po.activo = 1 AND ps.activo = 1";
+    $query_count = $query_dct['query_count']. " AND po.activo = 1 AND ps.activo = 1";
 }
 
 $controlPaginas = controlPaginas(

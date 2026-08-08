@@ -14,6 +14,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)){
     $stmt->execute();
     $pesoTotalProducto = $db->doQuery("SELECT SUM(peso) AS peso_total FROM piezas WHERE id_producto = ?", [$id_producto]);
     $updateProducto = $db->doQuery("UPDATE productos SET peso = ? WHERE id_producto = ?", [$pesoTotalProducto[0]["peso_total"], $id_producto]);
+    header("Location ../HTML/piezas.php");
 }
 
 else
