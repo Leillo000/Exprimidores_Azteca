@@ -40,8 +40,8 @@ if (empty($palabraABuscar) && empty($fechaDesde)) {
         $fechaHasta,
         ["nombre", "rfc", "correo", "telefono"]
     );
-    $query = $query_dct['query']. " AND activo = 1";
-    $query_count = $query_dct['query_count']. " AND activo = 1";
+    $query = $query_dct['query'] . " AND activo = 1";
+    $query_count = $query_dct['query_count'] . " AND activo = 1";
 }
 
 
@@ -204,6 +204,7 @@ $controlPaginas = controlPaginas(
                 <!-- SIEMPRE CERRAR CONTENEDORES APROPIADAMENTE COMO DIVS -->
                 <form method="post" action="" id="formEditar">
                     <div class="center_items">
+                        <h2>Editar Cliente</h2>
                         <!-- Nombre del cliente -->
                         <label> Nombre</label>
                         <input type="text" name="nombre" id="ClienteNombre" required>
