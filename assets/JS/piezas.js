@@ -5,6 +5,20 @@ CloseDialog.addEventListener('click', ()=> {
     Dialog.close();
 });
 
+document.getElementById('formEditar').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const response = await fetch('../controllers/PHP/piezas.php', {
+        method: 'POST',
+        body: formData
+    });
+    
+    const result = await response.text();
+    console.log("Resultado del servidor: " + typeof result);
+    Dialog.close();
+    location.reload();
+})
+
 async function GetPieza(id){
     // Le pido al servidor los datos mediante metodo GET para que me devuelva el cliente con el id segun los parametros
     const respuesta = await fetch('../controllers/PHP/piezas.php?id_pieza=' + encodeURIComponent(id));
@@ -13,9 +27,10 @@ async function GetPieza(id){
         document.getElementById('nombre_pieza').value = DataResponse.nombre_pieza;
         document.getElementById('peso').value = DataResponse.peso;
         document.getElementById('nombre_producto').value = DataResponse.nombre_producto;
+        document.getElementById('id_producto').value = DataResponse.id_producto
+        document.getElementById('id_pieza').value = DataResponse.id_pieza
         Dialog.showModal();
     } else {
         alert('¡Algo salió mal!, revisa si el servidor está activo');
     }
-        
 }

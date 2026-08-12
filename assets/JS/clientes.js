@@ -19,8 +19,6 @@ function redirigir(accion, id_cliente) {
 async function OpenModalEdit(id) {
     // Solicita petición al servidor según el id_cliente para obtener sus datos
     const respuesta = await fetch('../controllers/PHP/clientes.php?id_cliente=' + encodeURIComponent(id));
-    // Es para imprimir en consola, no es print, literalmente es imprimir bruh
-    // console.log();
 
     if (respuesta.ok) {
         const data = await respuesta.json();
@@ -51,7 +49,7 @@ document.getElementById('formEditar').addEventListener('submit', async (e) => {
 
     alert('¡Actualizado con éxito!');
     Dialog.close();
-    location.reaload();
+    location.reload();
 })
 
 async function EliminarCliente() {
