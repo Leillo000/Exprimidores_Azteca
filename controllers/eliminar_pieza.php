@@ -1,7 +1,7 @@
 <?php
 include("../helpers/singleton_connection.php");
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST['id_pieza'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_POST['id_pieza'])) {
     $db = Database :: getDatabase();
     $id_pieza = isset($_POST) ? intval($_POST['id_pieza']) : 0;
 
