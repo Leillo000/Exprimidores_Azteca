@@ -49,7 +49,7 @@ $controlPaginas = controlPaginas(
         <form method="get" action="piezas.php">
             <!-- Este div lo que hace es poner en una sola línea (y centrados) el boton para buscar y el input que es la barra de busqueda -->
             <div class="search_container">
-                <input id="campoBusqueda" name="filtro" type="text" placeholder="Buscar pieza por producto... ">
+                <input id="campoBusqueda" name="filtro" type="text" placeholder="Buscar pieza... ">
                 <button class="button_search" type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="30" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

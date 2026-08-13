@@ -17,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
         if ($id_pedido <= 0 || $id_producto <= 0 || $id_pieza <= 0) {
             // Mensaje de alerta en caso de no cumplir las condiciones
             echo "<script>
-    alert('Datos inválidos.');
-    window.location.href = '../HTML/agregar_observaciones.php';</script>";
+    alert('Rellene los campos correctamente.');
+    window.location.href = '../HTML/pedidos.php';</script>";
             exit();
         }
 

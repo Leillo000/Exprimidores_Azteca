@@ -3,18 +3,15 @@ include("../config/connection.php");
 include("../assets/HTML/layout.php");
 include("../controllers/PHP/control_paginas.php");
 
-// Se obtiene el ID de la URL
-// Condicion ternaria (condicion) ? Valor en el que sea true : Valor en el que sea false.
-// Se crean estas condicionales para que no se destruya la URL.
 $id_pedido = isset($_GET['id_pedido']) ? intval($_GET['id_pedido']) : 0;
 $id_producto = isset($_GET['id_producto']) ? intval($_GET['id_producto']) : 0;
 $nombre_producto = 'Seleccionar producto';
+
 if ($id_pedido <= 0) {
     header('Location: pedidos.php?error=id_invalido');
     exit();
 }
 
-// Esto se ejecuta solo si se cumplen con los requisitos de que no sea 0, nunca se va a ejecutar hasta que se seleccione un producto
 if ($id_producto > 0) {
     $stmtPieza = $conexion->prepare("SELECT ps.nombre_pieza, ps.id_pieza, po.nombre_producto FROM productos AS po 
     JOIN piezas AS ps ON ps.id_producto = po.id_producto
@@ -56,8 +53,6 @@ if ($resultadoProducto->num_rows === 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost/Codigo_Exprimidores_Azteca/CSS/registrar_datos.css">
-    <link rel="stylesheet" href="http://localhost/Codigo_Exprimidores_Azteca/assets/CSS/nav.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -107,7 +102,6 @@ if ($resultadoProducto->num_rows === 0) {
                 <label> Cantidad </label>
                 <input type="number" name="cantidad" min="1" max="1000" required>
                 <input type="hidden" name="id_pedido" value="<?php echo intval($id_pedido); ?>">
-                <input type="hidden" name="accion" value="agregar">
                 <button type="submit" class="button" name="accion" value="agregar"> Agregar </button>
             </div>
         </form>

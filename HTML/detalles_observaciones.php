@@ -19,6 +19,7 @@ $controlPaginas = controlPaginas(
     po.nombre_producto, 
     pz.nombre_pieza AS nombre_pieza, 
     pz.peso AS peso_unitario, 
+    pz.id_pieza,
     dto.cantidad AS cantidad,
     dto.id_detalle_observacion
     FROM pedidos pd
@@ -60,8 +61,6 @@ if (empty($total_aluminio)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost/Codigo_Exprimidores_Azteca/CSS/pedidos.css">
-    <link rel="stylesheet" href="http://localhost/Codigo_Exprimidores_Azteca/assets/CSS/nav.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -72,7 +71,7 @@ if (empty($total_aluminio)) {
 
 <body>
     <div class="container">
-            <h1> Pedido No. <?php echo $id_pedido; ?> </h1>
+        <h1> Pedido No. <?php echo $id_pedido; ?> </h1>
         <!-- Si existen observaciones del producto, mostrar las páginas. -->
         <!-- Considerando la merma pone el total de aluminio que se debe volver a fundir -->
         <?php if ($observaciones == true) { ?>
@@ -108,22 +107,17 @@ if (empty($total_aluminio)) {
                             <?php echo htmlspecialchars($subtotal . " Kg"); ?>
                         </td>
                         <td>
-                            <button class="TableButtonSvg" id="abrirDialogo" onclick="">
+                            <button class="TableButtonSvg" id="abrirDialogo"
+                                onclick="verificarCantidad(<?php echo $row['id_detalle_observacion']; ?> )">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-edit">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path
-                                            d="M8 7a1 1 0 0 1 -1 1h-1a1 1 0 0 0 -1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1 -1v-1a1 1 0 0 1 2 0v1a3 3 0 0 1 -3 3h-9a3 3 0 0 1 -3 -3v-9a3 3 0 0 1 3 -3h1a1 1 0 0 1 1 1" />
-                                        <path
-                                            d="M14.596 5.011l4.392 4.392l-6.28 6.303a1 1 0 0 1 -.708 .294h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 .294 -.708zm6.496 -2.103a3.097 3.097 0 0 1 .165 4.203l-.164 .18l-.693 .694l-4.387 -4.387l.695 -.69a3.1 3.1 0 0 1 4.384 0" />
-                                    </svg>
+                                    fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-edit">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path
+                                        d="M8 7a1 1 0 0 1 -1 1h-1a1 1 0 0 0 -1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1 -1v-1a1 1 0 0 1 2 0v1a3 3 0 0 1 -3 3h-9a3 3 0 0 1 -3 -3v-9a3 3 0 0 1 3 -3h1a1 1 0 0 1 1 1" />
+                                    <path
+                                        d="M14.596 5.011l4.392 4.392l-6.28 6.303a1 1 0 0 1 -.708 .294h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 .294 -.708zm6.496 -2.103a3.097 3.097 0 0 1 .165 4.203l-.164 .18l-.693 .694l-4.387 -4.387l.695 -.69a3.1 3.1 0 0 1 4.384 0" />
+                                </svg>
                             </button>
-                            <select class="button_table"
-                                onchange="redirigir(this.value, <?php echo $row['id_detalle_observacion']; ?>, <?php echo $row['id_pedido']; ?>)">
-                                <option class="button_table" value="" disabled selected hidden> Seleccionar acción </option>
-                                <!--  <option class="button_table" value="editar"> Editar </option> -->
-                                <option class="button_table" value="completar"> Completar </option>
-                            </select>
                         </td>
                     </tr>
                 <?php } ?>
@@ -168,54 +162,66 @@ if (empty($total_aluminio)) {
             <br>
             <div class="center_items">
                 <p>Mandar a fundición:
-                    <b><?php echo htmlspecialchars(($total_aluminio['total'] + ($total_aluminio['total'] * 0.1)) / 1000); ?> Kg de aluminio </b>
+                    <b><?php echo htmlspecialchars(($total_aluminio['total'] + ($total_aluminio['total'] * 0.1)) / 1000); ?>
+                        Kg de aluminio </b>
                 </p>
             </div>
         <?php } else { ?>
-        <br>
-        <div class="center_items">
-            <p><b>No hay nada que mandar a fundición.</b></p></div>
+            <br>
+            <div class="center_items">
+                <p><b>No hay nada que mandar a fundición.</b></p>
+            </div>
         <?php } ?>
     </div>
 
-   <dialog id="dialogo" class="dialog">
+    <dialog id="dialogo" class="dialog">
         <div class="dialog_header">
-                 <div class="dialog_header">
-            <button class="btnDialog" id="cerrarDialogo"> <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"
-                    class="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                </svg> </button>
-        </div>
+            <div class="dialog_header">
+                <button class="btnDialog" id="cerrarDialogo"> <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-x">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg> </button>
+            </div>
         </div>
         <div class="DialogCenterItems">
             <div class="dialog_body">
-                <div class="center_items">
-                    <h2>Liberar piezas</h2>
-                    <br>
-                    <input type="number" id="cantidad" name="cantidad">
-                    <button class="button" onclick="" id="closeFilters">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="icon icon-tabler icons-tabler-outline icon-tabler-check">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M5 12l5 5l10 -10" />
-                        </svg>
-                    </button>
-                </div>
+                <form id="formLiberarPiezas" method="post">
+                    <div class="center_items">
+                        <br><br>
+                        <h2>Liberar piezas</h2>
+                        <label for="cantidad">Número de piezas a liberar</label>
+                        <input type="number" id="cantidad" name="cantidad" min="1" required>
+                        <input type="hidden" id="id_detalle_observacion" name="id_detalle_observacion" required>
+                        <input type="hidden" id="id_pedido" name="id_pedido" value="<?php echo $id_pedido; ?>">
+                        <input type="hidden" id="cantidad_max" name="cantidad_max" required>
+                        <input type="hidden" id="peso" name="peso">
+                        <input type="hidden" id="nombre_producto" name="nombre_producto">
+                        <input type="hidden" id="nombre_pieza" name="nombre_pieza">
+                        <button class="button" type="submit" id="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-check">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M5 12l5 5l10 -10" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
                 <br>
             </div>
         </div>
     </dialog>
-    
+
 </body>
 
-<script src="../controllers/JS/detalles_observaciones.js"> </script>
+<script src="../assets/JS/detalles_observaciones.js"> </script>
 <script src="../assets/JS/control_paginas.js"></script>
 <script src="../assets/JS/control_dialogos_v2.js"></script>
+<script src="../assets/JS/detalles_observaciones.js"></script>
 <script>
     pintarNegritas(<?php echo $controlPaginas["totalPaginas"]; ?>, <?php echo $controlPaginas["paginaActual"]; ?>);
 </script>
