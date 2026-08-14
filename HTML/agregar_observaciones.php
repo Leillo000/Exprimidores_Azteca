@@ -66,7 +66,7 @@ if ($resultadoProducto->num_rows === 0) {
     <div class="container">
         <h1> Agregar observaciones </h1>
         <!-- Este es el form que manda los datos para poder agregar observaciones -->
-        <form method="post" action="../controllers/procesar_observaciones.php">
+        <form method="post" action="../controllers/agregar_observaciones.php">
             <div class="center_items">
                 <label> Producto </label>
                 <!-- Si se selecciona un producto, se muestran las piezas correspondientes a ese producto -->

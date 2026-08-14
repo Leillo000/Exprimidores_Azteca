@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET" && !empty($_GET)) {
     $nombrePieza = isset($_POST["nombre_pieza"]) ? trim($_POST["nombre_pieza"]) : "";
     
 
-    $stock_aluminio = $db->doQuery("SELECT cantidad_kg FROM stock_aluminio LIMIT 1");
+    $stock_aluminio = $db->doQuery("SELECT cantidad_kg FROM stock_aluminio ORDER BY fecha DESC LIMIT 1");
 
     // Verificar si hay suficiente aluminio
     if ($stock_aluminio[0]["cantidad_kg"] <= (($cantidad_requerida * $peso) / 1000)){

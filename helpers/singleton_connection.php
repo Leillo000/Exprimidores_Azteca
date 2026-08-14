@@ -18,15 +18,15 @@ class Database
         return self::$instance;
     }
 
-    public function doSearch($select, $select_count, $palabraABuscar, $fechaDesde, $fechaHasta,  $columnas = [])
+    public function doSearch($select, $select_count, $palabraABuscar, $fechaDesde, $fechaHasta, $columnas = [])
     {
-        $query = $select ." WHERE ( ";
+        $query = $select . " WHERE ( ";
         for ($i = 0; $i <= (count($columnas) - 1); $i++) {
             $query .= "{$columnas[$i]} LIKE '%{$palabraABuscar}%' OR ";
         }
         $query = substr_replace($query, "", -4);
         $query .= ")";
-    
+
         if (!empty($fechaDesde)) {
             $query .= " AND (fecha BETWEEN '{$fechaDesde}' AND '{$fechaHasta}')";
         }
@@ -36,14 +36,18 @@ class Database
             "query" => $query,
             "query_count" => $queryCount
         ];
-        
+
     }
 
     public function doQuery($sql, $params = [])
     {
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return "Error: ". $e->getMessage();
+        }
     }
 }
 
