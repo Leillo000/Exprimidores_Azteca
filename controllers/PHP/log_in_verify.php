@@ -1,4 +1,5 @@
 <?php
+include("../../helpers/singleton_connection.php");
 include("../../controllers/PHP/log_in.php");
 // Se obtiene una nueva instancia
 $session = logIn::getInstance();
@@ -12,10 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
     $res = $stmt->get_result();
 
     $usuario_data = $res->fetch_assoc();
-
+    
     if ($usuario_data != null) {
         if ($email == $usuario_data['email'] && password_verify($contrasena, $usuario_data["_password"])) {
-            $session->setUser(["email" => $email]);
+            $idSesion = session_id();
+            $db = Database :: getDatabase();
+            $db->doQuery("INSERT INTO sessions (session_id, user_id) VALUES (?, ?)", [$idSesion, $usuario_data["user_id"]]);
+            $logIn = logIn :: getInstance();
+            $logIn->setUser(session_id());
             echo json_encode(["RESULT" => "success_login"]);
         } else {
             echo json_encode(["RESULT" => "invalid_password"]);

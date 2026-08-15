@@ -1,9 +1,11 @@
 <?php
 include("../controllers/PHP/log_in.php");
 $isLogged = logIn::getInstance();
-if ($isLogged->getUser() != null) {
+$valLog = $isLogged->getUser();
+if($valLog != null){
     header("Location: menu.php");
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -55,7 +57,6 @@ if ($isLogged->getUser() != null) {
             });
 
             const serverResponse = await response.json()
-
             switch (serverResponse.RESULT){
                 case "success_login":
                     window.location.href ="../HTML/index.php"

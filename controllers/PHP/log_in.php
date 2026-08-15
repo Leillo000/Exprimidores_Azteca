@@ -30,26 +30,17 @@ class logIn
         return self::$instance; // Usamos instance porque solo podemos acceder a el solo a traves   
         // de la clase
     }
-
-    // Guardar los datos del usuario
-    public function setUser($email)
-    {
-        $_SESSION["email"] = $email;
-    }
-
     // Obtener los datos del usuario
-    public function getUser()
+    public function setUser($id)
     {
-        // Devuelve null si es que $_SESSION['data'] no existe
-        // $_SESSION['data'] es un arreglo asociativo
-        return $_SESSION["email"] ?? null;
+        $_SESSION["id"] = $id;
     }
-
-    // public function getRol($email)
-    // {
-    //     $db = Database::getDatabase();
-    //     $db->doQuery("SELECT rol FROM usuarios WHERE email = ? AND access = 1", [$email])
-    // }
+    public function getUser(){
+        if (isset($_SESSION["id"])){
+            return $_SESSION["id"];
+        }
+        return null;
+    }
 
     public function logOut()
     {
@@ -62,7 +53,7 @@ class logIn
 function verificarLogIn()
 {
     $session = logIn::getInstance();
-    if ($session->getUser() == null) {
+    if ($session == null) {
         header("Location:index.php?message=necesitas_iniciar_sesion");
         exit();
     }
