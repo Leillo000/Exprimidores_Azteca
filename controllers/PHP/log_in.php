@@ -18,7 +18,9 @@ class logIn
                 'httponly' => true,           // evita acceso desde JavaScript
                 'samesite' => 'Strict'        // evita envío en peticiones cross-site
             ]);
+
             session_start();
+            session_regenerate_id(true);
         }
     }
 
