@@ -27,5 +27,9 @@ include("../assets/HTML/layout.php");
                 a la misma red que la del servidor, que en este caso es la computadora con la app web. Es decir, sólo te
                 podrás conectar a ella si estás dentro de las instalaciones de la empresa. No te podrás conectar a ella
                 desde la comodidad de tu casa o remotamente.</p>
+                <br>
+                <h2>Manual de usuario</h2>
+                <br>
+                <p>Da click <b><a href="https://docs.google.com/document/d/18bA6S7ToyEl1--UW_Zy_HLzHGBAvWXBo/edit?usp=sharing&ouid=103716864681956240721&rtpof=true&sd=true" target="_blank"> aquí </a></b> para ver el manual del sistema.</p>
     </div>
 </body>
