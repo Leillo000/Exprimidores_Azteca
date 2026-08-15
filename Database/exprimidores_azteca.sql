@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 13-07-2026 a las 06:19:37
+-- Tiempo de generación: 15-08-2026 a las 01:17:20
 -- Versión del servidor: 9.1.0
 -- Versión de PHP: 8.3.14
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `carrito` (
   `cantidad` int NOT NULL,
   PRIMARY KEY (`id_carrito`),
   KEY `id_producto` (`id_producto`)
-) ENGINE=MyISAM AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS `clientes`;
 CREATE TABLE IF NOT EXISTS `clientes` (
   `id_cliente` int NOT NULL AUTO_INCREMENT,
   `tipo_cliente` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `fecha_registro` datetime NOT NULL,
+  `fecha` datetime NOT NULL,
   PRIMARY KEY (`id_cliente`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`id_cliente`, `tipo_cliente`, `fecha_registro`) VALUES
+INSERT INTO `clientes` (`id_cliente`, `tipo_cliente`, `fecha`) VALUES
 (1, 'empresa', '2025-11-19 00:00:00'),
 (2, 'empresa', '2025-11-22 01:44:31'),
 (3, 'empresa', '2026-01-21 00:16:01'),
@@ -84,17 +84,7 @@ CREATE TABLE IF NOT EXISTS `detalles_observaciones` (
   KEY `id_pedido` (`id_pedido`),
   KEY `id_pieza` (`id_pieza`),
   KEY `fk_detalles_observaciones_producto` (`id_producto`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `detalles_observaciones`
---
-
-INSERT INTO `detalles_observaciones` (`id_detalle_observacion`, `id_pedido`, `id_pieza`, `id_producto`, `cantidad`) VALUES
-(1, 15, 4, 3, 3),
-(2, 15, 4, 3, 3),
-(3, 12, 4, 3, 5),
-(17, 35, 4, 3, 5);
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -112,52 +102,26 @@ CREATE TABLE IF NOT EXISTS `detalles_pedidos` (
   PRIMARY KEY (`id_detalle_pedido`),
   KEY `id_pedido` (`id_pedido`),
   KEY `id_producto` (`id_producto`)
-) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `detalles_pedidos`
 --
 
 INSERT INTO `detalles_pedidos` (`id_detalle_pedido`, `id_pedido`, `id_producto`, `cantidad`, `subtotal`) VALUES
-(16, 9, 3, 5, 140.00),
-(15, 8, 3, 5, 140.00),
-(17, 10, 3, 999999, 27999972.00),
-(18, 11, 3, 1000000010, 99999999.99),
-(19, 12, 3, 1000000000, 99999999.99),
-(20, 13, 3, 2147483647, 99999999.99),
-(21, 14, 3, 3, 84.00),
-(22, 15, 3, 5, 140.00),
-(23, 16, 4, 100, 1500.00),
-(24, 17, 4, 3, 45.00),
-(25, 17, 3, 8, 224.00),
-(26, 18, 3, 5, 140.00),
-(27, 18, 4, 3, 45.00),
-(28, 19, 4, 200, 3000.00),
-(29, 19, 3, 100, 2800.00),
-(30, 20, 4, 5, 75.00),
-(31, 20, 3, 3, 84.00),
-(32, 21, 4, 5, 75.00),
-(33, 21, 3, 3, 84.00),
-(34, 22, 3, 3, 84.00),
-(35, 23, 3, 3, 84.00),
-(36, 24, 3, 3, 84.00),
-(37, 25, 3, 400, 11200.00),
-(38, 25, 4, 400, 6000.00),
-(39, 26, 4, 100, 1500.00),
-(40, 27, 4, 50, 750.00),
-(41, 28, 4, 10, 150.00),
-(42, 29, 3, 1, 28.00),
-(43, 30, 4, 30, 450.00),
-(44, 31, 3, 3, 84.00),
-(45, 32, 3, 3, 84.00),
-(46, 32, 4, 1, 15.00),
-(47, 33, 3, 3, 84.00),
-(48, 34, 3, 10, 280.00),
-(49, 35, 3, 100, 2800.00),
-(50, 36, 3, 3, 84.00),
-(51, 37, 3, 3, 84.00),
-(52, 38, 3, 3, 84.00),
-(53, 39, 3, 3, 84.00);
+(54, 40, 4, 3, 45.00),
+(55, 41, 4, 5, 75.00),
+(56, 41, 3, 3, 84.00),
+(57, 42, 3, 3, 84.00),
+(58, 43, 3, 3, 84.00),
+(59, 43, 4, 5, 75.00),
+(60, 44, 3, 5, 140.00),
+(61, 45, 4, 100, 1500.00),
+(62, 46, 3, 3, 84.00),
+(63, 47, 4, 3, 45.00),
+(64, 48, 3, 100, 2800.00),
+(65, 49, 3, 3, 84.00),
+(66, 50, 4, 5, 75.00);
 
 -- --------------------------------------------------------
 
@@ -184,15 +148,15 @@ CREATE TABLE IF NOT EXISTS `empresas` (
 
 INSERT INTO `empresas` (`id_empresa`, `id_cliente`, `nombre`, `rfc`, `correo`, `telefono`, `activo`) VALUES
 (1, 1, 'Canadian Food', 'BERL081208HAR', 'o.bernal@gmail.com', '+52 551 234 5678', 0),
-(2, 2, 'Greenlife - México', 'BERLHASRD0101', 'greenlife@gmail.com', '4491232495', 1),
-(3, 4, 'Leillo01', 'BERJLF', 'leo@gmail.com', '4491192495', 1),
-(4, 5, 'Alexa Nails', 'ALEQFASRD0201', 'ale.nails@gmail.com', '44521232592', 1),
+(2, 2, 'Greenlife - México', 'BERLHASRD0101', 'greenlife@gmail.com', '4491232495', 0),
+(3, 4, 'Leillo01', 'BERJLF', 'leo@gmail.com', '4491192495', 0),
+(4, 5, 'Alexa', 'ALEQFASRD0201', 'ale.nails@gmail.com', '44521232592', 0),
 (5, 6, 'Alekita', 'JJFKSKJFJSKFJ', 'aleka@gmail.com', '4429293929291', 1),
-(6, 7, 'Alekita', 'WIFDJFOIEJFJE', 'LEO@gmail.com', '442929392332', 1),
-(7, 8, 'Leo y Lekita', 'BERLHASRD0101', 'maria@example.com', '555-3030', 1),
-(8, 9, 'Leo y Lekita', 'BERLHASRD0101', 'maria@example.com', '555-3030', 1),
-(9, 10, 'Leo y Lekita', 'BERLHASRD0101', 'maria@example.com', '555-3030', 1),
-(10, 11, 'Leo y Lekita', 'BERLHASRD0101', 'maria@example.com', '555-3030', 1);
+(6, 7, 'Alekita', 'WIFDJFOIEJFJE', 'LEO@gmail.com', '442929392332', 0),
+(7, 8, 'Leo y Lekita', 'BERLHASRD0101', 'maria@example.com', '555-3030', 0),
+(8, 9, 'Leo', 'BERLHASRD0101', 'maria@example.com', '555-3030', 0),
+(9, 10, 'Leo', 'BERLHASRD0101', 'maria@example.com', '555-3030', 1),
+(10, 11, 'Leo y Lekita', 'BERLHASRD0101', 'maria@example.com', '555-3030', 0);
 
 -- --------------------------------------------------------
 
@@ -207,43 +171,27 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
   `fecha` datetime DEFAULT NULL,
   `etapa` varchar(30) DEFAULT NULL,
   `tipo_observacion` varchar(50) DEFAULT NULL,
+  `pesaje_total` double(7,2) DEFAULT NULL,
   PRIMARY KEY (`id_pedido`),
   KEY `id_cliente` (`id_cliente`)
-) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `pedidos`
 --
 
-INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `fecha`, `etapa`, `tipo_observacion`) VALUES
-(8, 1, '2025-11-18 19:12:15', 'Fundición', 'Ninguna'),
-(9, 1, '2025-11-19 19:05:27', 'Fundición', 'Ninguna'),
-(10, 1, '2025-11-20 07:26:40', 'Lijado', 'Ninguna'),
-(11, 1, '2025-11-20 08:15:38', 'Fundición', 'Ninguna'),
-(12, 1, '2025-11-20 08:18:05', 'Fundición', 'Faltan piezas'),
-(13, 1, '2025-11-20 08:21:18', 'Fundición', 'Ninguna'),
-(14, 1, '2025-11-20 08:30:30', 'Fundición', 'Ninguna'),
-(15, 1, '2025-11-20 08:33:04', 'Fundición', 'Faltan piezas'),
-(16, 1, '2025-11-21 18:55:17', 'Fundición', 'Ninguna'),
-(31, 0, '2026-01-22 01:30:00', 'Fundición', 'Ninguna'),
-(17, 1, '2025-11-21 21:30:11', 'Completado', 'Ninguna'),
-(18, 1, '2025-11-21 21:35:11', 'Fundición', 'Ninguna'),
-(19, 1, '2025-11-21 23:47:27', 'Fundición', 'Ninguna'),
-(20, 0, '2025-11-22 17:56:41', 'Fundición', 'Ninguna'),
-(33, 0, '2026-01-26 15:42:46', 'Fundición', 'Ninguna'),
-(22, 1, '2025-11-22 19:46:28', 'Completado', 'Ninguna'),
-(23, 2, '2025-11-22 19:55:02', 'Completado', 'Ninguna'),
-(25, 2, '2025-11-23 15:59:30', 'Lijado', 'Ninguna'),
-(26, 2, '2025-11-23 16:18:27', 'Completado', 'Ninguna'),
-(27, 2, '2025-11-23 16:19:26', 'Fundición', 'Ninguna'),
-(30, 2, '2025-11-23 16:32:18', 'Fundición', 'Ninguna'),
-(32, 5, '2026-01-22 01:39:14', 'Fundición', 'Ninguna'),
-(34, 4, '2026-01-26 15:43:51', 'Fundición', 'Ninguna'),
-(35, 5, '2026-02-07 20:24:35', 'Fundición', 'Faltan piezas'),
-(36, 5, '2026-04-21 12:32:15', 'Fundición', 'Ninguna'),
-(37, 2, '2026-07-13 00:07:34', 'Fundición', 'Ninguna'),
-(38, 2, '2026-07-13 00:07:48', 'Fundición', 'Ninguna'),
-(39, 2, '2026-07-13 00:09:59', 'Fundición', 'Ninguna');
+INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `fecha`, `etapa`, `tipo_observacion`, `pesaje_total`) VALUES
+(40, 2, '2026-07-13 01:19:08', 'Completado', 'Ninguna', 20000.34),
+(41, 4, '2026-07-13 01:38:44', 'Lijado', 'Ninguna', 999.99),
+(42, 2, '2026-07-15 21:03:40', 'Fundición', 'Ninguna', 0.66),
+(43, 6, '2026-08-04 17:42:53', 'Fundición', 'Ninguna', 9.87),
+(44, 6, '2026-08-04 18:26:27', 'Fundición', 'Ninguna', 1.10),
+(45, 6, '2026-08-04 18:26:38', 'Fundición', 'Ninguna', 184.25),
+(46, 6, '2026-08-04 18:26:56', 'Fundición', 'Ninguna', 0.66),
+(47, 6, '2026-08-04 18:27:10', 'Fundición', 'Ninguna', 5.53),
+(48, 10, '2026-08-04 18:27:28', 'Fundición', 'Ninguna', 22.00),
+(49, 6, '2026-08-05 01:15:33', 'Fundición', 'Ninguna', 0.66),
+(50, 10, '2026-08-05 01:15:45', 'Fundición', 'Ninguna', 9.21);
 
 -- --------------------------------------------------------
 
@@ -257,23 +205,33 @@ CREATE TABLE IF NOT EXISTS `piezas` (
   `id_producto` int DEFAULT NULL,
   `nombre_pieza` varchar(100) DEFAULT NULL,
   `peso` int DEFAULT NULL,
+  `activo` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_pieza`),
   KEY `id_producto` (`id_producto`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `piezas`
 --
 
-INSERT INTO `piezas` (`id_pieza`, `id_producto`, `nombre_pieza`, `peso`) VALUES
-(4, 4, 'Macho', 100),
-(3, 3, 'Hembra', 100),
-(5, 3, 'Palanca', 285),
-(6, 3, 'Cono', 270),
-(7, 3, 'Cedazo', 280),
-(8, 4, 'Codo', 280),
-(9, 4, 'Base', 280),
-(10, 4, 'Cuerpo Campana', 280);
+INSERT INTO `piezas` (`id_pieza`, `id_producto`, `nombre_pieza`, `peso`, `activo`) VALUES
+(3, 3, 'Hembra', 100, 0),
+(5, 3, 'Palanca', 285, 1),
+(6, 3, 'Cono', 270, 1),
+(7, 3, 'Cedazo', 280, 0),
+(26, 6, 'Palanca Media', 500, 0),
+(25, 4, 'Palanca macho', 200, 0),
+(10, 4, 'Cuerpo Campana', 280, 0),
+(12, 3, 'Palanca Macho', 100, 1),
+(13, 3, 'Palanca Hembra', 200, 1),
+(14, 3, 'Cabeza blanda', 200, 1),
+(19, 6, 'Palanca Hembra', 200, 1),
+(18, 6, 'Palanca Hembra', 200, 1),
+(20, 6, 'Palanca Hembra', 200, 1),
+(21, 6, 'Palanca Hembra', 200, 1),
+(23, 4, 'Palanca Hembra', 200, 1),
+(24, 3, 'Palanca Macho', 200, 1),
+(27, 6, 'Cuerpo Grande', 100, 1);
 
 -- --------------------------------------------------------
 
@@ -286,18 +244,19 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `id_producto` int NOT NULL AUTO_INCREMENT,
   `nombre_producto` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `precio_unitario` decimal(10,2) NOT NULL,
-  `peso` int NOT NULL,
+  `peso` int NOT NULL DEFAULT '0',
+  `activo` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_producto`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id_producto`, `nombre_producto`, `precio_unitario`, `peso`) VALUES
-(3, 'Exprimidor Mod. Limon Económico Azteca', 28.00, 200),
-(4, 'Exprimidor Mod. Naranja Chico', 15.00, 1675),
-(5, 'Gorra', 12.00, 30);
+INSERT INTO `productos` (`id_producto`, `nombre_producto`, `precio_unitario`, `peso`, `activo`) VALUES
+(3, 'Exprimidor Mod. Limon Económico Azteca', 28.00, 1255, 1),
+(4, 'Exprimidor Mod. Naranja Chico', 15.00, 680, 1),
+(6, 'Exprimidor de Toronjas Grande', 20.00, 900, 1);
 
 -- --------------------------------------------------------
 
@@ -327,9 +286,9 @@ CREATE TABLE IF NOT EXISTS `stock_aluminio` (
   `cantidad_kg` decimal(10,2) NOT NULL,
   `fecha` datetime NOT NULL,
   `tipo` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_stock`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `stock_aluminio`
@@ -337,7 +296,49 @@ CREATE TABLE IF NOT EXISTS `stock_aluminio` (
 
 INSERT INTO `stock_aluminio` (`id_stock`, `cantidad_kg`, `fecha`, `tipo`, `descripcion`) VALUES
 (24, 2344.00, '2026-07-13 00:09:47', 'Entrada', 'Entrada de 2344kg de aluminio'),
-(25, 2343.34, '2026-07-13 00:09:59', 'Salida', 'Salida de 0.66kg de aluminio en el pedido No. 39');
+(25, 2343.34, '2026-07-13 00:09:59', 'Salida', 'Salida de 0.66kg de aluminio en el pedido No. 39'),
+(26, 2337.81, '2026-07-13 01:19:08', 'Salida', 'Salida de 5.5275kg de aluminio en el pedido No. 40'),
+(27, 2327.94, '2026-07-13 01:38:44', 'Salida', 'Salida de 9.8725kg de aluminio en el pedido No. 41'),
+(28, 2327.28, '2026-07-15 21:03:40', 'Salida', 'Salida de 0.66kg de aluminio en el pedido No. 42'),
+(29, 2317.41, '2026-08-04 17:42:53', 'Salida', 'Salida de 9.8725kg de aluminio en el pedido No. 43 del cliente Alekita'),
+(30, 2316.31, '2026-08-04 18:26:27', 'Salida', 'Salida de 1.1kg de aluminio en el pedido No. 44 del cliente Alekita'),
+(31, 2132.06, '2026-08-04 18:26:38', 'Salida', 'Salida de 184.25kg de aluminio en el pedido No. 45 del cliente Alekita'),
+(32, 2131.40, '2026-08-04 18:26:56', 'Salida', 'Salida de 0.66kg de aluminio en el pedido No. 46 del cliente Alekita'),
+(33, 2125.87, '2026-08-04 18:27:10', 'Salida', 'Salida de 5.5275kg de aluminio en el pedido No. 47 del cliente Alekita'),
+(34, 2103.87, '2026-08-04 18:27:28', 'Salida', 'Salida de 22kg de aluminio en el pedido No. 48 del cliente Leo y Lekita'),
+(35, 2103.21, '2026-08-05 01:15:33', 'Salida', 'Salida de 0.66kg de aluminio en el pedido No. 49 del cliente Alekita'),
+(36, 2094.00, '2026-08-05 01:15:45', 'Salida', 'Salida de 9.2125kg de aluminio en el pedido No. 50 del cliente Leo y Lekita'),
+(41, 2324.00, '2026-08-12 22:14:50', 'Salida', 'Salida de 20 kg de aluminio para la liberación de 100 piezas de Palanca macho del producto Exprimido'),
+(42, 2343.72, '2026-08-12 22:18:02', 'Salida', 'Salida de 0.308 kg de aluminio para la liberación de 1 piezas de Cuerpo Campana del producto Exprimidor Mod. Naranja Chico del pedido No. 50'),
+(43, 2343.56, '2026-08-12 22:19:11', 'Salida', 'Salida de 0.484 kg de aluminio para la liberación de 2 piezas de Palanca macho del producto Exprimidor Mod. Naranja Chico del pedido No. 50'),
+(44, 2343.78, '2026-08-12 22:21:06', 'Salida', 'Salida de 0.22 kg de aluminio para la liberación de 1 piezas de Palanca macho del producto Exprimidor Mod. Naranja Chico del pedido No. 50'),
+(45, 2342.90, '2026-08-12 22:22:38', 'Salida', 'Salida de 1.1 kg de aluminio para la liberación de 5 piezas de Palanca macho del producto Exprimidor Mod. Naranja Chico del pedido No. 50'),
+(46, 2343.34, '2026-08-13 18:41:40', 'Salida', 'Salida de 0.66 kg de aluminio para la liberación de 3 piezas de Palanca macho del producto Exprimidor Mod. Naranja Chico del pedido No. 50'),
+(47, 2342.02, '2026-08-13 18:56:22', 'Salida', 'Salida de 1.32 kg de aluminio para la liberación de 6 piezas de Palanca macho del producto Exprimidor Mod. Naranja Chico del pedido No. 50');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+CREATE TABLE IF NOT EXISTS `usuarios` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) DEFAULT NULL,
+  `_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`user_id`, `email`, `_password`) VALUES
+(4, 'o.leobernal@gmail.com', '$2y$10$10g6LOCSH0EV5EVzt22BWOSdJj4AL7XIUC0SvReN3UhojrptxKZyy'),
+(5, 'Joaquin@gmail.com', '$2y$10$jGHuv3iQC8f4nwshDPfOJubPj9ZyOShYILT.mxlF6WX5ho93t9NNS'),
+(6, 'wafflingshark18@gmail.com', '$2y$10$05q.ATK.YNQW.5SaS19KNO49G.eJDNQyAK2bvcbBJ8ayaorRZgrau'),
+(7, 'wafflingshark18@gmail.com', '$2y$10$SMld7k7/UGCZGlRMF/chlOgkIqS5Tfyi/SK/wOLzr6jVb6Q4K5Ugy');
 
 --
 -- Restricciones para tablas volcadas
