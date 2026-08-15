@@ -68,8 +68,8 @@ if($valLog != null){
                  case "user_not_found":
                     wrongEmail.textContent = "Correo no encontrado";
                     wrongEmail.hidden = false
-                break;
-                case "user_not_verified":
+                break; 
+                case "access_denied":
                     alert("No tienes permisos para entrar a la página");
                 break;
             }
