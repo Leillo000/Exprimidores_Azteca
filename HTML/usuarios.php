@@ -20,7 +20,7 @@ if ($isAdmin[0]["rol"] != 1) {
     $pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
     $palabraABuscar = isset($_GET['filtro']) ? $_GET['filtro'] : "";
     $query_dct = $db->doSearch(
-        "SELECT email, rol, access FROM usuarios",
+        "SELECT * FROM usuarios",
         "SELECT COUNT(*) AS total FROM usuarios",
         $palabraABuscar,
         "",
@@ -79,7 +79,7 @@ if ($isAdmin[0]["rol"] != 1) {
                     <tbody>
                         <tr>
                             <td><?php echo htmlspecialchars($row["email"]) ?></td>
-                            <td><input type="checkbox" name="access" value="<?php echo $row["access"] ?>"></td>
+                            <td><input class="checkbox" type="checkbox" name="access" value="<?php echo $row["access"] ?>" onchange="cambiarAcceso(<?php echo $row['user_id'];?>, <?php echo $row['access'];?>)"></td>
                             <td><?php echo htmlspecialchars($row["rol"]) ?></td>
                         </tr>
                     </tbody>
