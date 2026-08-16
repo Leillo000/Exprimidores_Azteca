@@ -13,10 +13,10 @@ class logIn
             session_set_cookie_params([
                 'lifetime' => 0,              // dura hasta que se cierre el navegador
                 'path' => '/',
-                'domain' => 'localhost',      // cámbialo a tu dominio real en producción
-                'secure' => true,             // requiere HTTPS
+                'domain' => '',      // cámbialo a tu dominio real en producción
+                'secure' => false,             // requiere HTTPS
                 'httponly' => true,           // evita acceso desde JavaScript
-                'samesite' => 'Strict'        // evita envío en peticiones cross-site
+                'samesite' => 'Lax'        // evita envío en peticiones cross-site
             ]);
 
             session_start();

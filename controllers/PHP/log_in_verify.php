@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
 
     if ($usuario_data != null) {
         // Clausulas guardia
-        if ($email != $usuario_data['email'] && !password_verify($contrasena, $usuario_data["_password"])) {
+        if (!password_verify($contrasena, $usuario_data["_password"])) {
             echo json_encode(["RESULT" => "invalid_password"]);
             exit();
         }
@@ -26,12 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
             echo json_encode(["RESULT" => "access_denied"]);
             exit();
         }
-
+        
+        $logIn = logIn::getInstance();
         $idSesion = session_id();
         $db = Database::getDatabase();
-        $db->doQuery("INSERT INTO sessions (session_id, user_id) VALUES (?, ?)", [$idSesion, $usuario_data["user_id"]]);
-        $logIn = logIn::getInstance();
+        $e = $db->doQuery("INSERT INTO sessions (session_id, user_id) VALUES (?, ?)", [$idSesion, $usuario_data["user_id"]]);
         $logIn->setUser(session_id());
+        
         echo json_encode(["RESULT" => "success_login"]);
         exit();
     } else {

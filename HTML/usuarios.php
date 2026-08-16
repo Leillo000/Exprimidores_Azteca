@@ -79,7 +79,7 @@ if ($isAdmin[0]["rol"] != 1) {
                     <tbody>
                         <tr>
                             <td><?php echo htmlspecialchars($row["email"]) ?></td>
-                            <td><?php echo htmlspecialchars($row["access"]) ?></td>
+                            <td><input type="checkbox" name="access" value="<?php echo $row["access"] ?>"></td>
                             <td><?php echo htmlspecialchars($row["rol"]) ?></td>
                         </tr>
                     </tbody>
