@@ -1,13 +1,11 @@
 <?php
 include("../config/connection.php");
-include("../helpers/singleton_connection.php");
 include("../helpers/utils.php");
 include("../assets/HTML/layout.php");
 include("../controllers/PHP/control_paginas.php");
 
 // Obtener datos de las piezas, como su nombre, peso, etc.
 
-$db = Database::getDatabase();
 
 $pagina = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $palabraABuscar = isset($_GET['filtro']) ? $_GET['filtro'] : "";

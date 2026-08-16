@@ -51,14 +51,4 @@ class logIn
         self::$instance = null;
     }
 }
-
-function verificarLogIn()
-{
-    $session = logIn::getInstance();
-    if ($session == null) {
-        header("Location:index.php?message=necesitas_iniciar_sesion");
-        exit();
-    }
-}
-
 ?>

@@ -2,7 +2,7 @@
 include("../assets/HTML/layout.php");
 ?>
 <head>
-    <title>Menú</title>
+    <title>Ayuda</title>
 </head>
 <body>
     <div class="container">

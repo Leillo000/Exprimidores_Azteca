@@ -3,7 +3,7 @@ include("../controllers/PHP/log_in.php");
 $isLogged = logIn::getInstance();
 $valLog = $isLogged->getUser();
 if($valLog != null){
-    header("Location: menu.php");
+    header("Location: ayuda.php");
 }
 
 ?>

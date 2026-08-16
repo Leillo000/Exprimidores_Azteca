@@ -1,6 +1,17 @@
-<?php 
+<?php
 include("../controllers/PHP/log_in.php");
-verificarLogIn();
+include("../helpers/singleton_connection.php");
+$session = logIn::getInstance();
+$user = $session->getUser();
+if ($user == null) {
+    header("Location:index.php?message=necesitas_iniciar_sesion");
+    exit();
+}
+$db = Database::getDatabase();
+$isAdmin = $db->doQuery("SELECT u.rol FROM usuarios AS u 
+JOIN sessions AS s ON s.user_id = u.user_id WHERE s.session_id = ?",
+    [$user]
+);
 ?>
 <!-- Diseño por defecto que habrá en todas las páginas -->
 <!DOCTYPE html>
@@ -37,18 +48,17 @@ verificarLogIn();
             <!-- El código de un submenú empieza aquí -->
             <!-- Boton de Menu-->
             <li class="active">
-                <a href="menu.php">
+                <a href="ayuda.php">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="icon icon-tabler icons-tabler-outline icon-tabler-home">
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-help">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-                        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-                        <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                        <path d="M12 17l0 .01" />
+                        <path d="M12 13.5a1.5 1.5 0 0 1 1 -1.5a2.6 2.6 0 1 0 -3 -4" />
                     </svg>
-                    <span>Menú</span>
+                    <span>Ayuda</span>
                 </a>
-
             </li>
 
             <!-- Submenú de piezas -->
@@ -205,8 +215,29 @@ verificarLogIn();
                         <li><a href="tomar_pedido.php">Agregar productos</a></li>
                     </div>
                 </ul>
-
-                <!-- Boton para cerrar sesión-->
+                <!-- Boton de Usuarios-->
+                <?php if ($isAdmin[0]["rol"] == 1) { ?>
+                <li class="active">
+                    <a href="usuarios.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-user-cog">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                            <path d="M6 21v-2a4 4 0 0 1 4 -4h2.5" />
+                            <path d="M17.001 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                            <path d="M19.001 15.5v1.5" />
+                            <path d="M19.001 21v1.5" />
+                            <path d="M22.032 17.25l-1.299 .75" />
+                            <path d="M17.27 20l-1.3 .75" />
+                            <path d="M15.97 17.25l1.3 .75" />
+                            <path d="M20.733 20l1.3 .75" />
+                        </svg>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+            <?php } ?>
+            <!-- Boton para cerrar sesión-->
             <li class="active">
                 <a onclick="cerrarSesion()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -225,11 +256,12 @@ verificarLogIn();
     </nav>
 </body>
 <script>
-    async function cerrarSesion(){
-        if(!confirm("¿Estás seguro de cerrar sesión?")) return;
+    async function cerrarSesion() {
+        if (!confirm("¿Estás seguro de cerrar sesión?")) return;
         // Se borra la sesiòn
-        window.location.href="../controllers/PHP/log_out.php?accion=cerrar_sesion";
-        
+        window.location.href = "../controllers/PHP/log_out.php?accion=cerrar_sesion";
+
     }
 </script>
+
 </html>
