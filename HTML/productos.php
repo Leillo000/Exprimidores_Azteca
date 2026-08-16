@@ -10,7 +10,7 @@ if (empty($palabraABuscar) && empty($fechaDesde) && empty($fechaHasta)) {
     $query = "SELECT * FROM productos WHERE activo = 1";
     $query_count = "SELECT COUNT(*) as total FROM productos";
 } else {
-    $query_dct = $db->doSearch("SELECT * FROM productos", "SELECT COUNT(*) AS total FROM productos", $palabraABuscar, "", "", ["nombre_producto", "precio_unitario", "peso"]);
+    $query_dct = $db->doSearch("SELECT * FROM productos", "SELECT COUNT(*) AS total FROM productos", $palabraABuscar, "", "", ["id_producto","nombre_producto", "precio_unitario", "peso"]);
     $query = $query_dct['query'] . " AND activo = 1";
     $query_count = $query_dct['query_count'] . " AND activo = 1";
 }

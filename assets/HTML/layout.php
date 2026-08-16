@@ -164,31 +164,6 @@ JOIN sessions AS s ON s.user_id = u.user_id WHERE s.session_id = ?",
                     </div>
                 </ul>
             </li>
-            <!-- Submenú de clientes -->
-            <li>
-                <button onclick=toggleSubMenu(this) class="dropdown-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="icon icon-tabler icons-tabler-outline icon-tabler-user">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                    </svg>
-                    <span> Clientes </span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M6 9l6 6l6 -6" />
-                    </svg>
-                </button>
-                <ul class="sub-menu">
-                    <div>
-                        <li><a href="clientes.php">Ver clientes</a></li>
-                        <li><a href="agregar_clientes.php">Agregar clientes</a></li>
-                    </div>
-                </ul>
-            </li>
             <!-- Submenú de Carrito -->
             <li>
                 <button onclick=toggleSubMenu(this) class="dropdown-btn">
@@ -235,6 +210,31 @@ JOIN sessions AS s ON s.user_id = u.user_id WHERE s.session_id = ?",
                         </svg>
                         <span>Usuarios</span>
                     </a>
+                </li>
+                <!-- Submenú de clientes -->
+                <li>
+                    <button onclick=toggleSubMenu(this) class="dropdown-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-user">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                        </svg>
+                        <span> Clientes </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M6 9l6 6l6 -6" />
+                        </svg>
+                    </button>
+                    <ul class="sub-menu">
+                        <div>
+                            <li><a href="clientes.php">Ver clientes</a></li>
+                            <li><a href="agregar_clientes.php">Agregar clientes</a></li>
+                        </div>
+                    </ul>
                 </li>
             <?php } ?>
             <!-- Boton para cerrar sesión-->
