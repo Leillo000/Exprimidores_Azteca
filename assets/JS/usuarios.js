@@ -25,7 +25,19 @@ async function cambiarAcceso(id, access) {
         method: "POST",
         body: formData
     }).then(result => result.json())
-    .then(resJson => console.log(resJson))
+        .then(resJson => console.log(resJson))
+}
+
+async function cambiarPuesto(id, rol){
+    formData = new FormData;
+    formData.append("user_id", id);
+    formData.append("rol", rol);
+    const url = "../controllers/PHP/cambiar_puesto.php";
+    response = await fetch(url, {
+        method: "POST",
+        body: formData
+    }).then(result => result.json())
+        .then(resJson => console.log(resJson))
 }
 
 console.log("helo")

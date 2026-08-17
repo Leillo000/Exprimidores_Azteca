@@ -28,7 +28,7 @@ if ($isAdmin[0]["rol"] != 1) {
         ["email", "access"]
     );
 
-    $query = $query_dct["query"] . " AND rol != 1 ";
+    $query = $query_dct["query"];
     $query_count = $query_dct["query_count"] . " AND rol != 1 ";
 
     $controlPaginas = controlPaginas(
@@ -82,7 +82,12 @@ if ($isAdmin[0]["rol"] != 1) {
                             <td><input class="checkbox" type="checkbox" name="access" value="<?php echo $row["access"] ?>"
                                     onchange="cambiarAcceso(<?php echo $row['user_id']; ?>, <?php echo $row['access']; ?>)">
                             </td>
-                            <td><?php echo htmlspecialchars($row["rol"]) ?></td>
+                            <td>
+                                <select class="button_table" name="rol" id="" onchange="cambiarPuesto(<?php echo $row['user_id']; ?>, this.value)">
+                                    <option value="1" <?php if ($row["rol"] == 1) { echo "selected"; } ?>>Administrador</option>
+                                    <option value="2" <?php if ($row["rol"] == 2) { echo "selected"; }?>>Trabajador</option>
+                                </select>
+                            </td>
                         </tr>
                     </tbody>
                 <?php } ?>
