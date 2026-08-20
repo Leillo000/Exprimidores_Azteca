@@ -108,7 +108,7 @@ $controlPaginas = controlPaginas(
                         <?php echo $row["fecha"]; ?>
                     </td>
                     <td>
-                        <button class="button_table"> Seleccionar </button>
+                        <button class="button_table" onclick="window.location.href = 'agregar_fundicion.php?id_pedido=<?php echo $row['id_pedido']; ?>'">Seleccionar</button>
                     </td>
                 </tr>
             <?php } ?>
@@ -179,6 +179,6 @@ $controlPaginas = controlPaginas(
 </dialog>
 <script src="../assets/JS/control_paginas.js"> </script>
 <script src="../assets/JS/control_dialogos.js"> </script>
- <script>
-        pintarNegritas(<?php echo $controlPaginas["totalPaginas"]; ?>, <?php echo $controlPaginas["paginaActual"]; ?>);
+<script>
+    pintarNegritas(<?php echo $controlPaginas["totalPaginas"]; ?>, <?php echo $controlPaginas["paginaActual"]; ?>);
 </script>
