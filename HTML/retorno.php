@@ -16,14 +16,14 @@ if (!empty($_GET['hasta']) && $_GET['hasta'] != "") {
 }
 
 if (empty($palabraABuscar) && empty($fechaDesde)) {
-    $query = "SELECT p.id_pedido, e.nombre, p.fecha 
+    $query = "SELECT p.id_pedido, e.nombre, p.fecha, p.pesaje_total
     FROM pedidos AS p 
     JOIN empresas AS e ON e.id_cliente = p.id_cliente ";
     $query_count = "SELECT COUNT(*) as total FROM pedidos";
 
 } else {
     $query_dct = $db->doSearch(
-        "SELECT p.id_pedido, e.nombre, p.fecha 
+        "SELECT p.id_pedido, e.nombre, p.fecha, p.pesaje_total
     FROM pedidos AS p 
     JOIN empresas AS e ON e.id_cliente = p.id_cliente",
         "SELECT COUNT(*) AS total 
@@ -92,6 +92,7 @@ $controlPaginas = controlPaginas(
             <tr>
                 <th class="columnas">No. de pedido</th>
                 <th class="columnas">Nombre del cliente </th>
+                <th class="columnas">Peso total en Kg</th>
                 <th class="columnas">Fecha</th>
                 <th class="columnas">Acción</th>
             </tr>
@@ -103,6 +104,9 @@ $controlPaginas = controlPaginas(
                     </td>
                     <td>
                         <?php echo $row["nombre"]; ?>
+                    </td>
+                    <td>
+                        <?php echo $row["pesaje_total"]; ?>
                     </td>
                     <td>
                         <?php echo $row["fecha"]; ?>

@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET" && !empty($_GET)) {
 
 <body>
     <div class="container">
-        <form action="fundicion.php">
+        <form method="post" action="../controllers/PHP/fundicion.php">
             <div class="center_items">
                 <h2>Agregar aluminio a fundición</h2>
                 <br>
@@ -28,10 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === "GET" && !empty($_GET)) {
                     <?php echo $id_pedido; ?>
                 </h2>
                 <br>
-                <label for="peso_supuesto">Peso supuesto</label>
-                <input id="peso_supuesto" type="number" value="<?php echo $pesajeTotal[0]['pesaje_total'];?>" readonly>
+                <label for="peso_supuesto">Peso supuesto en Kg. </label>
+                <input name="peso_supuesto" id="peso_supuesto" type="number" value="<?php echo $pesajeTotal[0]['pesaje_total'];?>" readonly>
                 <label for="peso_retorno">Peso de retorno de alumino en Kg.</label>
-                <input id="peso_retorno" type="number" min="0.001" max="<?php echo $pesajeTotal[0]['pesaje_total']; ?>">
+                <input name="peso_retorno" id="peso_retorno" type="number" step="0.01">
+                <input type="hidden" name="id_pedido" value="<?php echo $id_pedido; ?>">
                 <button class="button" type=""> Agregar </button>
             </div>
         </form>

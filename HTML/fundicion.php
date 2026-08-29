@@ -51,6 +51,9 @@ $controlPaginas = controlPaginas(
     $pagina
 );
 
+$queryFundicion = $db->doQuery("SELECT cantidad FROM stock_fundicion_total ORDER BY id_stock_fundicion DESC LIMIT 1");
+$stockFundicion = isset($queryFundicion[0]["cantidad"]) ? $queryFundicion[0]["cantidad"] : 0;
+
 ?>
 
 <title>Aluminio en fundición</title>
@@ -100,16 +103,16 @@ $controlPaginas = controlPaginas(
                 <th class="columnas">Fecha</th>
                 <th class="columnas">Cantidad</th>
             </tr>
-            <tr>
-                <?php foreach ($controlPaginas['datos'] as $row) { ?>
+            <?php foreach ($controlPaginas['datos'] as $row) { ?>
+                <tr>
                     <td><?php echo $row["id_pedido"]; ?></td>
                     <td><?php echo $row["nombre"]; ?></td>
                     <td><?php echo $row["tipo"]; ?></td>
                     <td><?php echo $row["descripcion"]; ?></td>
                     <td><?php echo $row["fecha"]; ?></td>
                     <td><?php echo $row["cantidad"]; ?></td>
-                <?php } ?>
-            </tr>
+                </tr>
+            <?php } ?>
         </table>
 
         <!-- Barra para control de paginas -->
@@ -149,9 +152,14 @@ $controlPaginas = controlPaginas(
                     <path d="M13 7l5 5l-5 5" />
             </div>
         </div>
-
+        <br>
+        <div class="container">
+            <div class="center_items">
+                <h3> Aluminio total en fundición: </h3>
+                <h3><b><?php echo $stockFundicion; ?></b> kg</h3>
+            </div>
+        </div>
     </div>
-
 
     <dialog id="dialogFilters" class="dialog">
         <div class="dialog_header">

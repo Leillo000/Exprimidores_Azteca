@@ -14,7 +14,7 @@ if($valLog != null){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exprimidores Azteca - Iniciar sesión</title>
-    <link rel="stylesheet" href="http://192.168.1.13/Codigo_Exprimidores_Azteca/assets/CSS/session.css">
+    <link rel="stylesheet" href="http://localhost/Codigo_Exprimidores_Azteca/assets/CSS/session.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link

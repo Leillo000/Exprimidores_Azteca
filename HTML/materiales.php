@@ -31,6 +31,11 @@ $controlPaginas = controlPaginas(
     "ii",
     $pagina
 );
+
+
+$queryAluminio = $db->doQuery("SELECT cantidad_kg FROM stock_aluminio ORDER BY id_stock DESC LIMIT 1");
+$stockAluminio = isset($queryAluminio[0]["cantidad_kg"]) ? $queryAluminio[0]["cantidad_kg"] : 0;
+
 ?>
 
 <head>
@@ -132,6 +137,12 @@ $controlPaginas = controlPaginas(
             </div>
         </div>
         <br>
+        <div class="container">
+            <div class="center_items">
+                <h3> Aluminio actual: </h3>
+                <h3><b><?php echo $stockAluminio; ?></b> kg</h3>
+            </div>
+        </div>
         <div class="center_items">
             <p>Las cantidades de aluminio se ordenan de la más reciente a la más antigua, <b>en orden descendiente</b>.
             </p>
