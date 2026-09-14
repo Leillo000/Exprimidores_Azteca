@@ -1,8 +1,11 @@
 <?php
 // Se inicia una sesion con la URL del usuario
 include("../config/connection.php");
+include("../helpers/singleton_connection.php");
 include("../helpers/utils.php");
 include("../controllers/PHP/control_paginas.php");
+
+$db = Database::getDatabase();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
 
@@ -12,10 +15,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
     $producto = isset($_POST['id_producto']) ? intval($_POST['id_producto']) : 0;
     $cantidad_pedida = isset($_POST['cantidad']) ? intval($_POST['cantidad']) : 0;
     $cliente = isset($_POST['id_cliente']) ? intval($_POST['id_cliente']) : 0;
+
+    $usarAluminioFundicion = isset($_POST['usarAluminio'])
+        ? ($_POST['usarAluminio'] === 'on' ? 1 : intval($_POST['usarAluminio']))
+        : 0;
+
     $fecha = ObtenerFecha();
     $etapa = 'Fundición';
     $tipo_observacion = 'Ninguna';
+    $aluminioFundicion = $db->doQuery("SELECT cantidad FROM stock_fundicion_total ORDER BY id_stock_fundicion DESC LIMIT 1");
 
+    if ($usarAluminioFundicion != 1 && $usarAluminioFundicion != 0) {
+        echo "<script>
+            alert('Error de parámetros');
+            window.location.href = '../HTML/tomar_pedido.php';
+          </script>";
+        exit();
+    } else if ($usarAluminioFundicion == 1 && !isset($aluminioFundicion[0]["cantidad"])) {
+        echo "<script>
+                    alert('No existen registros de aluminio en fundición.')
+                    window.location.href = '../../HTML/retorno.php';
+                    </script>";
+        exit();
+    }
 
     // ---- AGREGAR PRODUCTO ------
 
@@ -72,7 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
 
         $procesar_carrito = $conexion->query('SELECT * FROM carrito');
         $_carrito = $procesar_carrito->fetch_assoc();
-
 
         // ===== VERIFICAR SI HAY POR LO MENOS UN PRODUCTO EN EL PEDIDO =====
 
@@ -149,10 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
             exit();
         }
 
-
         // ===== SI EL PEDIDO CUMPLE CON LAS ANTERIORES CONDICIONES, ENTONCES EL PEDIDO PUEDE PROCEDER Y REALIZARSE =====
-
-
         // Se crea un nuevo pedido en la base de datos
         $stmt_2 = $conexion->prepare('INSERT INTO pedidos(id_cliente, fecha, etapa, tipo_observacion, pesaje_total)
     VALUES (?, ?, ?, ?, ?)');
@@ -213,19 +231,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
             $stmt_4->reset();
         }
 
-        $stmt_5 = $conexion->prepare('SELECT nombre FROM empresas WHERE id_cliente = ? ' );
+        $stmt_5 = $conexion->prepare('SELECT nombre FROM empresas WHERE id_cliente = ? ');
         $stmt_5->bind_param('i', $cliente);
         $stmt_5->execute();
         $obtenerResultados = $stmt_5->get_result();
         $obtenerCliente = $obtenerResultados->fetch_assoc();
 
         $tipo = "Salida";
-        $descripcion = "Salida de " . (string) $total_aluminio_pedido_kg . "kg de aluminio en el pedido No. " . (string) $pedido_data['id_pedido']. " del cliente " . $obtenerCliente['nombre'];
+        $descripcion = "Salida de " . (string) $total_aluminio_pedido_kg . "kg de aluminio en el pedido No. " . (string) $pedido_data['id_pedido'] . " del cliente " . $obtenerCliente['nombre'];
         // ===== RESTAR EL STOCK DE ALUMINIO =====
         $stmt_actualizar_aluminio = $conexion->prepare('INSERT INTO stock_aluminio(cantidad_kg, fecha, tipo, descripcion) VALUES(?, ?, ?, ?)');
         $stmt_actualizar_aluminio->bind_param('dsss', $resultado_aluminio, $fecha, $tipo, $descripcion);
         $stmt_actualizar_aluminio->execute();
         // Se vacia la tabla de carrito
+
+
+        $aluminioSalida = 0;
+        // Registrar el movimiento en el stock del aluminio en fundicion
+        if ($usarAluminioFundicion == 1) {
+
+            // El aluminio de salida es igual al requerido si supera o es igual que el total que está en el carrito
+            $aluminioSalida = $aluminioFundicion[0]["cantidad"] <= $total_aluminio_pedido_kg ? $aluminioFundicion[0]["cantidad"] : $total_aluminio_pedido_kg;
+
+            // Diferencia entre el aluminio pedido y el stock en fundicion
+            $aluminioFundicion[0]["cantidad"] -= $total_aluminio_pedido_kg;
+            $aluminioFundicion[0]["cantidad"] = $aluminioFundicion[0]["cantidad"] < 0 ? 0 : $aluminioFundicion[0]["cantidad"];
+
+            $descripcion = "Salida de " . (string) $aluminioSalida . "kg del carrito, del pedido No." . (string) $pedido_data['id_pedido'];
+
+            $db->doQuery("INSERT INTO stock_fundicion(id_pedido, tipo, descripcion, fecha, cantidad) VALUES(?, ?, ?, ?, ?)", [$pedido_data['id_pedido'], "Salida", $descripcion, $fecha, $aluminioSalida]);
+
+            $idFundicion = $db->doQuery("SELECT id_fundicion FROM stock_fundicion ORDER BY id_fundicion DESC LIMIT 1");
+
+            // Si el stock en fundicion es superado por el aluminio requerido, entonces el resultado es 0, no le puedes deber a fundicion
+            $db->doQuery("INSERT INTO stock_fundicion_total(id_fundicion, cantidad) VALUES(?, ?)", [$idFundicion[0]["id_fundicion"], $aluminioFundicion[0]["cantidad"]]);
+        }
+
         $borrar_carrito = $conexion->query('DELETE FROM carrito');
         echo "<script>
     alert('Pedido realizado exitosamente.');

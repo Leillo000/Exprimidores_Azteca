@@ -94,23 +94,32 @@ $query_clientes = $conexion->query("SELECT id_cliente, nombre FROM empresas WHER
         </div>
         <div class="DialogCenterItems">
             <div class="dialog_body">
-                <label> Selecciona el cliente </label>
                 <!-- Formulario para enviar los datos al servidor para procesarlos -->
                 <form method="post" action="../controllers/procesar_carrito.php">
-                    <select name="id_cliente">
-                        <?php while ($row_empresas = $query_clientes->fetch_assoc()) { ?>
-                            <option value="<?php echo $row_empresas['id_cliente']; ?>">
-                                <?php echo $row_empresas['nombre']; ?>
-                            </option>
-                        <?php } ?>
-                    </select>
-                    <button class="button" type="submit" name="accion" value="finalizar">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="icon icon-tabler icons-tabler-outline icon-tabler-check">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M5 12l5 5l10 -10" />
-                        </svg> </button>
+                    <div class="center_items">
+                        <h2> Selecciona el cliente </h2>
+                        <br>
+                        <select name="id_cliente">
+                            <?php while ($row_empresas = $query_clientes->fetch_assoc()) { ?>
+                                <option value="<?php echo $row_empresas['id_cliente']; ?>">
+                                    <?php echo $row_empresas['nombre']; ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                        <button class="button" type="submit" name="accion" value="finalizar">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-check">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M5 12l5 5l10 -10" />
+                            </svg>
+                        </button>
+                        <br><br>
+                        <label class="checkbox_label" for="usarAluminio">
+                            <input name="usarAluminio" type="checkbox">
+                            Usar aluminio de fundición
+                        </label>
+                    </div>
                 </form>
             </div>
         </div>

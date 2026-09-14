@@ -79,7 +79,8 @@ if ($isAdmin[0]["rol"] != 1) {
                     <tbody>
                         <tr>
                             <td><?php echo htmlspecialchars($row["email"]) ?></td>
-                            <td><input class="checkbox" type="checkbox" name="access" value="<?php echo $row["access"] ?>"
+                            <td>
+                                <input class="checkbox" type="checkbox" name="access" value="<?php echo $row["access"] ?>"
                                     onchange="cambiarAcceso(<?php echo $row['user_id']; ?>, <?php echo $row['access']; ?>)">
                             </td>
                             <td>

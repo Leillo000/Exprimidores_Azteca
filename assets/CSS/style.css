@@ -279,7 +279,6 @@ agrega al boton), unicamente afectando la ultima flechita. */
     align-items: center;
     flex-direction: column;
 }
-
 /* Estilos de la barra para la navegacion entre paginas */
 .control_pages_bar {
     display: flex;
@@ -351,6 +350,18 @@ input[type="checkbox"]{
     margin: 0;
     height: 100%;
     width: 100%;
+}
+
+.checkbox_label {
+  display: flex;
+  align-items: center; /* centra verticalmente */
+  gap: 10px; /* espacio entre checkbox y texto */
+  width: 100%;
+  margin-left: 30%;
+}
+
+.checkbox_label input[type="checkbox"]{
+    width: 10%;
 }
 
 p {
