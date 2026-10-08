@@ -28,7 +28,7 @@ if ($isAdmin[0]["rol"] != 1) {
         ["email", "access"]
     );
 
-    $query = $query_dct["query"];
+    $query = $query_dct["query"] . " AND rol != 1";
     $query_count = $query_dct["query_count"] . " AND rol != 1 ";
 
     $controlPaginas = controlPaginas(
