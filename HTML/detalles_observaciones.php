@@ -195,6 +195,12 @@ if (empty($total_aluminio)) {
                         <h2>Liberar piezas</h2>
                         <label for="cantidad">Número de piezas a liberar</label>
                         <input type="number" id="cantidad" name="cantidad" min="1" required>
+                        <br>
+                        <label class="checkbox_label" for="usarAluminio">
+                            <input name="usarAluminio" type="checkbox">
+                            Usar aluminio de fundición
+                        </label>
+                        <br>
                         <input type="hidden" id="id_detalle_observacion" name="id_detalle_observacion" required>
                         <input type="hidden" id="id_pedido" name="id_pedido" value="<?php echo $id_pedido; ?>">
                         <input type="hidden" id="cantidad_max" name="cantidad_max" required>
@@ -220,8 +226,6 @@ if (empty($total_aluminio)) {
 
 <script src="../assets/JS/detalles_observaciones.js"> </script>
 <script src="../assets/JS/control_paginas.js"></script>
-<script src="../assets/JS/control_dialogos_v2.js"></script>
-<script src="../assets/JS/detalles_observaciones.js"></script>
 <script>
     pintarNegritas(<?php echo $controlPaginas["totalPaginas"]; ?>, <?php echo $controlPaginas["paginaActual"]; ?>);
 </script>

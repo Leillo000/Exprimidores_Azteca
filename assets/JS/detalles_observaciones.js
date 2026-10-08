@@ -1,6 +1,3 @@
-const dialogo = document.getElementById('dialogo');
-const cerrarDialogo = document.getElementById('cerrarDialogo');
-
 if (cerrarDialogo != null) {
     cerrarDialogo.addEventListener('click', () => {
         dialogo.close()
@@ -19,7 +16,7 @@ async function verificarCantidad(id) {
     document.getElementById('peso').value = result.peso
     document.getElementById('nombre_pieza').value = result.nombre_pieza
     document.getElementById('nombre_producto').value = result.nombre_producto
-    document.getElementById('dialogo').showModal();
+    dialogo.showModal();
 }
 
 document.getElementById('formLiberarPiezas').addEventListener('submit', async (e) => {
@@ -30,7 +27,7 @@ document.getElementById('formLiberarPiezas').addEventListener('submit', async (e
         body: formData
     });
     const result = await response.json();
-    document.getElementById('dialogo').close();
+    dialogo.close();
     if (result.message){
         alert(result.message)
     }

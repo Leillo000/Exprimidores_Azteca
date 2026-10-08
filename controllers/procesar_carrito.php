@@ -245,6 +245,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
         $stmt_actualizar_aluminio->execute();
         // Se vacia la tabla de carrito
 
+        /* 
+        El aluminio de salida es el aluminio que se le va a restar al de fundición. Si el aluminio que está
+        en fundición es menor o igual al pedido, entonces es igual al aluminio que está en fundición para así
+        obtener 0kg y no un número negativo.
+        */
 
         $aluminioSalida = 0;
         // Registrar el movimiento en el stock del aluminio en fundicion
@@ -257,13 +262,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
             $aluminioFundicion[0]["cantidad"] -= $total_aluminio_pedido_kg;
             $aluminioFundicion[0]["cantidad"] = $aluminioFundicion[0]["cantidad"] < 0 ? 0 : $aluminioFundicion[0]["cantidad"];
 
+            /*
+            El registro solo se verá reflejado dentro de una tabla de registros en fundición. El registro global se ve dentro
+            de los movimientos del aluminio global.
+            */
             $descripcion = "Salida de " . (string) $aluminioSalida . "kg del carrito, del pedido No." . (string) $pedido_data['id_pedido'];
-
             $db->doQuery("INSERT INTO stock_fundicion(id_pedido, tipo, descripcion, fecha, cantidad) VALUES(?, ?, ?, ?, ?)", [$pedido_data['id_pedido'], "Salida", $descripcion, $fecha, $aluminioSalida]);
-
             $idFundicion = $db->doQuery("SELECT id_fundicion FROM stock_fundicion ORDER BY id_fundicion DESC LIMIT 1");
-
-            // Si el stock en fundicion es superado por el aluminio requerido, entonces el resultado es 0, no le puedes deber a fundicion
             $db->doQuery("INSERT INTO stock_fundicion_total(id_fundicion, cantidad) VALUES(?, ?)", [$idFundicion[0]["id_fundicion"], $aluminioFundicion[0]["cantidad"]]);
         }
 
